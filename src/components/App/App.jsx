@@ -10,7 +10,7 @@ function App() {
       <>
 
           <AppHeader />
-          <main>
+          <main className="pb-10">
             <div className="container pl-4 pr-4">
                 <div className="main_blocks">
                     <BurgerIngredients />

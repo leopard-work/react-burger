@@ -1,1 +1,41 @@
-
+.section {
+    width: calc(50% - 20px);
+}
+.tabs {
+    width: 100%;
+    display: flex;
+}
+.tabs div {
+    width: 33.33333%;
+}
+.content {
+    max-height: 756px;
+    overflow-y: scroll;
+}
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+.content::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.content::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.item {
+    width: calc(50% - 12px);
+    min-height: 208px;
+    position: relative;
+    cursor: pointer;
+}
+.item_price {
+    display: flex;
+    justify-content: center;
+}
+.item_title {
+    text-align: center;
+}

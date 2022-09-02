@@ -1,0 +1,40 @@
+.section {
+    width: calc(50% - 20px);
+}
+.content {
+    max-height: 656px;
+    overflow-y: scroll;
+    padding-left: 0px;
+}
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+.content::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.content::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+.item:first-child {
+    margin-top: 0px !important;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+}
+.info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.price {
+    display: flex;
+    align-items: center;
+}
+.price svg {
+    width: 36px;
+    height: 36px;
+}

@@ -1,0 +1,7 @@
+.main {
+    max-height: calc(100% - 88px);
+}
+.blocks {
+    display: flex;
+    justify-content: space-between;
+}

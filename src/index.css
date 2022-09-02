@@ -14,13 +14,6 @@ ul, ul li {
   max-width: 1280px;
   margin: 0 auto;
 }
-main {
-  max-height: calc(100% - 88px);
-}
-.main_blocks {
-  display: flex;
-  justify-content: space-between;
-}
 .constructor-element {
   max-width: calc(100% - 40px) !important;
 }

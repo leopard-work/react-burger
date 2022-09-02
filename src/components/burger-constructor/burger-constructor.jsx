@@ -5,9 +5,8 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-constructor.module.css';
-import headerStyles from "../burger-ingredients/burger-ingredients.module.css";
 
-const TabsItemPropTypes = PropTypes.shape({
+const ItemPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -22,84 +21,30 @@ const TabsItemPropTypes = PropTypes.shape({
     __v: PropTypes.number
 });
 
+function ConsructorItem(props) {
+    return (
+        <li className={styles.item + " mt-4"}>
+            <DragIcon type="primary" />
+            <ConstructorElement
+                type={props.item.type === 'bun' ? 'top' : ''}
+                isLocked={props.item.type === 'bun' ? true : false}
+                text={props.item.name}
+                price={props.item.price}
+                thumbnail={props.item.image}
+            />
+        </li>
+    )
+}
+
+ConsructorItem.propTypes = {
+    item: ItemPropTypes.isRequired
+}
+
 function BurgerConstructor(props) {
     return (
       <section className={styles.section + " mt-25"}>
           <ul className={styles.content + " pr-2"}>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      type="top"
-                      isLocked={true}
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
-              <li className={styles.item + " mt-4"}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                      text="Краторная булка N-200i (верх)"
-                      price={200}
-                      thumbnail="https://code.s3.yandex.net/react/code/meat-01.png"
-                  />
-              </li>
+              {props.data.map((item, i) => <ConsructorItem key={i} item={item} />)}
           </ul>
           <div className={styles.info + " mt-10 mr-4"}>
               <p className={styles.price + " mr-10"}>

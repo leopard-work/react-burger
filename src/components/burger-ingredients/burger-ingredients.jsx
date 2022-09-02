@@ -54,16 +54,16 @@ const TabsCategory = (props) => {
 
 const TabsItem = (props) => {
     return (
-        <li className={headerStyles.item + " mt-6"}>
+        <li key={props.item.id} className={headerStyles.item + " mt-6"}>
             <div className={headerStyles.item_image + " ml-4 mr-4"}>
-                <img src="https://code.s3.yandex.net/react/code/cheese.png" alt="" />
+                <img src={props.item.image} alt={props.item.name} />
             </div>
             <div className={headerStyles.item_price + " mt-1 mb-1"}>
-                <span className="text text_type_digits-default mr-2">20</span>
+                <span className="text text_type_digits-default mr-2">{props.item.price}</span>
                 <CurrencyIcon type="primary" />
             </div>
             <h3 className={headerStyles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-            <Counter count={1} size="default" />
+            <Counter count={Math.round(Math.random() + 1)} size="default" />
         </li>
     )
 }

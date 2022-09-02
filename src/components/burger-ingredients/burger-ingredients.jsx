@@ -1,9 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import headerStyles from './burger-ingredients.module.css';
+
+const TabsItemPropTypes = PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    __v: PropTypes.number
+});
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -47,14 +63,14 @@ const TabsCategory = (props) => {
     });
     return (
         <ul className={headerStyles.items + " pl-4 pr-4"}>
-            {items.map(item => <TabsItem item={item} />)}
+            {items.map((item, i) => <TabsItem key={i} item={item} />)}
         </ul>
     )
 }
 
 const TabsItem = (props) => {
     return (
-        <li key={props.item.id} className={headerStyles.item + " mt-6"}>
+        <li key={props.item._id} className={headerStyles.item + " mt-6"}>
             <div className={headerStyles.item_image + " ml-4 mr-4"}>
                 <img src={props.item.image} alt={props.item.name} />
             </div>
@@ -68,6 +84,10 @@ const TabsItem = (props) => {
     )
 }
 
+TabsItem.propTypes = {
+    item: TabsItemPropTypes.isRequired
+}
+
 function BurgerIngredients(props) {
     return (
       <section className={headerStyles.section + " mt-10"}>
@@ -77,5 +97,6 @@ function BurgerIngredients(props) {
       </section>
     );
 }
+
 
 export default BurgerIngredients;

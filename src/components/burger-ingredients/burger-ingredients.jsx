@@ -1,25 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import {ItemPropTypes} from '../../utils/data';
 
 import styles from './burger-ingredients.module.css';
-
-const ItemPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number
-});
+import {arrayOf} from "prop-types";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -57,20 +43,22 @@ const Tabs = (props) => {
     )
 }
 
+
 const TabsCategory = (props) => {
     const items = props.data.filter(function(category) {
         return category.type === props.category;
     });
     return (
         <ul className={styles.items + " pl-4 pr-4"}>
-            {items.map((item, i) => <TabsItem key={i} item={item} />)}
+            {items.map((item) => <TabsItem key={item._id} item={item} />)}
         </ul>
     )
 }
 
+
 const TabsItem = (props) => {
     return (
-        <li key={props.item._id} className={styles.item + " mt-6"}>
+        <li className={styles.item + " mt-6"}>
             <div className={styles.item_image + " ml-4 mr-4"}>
                 <img src={props.item.image} alt={props.item.name} />
             </div>
@@ -85,7 +73,7 @@ const TabsItem = (props) => {
 }
 
 TabsItem.propTypes = {
-    item: ItemPropTypes.isRequired
+    item: ItemPropTypes
 }
 
 function BurgerIngredients(props) {
@@ -96,6 +84,10 @@ function BurgerIngredients(props) {
           {<Tabs data={props.data} />}
       </section>
     );
+}
+
+BurgerIngredients.propTypes = {
+    data: arrayOf(ItemPropTypes)
 }
 
 

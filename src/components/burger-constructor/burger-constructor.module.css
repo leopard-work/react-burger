@@ -23,7 +23,6 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    cursor: pointer;
 }
 .info {
     display: flex;
@@ -37,4 +36,7 @@
 .price svg {
     width: 36px;
     height: 36px;
+}
+.drag {
+    cursor: pointer;
 }

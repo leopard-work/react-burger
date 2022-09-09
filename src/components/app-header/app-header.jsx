@@ -5,7 +5,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 
 import headerStyles from './app-header.module.css';
 
-function AppHeader() {
+const AppHeader = () => {
   return (
       <header className={headerStyles.header}>
           <div className="container">

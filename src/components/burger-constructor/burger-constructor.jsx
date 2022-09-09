@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 
-import "@ya.praktikum/react-developer-burger-ui-components";
+import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {ItemPropTypes} from '../../utils/data';
-import {arrayOf} from "prop-types";
+import {arrayOf} from 'prop-types';
+import Modal from '../modal/modal';
 
 import styles from './burger-constructor.module.css';
 
@@ -14,7 +15,7 @@ const ConsructorItem = (props) => {
             <ConstructorElement
                 type={props.item.type === 'bun' ? props.type : ''}
                 isLocked={props.item.type === 'bun'}
-                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '\n(инз)')}
+                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(инз)' : '')}
                 price={props.item.price}
                 thumbnail={props.item.image}
             />
@@ -35,11 +36,12 @@ const BurgerConstructor = props => {
 
     return (
         <section className={styles.section + " mt-25"}>
-            {state.bun[0] ? <ConsructorItem key={state.bun[0]._id} item={state.bun[0]} type='top'/> : ''}
+            <Modal />
+            {state.bun[0] ? <ConsructorItem item={state.bun[0]} type='top'/> : ''}
             <ul className={styles.content + " pr-2"}>
                 {state.items}
             </ul>
-            {state.bun[0] ? <ConsructorItem key={state.bun[0]._id} item={state.bun[0]} type='bottom'/> : ''}
+            {state.bun[0] ? <ConsructorItem item={state.bun[0]} type='bottom'/> : ''}
             <div className={styles.info + " mt-10 mr-4"}>
                 <p className={styles.price + " mr-10"}>
                     <span className="text text_type_digits-medium mr-2">610</span>

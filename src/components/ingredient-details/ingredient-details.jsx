@@ -1,6 +1,5 @@
 import React from "react";
 import {ItemPropTypes} from "../../utils/data";
-import {arrayOf} from "prop-types";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
@@ -37,7 +36,7 @@ const IngredientDetails = (props) => {
 }
 
 IngredientDetails.propTypes = {
-    data: arrayOf(ItemPropTypes)
+    item: ItemPropTypes
 }
 
 export default IngredientDetails;

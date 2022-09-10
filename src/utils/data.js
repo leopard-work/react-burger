@@ -215,7 +215,7 @@ export const data=
     ];
 
 export const ItemPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     proteins: PropTypes.number.isRequired,

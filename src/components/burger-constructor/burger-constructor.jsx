@@ -15,7 +15,7 @@ const ConsructorItem = (props) => {
             <ConstructorElement
                 type={props.item.type === 'bun' ? props.type : ''}
                 isLocked={props.item.type === 'bun'}
-                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(инз)' : '')}
+                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(низ)' : '')}
                 price={props.item.price}
                 thumbnail={props.item.image}
             />
@@ -67,7 +67,7 @@ const BurgerConstructor = props => {
 }
 
 BurgerConstructor.propTypes = {
-    data: arrayOf(ItemPropTypes)
+    data: arrayOf(ItemPropTypes).isRequired
 }
 
 export default BurgerConstructor;

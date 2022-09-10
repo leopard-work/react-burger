@@ -45,7 +45,7 @@ const Tabs = (props) => {
 }
 
 Tabs.propTypes = {
-    data: arrayOf(ItemPropTypes)
+    data: arrayOf(ItemPropTypes).isRequired
 }
 
 const TabsCategory = (props) => {
@@ -60,7 +60,7 @@ const TabsCategory = (props) => {
 }
 
 TabsCategory.propTypes = {
-    data: arrayOf(ItemPropTypes)
+    data: arrayOf(ItemPropTypes).isRequired
 }
 
 
@@ -76,6 +76,7 @@ const TabsItem = (props) => {
             selectedItem: props
         })
     }
+
     return (
         <>
             <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}>
@@ -89,7 +90,7 @@ const TabsItem = (props) => {
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
                 <Counter count="1" size="default" />
             </li>
-            {state.selectedItem && <Modal isOpen={state.modalOpen} close={modalChange}>
+            {state.selectedItem && <Modal isOpen={state.modalOpen} close={() => modalChange(props.item)}>
                 <IngredientDetails item={state.selectedItem} />
             </Modal>}
         </>
@@ -111,7 +112,7 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-    data: arrayOf(ItemPropTypes)
+    data: arrayOf(ItemPropTypes).isRequired
 }
 
 

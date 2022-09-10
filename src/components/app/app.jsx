@@ -10,8 +10,8 @@ function App() {
     const url = "https://norma.nomoreparties.space/api/ingredients";
 
     const [state, setState] = useState({
-        data: null,
-        loading: true
+        data: [],
+        loading: false
     })
 
     useEffect(() => {
@@ -19,7 +19,7 @@ function App() {
         fetch(url)
             .then(res => {
                 if (res.ok) return res.json();
-                else alert(`Ошибка ${res.status}`)
+                else return Promise.reject(`Ошибка ${res.status}`);
             })
             .then(res => {
                 setState({

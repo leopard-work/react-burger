@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
-
-import "@ya.praktikum/react-developer-burger-ui-components";
-import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useState} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
+import "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import {arrayOf} from "prop-types";
 
@@ -45,6 +44,9 @@ const Tabs = (props) => {
     )
 }
 
+Tabs.propTypes = {
+    data: arrayOf(ItemPropTypes)
+}
 
 const TabsCategory = (props) => {
     const items = props.data.filter(function(category) {
@@ -55,6 +57,10 @@ const TabsCategory = (props) => {
             {items.map((item) => <TabsItem key={item._id} item={item} />)}
         </ul>
     )
+}
+
+Tabs.TabsCategory = {
+    data: arrayOf(ItemPropTypes)
 }
 
 

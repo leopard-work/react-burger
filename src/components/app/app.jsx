@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
-
-import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import React, {useEffect, useState} from "react";
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
-import styles from './app.module.css';
+import styles from "./app.module.css";
 
 function App() {
     const url = "https://norma.nomoreparties.space/api/ingredients";

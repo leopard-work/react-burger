@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
+import {ItemPropTypes} from "../../utils/data";
+import {arrayOf} from "prop-types";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import {ItemPropTypes} from '../../utils/data';
-import {arrayOf} from 'prop-types';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
-
 import styles from './burger-constructor.module.css';
 
 const ConsructorItem = (props) => {

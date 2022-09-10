@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
-import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './order-details.module.css';
+import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./order-details.module.css";
 
 
 const OrderDetails = () => {

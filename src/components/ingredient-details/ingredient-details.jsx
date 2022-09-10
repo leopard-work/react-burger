@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+import React from "react";
+import {ItemPropTypes} from "../../utils/data";
+import {arrayOf} from "prop-types";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
@@ -32,6 +34,10 @@ const IngredientDetails = (props) => {
             </div>
         </div>
     )
+}
+
+IngredientDetails.propTypes = {
+    data: arrayOf(ItemPropTypes)
 }
 
 export default IngredientDetails;

@@ -15,9 +15,11 @@ const Modal = (props) => {
                 props.close();
             }
         }
-        document.addEventListener("keydown", esc);
-        return () => {
-            document.removeEventListener("keydown", esc);
+        if (props.isOpen) {
+            document.addEventListener("keydown", esc);
+            return () => {
+                document.removeEventListener("keydown", esc);
+            };
         };
     }, [props.isOpen]);
 

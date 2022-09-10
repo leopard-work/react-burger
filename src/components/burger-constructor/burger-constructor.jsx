@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 
 import '@ya.praktikum/react-developer-burger-ui-components';
-import { ConstructorElement, DragIcon, Button, CurrencyIcon, CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {ItemPropTypes} from '../../utils/data';
 import {arrayOf} from 'prop-types';
 import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
 import styles from './burger-constructor.module.css';
 
@@ -25,20 +26,6 @@ const ConsructorItem = (props) => {
 
 ConsructorItem.propTypes = {
     item: ItemPropTypes
-}
-
-const CheckOut = () => {
-    return (
-        <div className={styles.checkout + " pt-30 pb-30"}>
-            <p className="text text_type_digits-large mb-8">034536</p>
-            <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
-            <div className={styles.done + " mb-15"}>
-                <CheckMarkIcon type="primary" />
-            </div>
-            <p className="text text_type_main-default mb-2">Ваш заказ начали готовить</p>
-            <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
-        </div>
-    )
 }
 
 const BurgerConstructor = props => {
@@ -73,7 +60,7 @@ const BurgerConstructor = props => {
                 </Button>
             </div>
             <Modal isOpen={state.modalOpen} close={modalChange}>
-                <CheckOut />
+                <OrderDetails />
             </Modal>
         </section>
     );

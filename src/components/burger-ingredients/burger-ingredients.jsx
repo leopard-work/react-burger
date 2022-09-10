@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
-import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import {ItemPropTypes} from '../../utils/data';
+import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import {ItemPropTypes} from "../../utils/data";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-import styles from './burger-ingredients.module.css';
+import styles from "./burger-ingredients.module.css";
 import {arrayOf} from "prop-types";
 
 const TabsNav = () => {
@@ -57,18 +59,34 @@ const TabsCategory = (props) => {
 
 
 const TabsItem = (props) => {
+    const [state, setState] = useState({
+        modalOpen: false,
+        selectedItem: ''
+    });
+    const modalChange = (props) => {
+        setState ({
+            ...state,
+            modalOpen: !state.modalOpen,
+            selectedItem: props
+        })
+    }
     return (
-        <li className={styles.item + " mt-6"}>
-            <div className={styles.item_image + " ml-4 mr-4"}>
-                <img src={props.item.image} alt={props.item.name} />
-            </div>
-            <div className={styles.item_price + " mt-1 mb-1"}>
-                <span className="text text_type_digits-default mr-2">{props.item.price}</span>
-                <CurrencyIcon type="primary" />
-            </div>
-            <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-            <Counter count={Math.round(Math.random() + 1)} size="default" />
-        </li>
+        <>
+            <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}>
+                <div className={styles.item_image + " ml-4 mr-4"}>
+                    <img src={props.item.image} alt={props.item.name} />
+                </div>
+                <div className={styles.item_price + " mt-1 mb-1"}>
+                    <span className="text text_type_digits-default mr-2">{props.item.price}</span>
+                    <CurrencyIcon type="primary" />
+                </div>
+                <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
+                <Counter count="1" size="default" />
+            </li>
+            {state.selectedItem && <Modal isOpen={state.modalOpen} close={modalChange}>
+                <IngredientDetails item={state.selectedItem} />
+            </Modal>}
+        </>
     )
 }
 
@@ -78,11 +96,11 @@ TabsItem.propTypes = {
 
 function BurgerIngredients(props) {
     return (
-      <section className={styles.section + " mt-10"}>
-          <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-          {<TabsNav />}
-          {<Tabs data={props.data} />}
-      </section>
+        <section className={styles.section + " mt-10"}>
+            <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
+            {<TabsNav />}
+            {<Tabs data={props.data} />}
+        </section>
     );
 }
 

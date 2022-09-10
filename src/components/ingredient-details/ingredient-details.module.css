@@ -1,0 +1,16 @@
+.container {
+    text-align: center;
+}
+.title {
+    text-align: left;
+}
+.props {
+    width: 100%;
+    margin-left: -20px;
+    display: flex;
+    justify-content: center;
+}
+.prop {
+    color: #8585AD;
+    min-width: 112px;
+}

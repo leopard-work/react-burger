@@ -59,7 +59,7 @@ const TabsCategory = (props) => {
     )
 }
 
-Tabs.TabsCategory = {
+TabsCategory.propTypes = {
     data: arrayOf(ItemPropTypes)
 }
 

@@ -16,6 +16,12 @@
     z-index: 1200;
     width: 720px;
     position: relative;
+    animation-duration: 0.5s;
+    animation-name: fade;
+}
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 .close {
     position: absolute;

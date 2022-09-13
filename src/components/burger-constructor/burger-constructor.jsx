@@ -34,8 +34,7 @@ const BurgerConstructor = () => {
     const [state, setState] = useState({
         items: orderItems.items.map((item, i) => item.type !== 'bun' ? <ConsructorItem key={item._id} item={item}/> : ''),
         bun: orderItems.items.filter(item => item.type === 'bun'),
-        modalOpen: false,
-        total: 0
+        modalOpen: false
     });
 
     useEffect(() => {

@@ -18,7 +18,7 @@ function App() {
     const [orderItems, setOrderItems] = useState({
         items: [],
         totalPrice: 0,
-        orderNumber: 0
+        orderInfo: null
     });
 
     useEffect(() => {
@@ -39,7 +39,7 @@ function App() {
 
                     setOrderItems({
                         ...orderItems,
-                        items: [res.data[0], res.data[2], res.data[3], res.data[4]]
+                        items: [res.data[0], res.data[0], res.data[2], res.data[6], res.data[9]]
                     })
 
                 /* END */

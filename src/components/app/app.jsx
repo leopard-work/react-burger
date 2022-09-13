@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {BurgerConstructorContext} from '../../services/BurgerConstructorContext';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app.module.css";
@@ -11,8 +12,14 @@ function App() {
 
     const [state, setState] = useState({
         data: [],
-        loading: false
+        loading: true
     })
+
+    const [orderItems, setOrderItems] = useState({
+        items: [],
+        totalPrice: 0,
+        orderNumber: 0
+    });
 
     useEffect(() => {
         setState({...state, loading: true});
@@ -27,9 +34,20 @@ function App() {
                     loading: false,
                     data: res.data
                 });
+
+                /* ВРЕМЕННОЕ ИЗМЕНЕНИЕ ЗАКАЗА */
+
+                    setOrderItems({
+                        ...orderItems,
+                        items: [res.data[0], res.data[2], res.data[3], res.data[4]]
+                    })
+
+                /* END */
+
             })
             .catch(error => alert(error))
-    }, [])
+    }, []);
+
 
     return (
       <>
@@ -39,7 +57,9 @@ function App() {
                   <div className="container pl-4 pr-4">
                       <div className={styles.blocks}>
                           <BurgerIngredients data={state.data}/>
-                          <BurgerConstructor data={state.data}/>
+                          <BurgerConstructorContext.Provider value={{orderItems, setOrderItems}}>
+                            <BurgerConstructor />
+                          </BurgerConstructorContext.Provider>
                       </div>
                   </div>
               }

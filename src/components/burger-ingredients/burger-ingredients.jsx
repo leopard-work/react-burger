@@ -88,7 +88,7 @@ const TabsItem = (props) => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-                <Counter count="1" size="default" />
+                {props.item.count && <Counter count="{props.item.count}" size="default" />}
             </li>
             {state.selectedItem && <Modal isOpen={state.modalOpen} close={() => modalChange(props.item)}>
                 <IngredientDetails item={state.selectedItem} />

@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {BurgerIngredientsContext} from '../../services/BurgerIngredientsContext';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import {arrayOf} from "prop-types";
+import PropTypes from "prop-types";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -25,31 +26,28 @@ const TabsNav = () => {
     )
 }
 
-const Tabs = (props) => {
+const Tabs = () => {
     return (
         <div className={styles.content }>
             <div className={styles.content_block+ " mt-10"}>
                 <h2 className="text text_type_main-medium">Булки</h2>
-                {<TabsCategory category="bun" data={props.data} />}
+                {<TabsCategory category="bun" />}
             </div>
             <div className={styles.content_block+ " mt-10"}>
                 <h2 className="text text_type_main-medium">Соусы</h2>
-                {<TabsCategory category="sauce" data={props.data} />}
+                {<TabsCategory category="sauce" />}
             </div>
             <div className={styles.content_block+ " mt-10"}>
                 <h2 className="text text_type_main-medium">Начинки</h2>
-                {<TabsCategory category="main" data={props.data} />}
+                {<TabsCategory category="main" />}
             </div>
         </div>
     )
 }
 
-Tabs.propTypes = {
-    data: arrayOf(ItemPropTypes).isRequired
-}
-
 const TabsCategory = (props) => {
-    const items = props.data.filter(function(category) {
+    const {data} = useContext(BurgerIngredientsContext);
+    const items = data.filter(function(category) {
         return category.type === props.category;
     });
     return (
@@ -60,7 +58,7 @@ const TabsCategory = (props) => {
 }
 
 TabsCategory.propTypes = {
-    data: arrayOf(ItemPropTypes).isRequired
+    category: PropTypes.string.isRequired
 }
 
 
@@ -101,18 +99,14 @@ TabsItem.propTypes = {
     item: ItemPropTypes
 }
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     return (
         <section className={styles.section + " mt-10"}>
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
             {<TabsNav />}
-            {<Tabs data={props.data} />}
+            {<Tabs />}
         </section>
     );
-}
-
-BurgerIngredients.propTypes = {
-    data: arrayOf(ItemPropTypes).isRequired
 }
 
 

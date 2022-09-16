@@ -5,3 +5,8 @@
     display: flex;
     justify-content: space-between;
 }
+.loading {
+    margin-top: 100px;
+    width: 100%;
+    text-align: center;
+}

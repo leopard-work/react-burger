@@ -3,7 +3,7 @@ import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {BurgerConstructorContext} from '../../services/BurgerConstructorContext';
-import {loadOrder} from '../../utils/api';
+import {createOrder} from '../../utils/api';
 
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -34,11 +34,12 @@ const BurgerConstructor = () => {
 
     const [state, setState] = useState({
         modalOpen: false,
-        orderNumber: 0
+        orderNumber: 0,
     });
+    const [loading, setLoading] = useState(false);
 
     const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item}/> : '');
-    const bun = orderItems.filter(item => item.type === 'bun');
+    const bun = orderItems.find(item => item.type === 'bun');
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
         if (currentValue.type === 'bun') return accumulator + currentValue.price * 2;
@@ -54,34 +55,43 @@ const BurgerConstructor = () => {
     }
 
     const checkOut = () => {
+        setLoading(true);
         const body = {
-            ingredients: orderItems.map((item, i) => item._id),
+            ingredients: orderItems.map(item => item._id),
         }
-        loadOrder(body).then((response) => {
+        createOrder(body).then((response) => {
             setState ({
                 ...state,
                 orderNumber: response.order.number,
                 modalOpen: !state.modalOpen
-            })
+            });
+            setLoading(false);
         });
     }
 
     return (
 
         <section className={styles.section + " mt-25"}>
-            {bun[0] ? <ConstructorItem item={bun[0]} type='top'/> : ''}
+            {bun ? <ConstructorItem item={bun} type='top'/> : ''}
             <ul className={styles.content + " pr-2"}>
                 {items}
             </ul>
-            {bun[0] ? <ConstructorItem item={bun[0]} type='bottom'/> : ''}
+            {bun ? <ConstructorItem item={bun} type='bottom'/> : ''}
             <div className={styles.info + " mt-10 mr-4"}>
                 <p className={styles.price + " mr-10"}>
                     <span className="text text_type_digits-medium mr-2">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="medium" onClick={checkOut}>
-                    Оформить заказ
-                </Button>
+                {!loading &&
+                    <Button type="primary" size="medium" onClick={checkOut}>
+                        Оформить заказ
+                    </Button>
+                }
+                {loading &&
+                    <Button type="primary" size="medium" disabled="disabled">
+                        Загрузка...
+                    </Button>
+                }
             </div>
             <Modal isOpen={state.modalOpen} close={modalChange}>
                 <OrderDetails number={state.orderNumber} />

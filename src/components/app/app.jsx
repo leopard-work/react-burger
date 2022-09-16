@@ -42,6 +42,9 @@ function App() {
                       </div>
                   </div>
               }
+              {loading &&
+                  <div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>
+              }
           </main>
       </>
     );

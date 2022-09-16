@@ -1,22 +1,16 @@
 export function loadIngredients() {
     const url = "https://norma.nomoreparties.space/api/ingredients";
-
-    return fetch(url)
-        .then((response) => {
-            if (response.ok) return response.json();
-            else return Promise.reject(`Ошибка ${response.status}`);
-        })
-        .then((responseData) => {
-            return responseData;
-        })
-        .catch((error) => { console.warn(error); })
+    return getData('GET', url);
 }
 
-export function loadOrder(body) {
+export function createOrder(body) {
     const url = "https://norma.nomoreparties.space/api/orders";
+    return getData('POST', url, body);
+}
 
-    return fetch(url,{
-        method: 'POST',
+function getData(method, url, body) {
+    return fetch(url, {
+        method: method,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

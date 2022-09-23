@@ -8,14 +8,21 @@ import {loadIngredients} from '../../utils/api';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {getItems} from "../../services/actions/cart";
 
 function App() {
+
+    const dispatch = useDispatch();
+    const cart  = useSelector(state => state.cart);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [orderItems, setOrderItems] = useState([]);
 
     useEffect(() => {
+        dispatch(getItems());
+
         loadIngredients().then((response) => {
             setData(response.data);
             /* ВРЕМЕННОЕ ИЗМЕНЕНИЕ ЗАКАЗА */
@@ -25,12 +32,14 @@ function App() {
         });
     }, []);
 
+    console.log(cart);
+
 
     return (
       <>
           <AppHeader />
           <main className={styles.main + " pb-10"}>
-              {!loading &&
+              {!cart.itemsRequest &&
                   <div className="container pl-4 pr-4">
                       <div className={styles.blocks}>
                           <BurgerIngredientsContext.Provider value={{data}}>
@@ -42,7 +51,7 @@ function App() {
                       </div>
                   </div>
               }
-              {loading &&
+              {cart.itemsRequest &&
                   <div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>
               }
           </main>

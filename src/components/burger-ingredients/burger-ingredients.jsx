@@ -28,16 +28,16 @@ const TabsNav = () => {
 
 const Tabs = () => {
     return (
-        <div className={styles.content }>
-            <div className={styles.content_block+ " mt-10"}>
+        <div className={styles.content} data-name="tabs" id="tabs">
+            <div className="mt-10" data-name="category" data-val="bun">
                 <h2 className="text text_type_main-medium">Булки</h2>
                 {<TabsCategory category="bun" />}
             </div>
-            <div className={styles.content_block+ " mt-10"}>
+            <div className="mt-10" data-name="category" data-val="sauce">
                 <h2 className="text text_type_main-medium">Соусы</h2>
                 {<TabsCategory category="sauce" />}
             </div>
-            <div className={styles.content_block+ " mt-10"}>
+            <div className="mt-10" data-name="category" data-val="main">
                 <h2 className="text text_type_main-medium">Начинки</h2>
                 {<TabsCategory category="main" />}
             </div>

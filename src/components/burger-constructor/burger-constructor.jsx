@@ -7,7 +7,8 @@ import {createOrder} from '../../utils/api';
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {REMOVE_FROM_BASKET} from "../../services/actions/cart";
 
 const ConstructorItem = (props) => {
     return (
@@ -19,6 +20,7 @@ const ConstructorItem = (props) => {
                 text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(низ)' : '') + (props.item.count > 1 ? ' x' + props.item.count : '')}
                 price={props.item.price}
                 thumbnail={props.item.image}
+                handleClose={() => props.deleteItem(props.item)}
             />
         </li>
     )
@@ -30,6 +32,8 @@ ConstructorItem.propTypes = {
 
 const BurgerConstructor = () => {
 
+    const dispatch = useDispatch();
+
     const orderItems = useSelector(state => state.cart.basket);
 
     const [state, setState] = useState({
@@ -38,7 +42,14 @@ const BurgerConstructor = () => {
     });
     const [loading, setLoading] = useState(false);
 
-    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item}/> : '');
+    const removeFromBasket = item => {
+        dispatch({
+            type: REMOVE_FROM_BASKET,
+            item
+        })
+    }
+
+    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} deleteItem={removeFromBasket}/> : '');
     const bun = orderItems.find(item => item.type === 'bun');
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {

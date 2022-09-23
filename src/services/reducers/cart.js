@@ -1,8 +1,9 @@
 import {
-    ADD_TO_BASKET,
     GET_ITEMS_FAILED,
     GET_ITEMS_REQUEST,
-    GET_ITEMS_SUCCESS
+    GET_ITEMS_SUCCESS,
+    ADD_TO_BASKET,
+    REMOVE_FROM_BASKET
 } from "../actions/cart";
 
 const initialState = {
@@ -74,6 +75,24 @@ export const cartReducer = (state = initialState, action) => {
                         ...state,
                         basket: [...state.basket, {...action.item, count: 1}]
                     }
+                }
+            }
+        }
+        case REMOVE_FROM_BASKET: {
+            if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
+                state.basket.map((item) => {
+                    if (item._id === action.item._id) {
+                        item.count--;
+                    }
+                    return state;
+                });
+                return {
+                    ...state
+                }
+            } else {                                                                        // Удаляем товар
+                return {
+                    ...state,
+                    basket: state.basket.filter(item => item._id !== action.item._id)
                 }
             }
         }

@@ -30,7 +30,7 @@ ConstructorItem.propTypes = {
 
 const BurgerConstructor = () => {
 
-    const orderItems = useSelector(state => state.cart.items.data);
+    const orderItems = useSelector(state => state.cart.basket);
 
     const [state, setState] = useState({
         modalOpen: false,

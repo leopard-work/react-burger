@@ -7,7 +7,8 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_TO_BASKET} from "../../services/actions/cart";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -61,8 +62,16 @@ TabsCategory.propTypes = {
     category: PropTypes.string.isRequired
 }
 
-
 const TabsItem = (props) => {
+    const dispatch = useDispatch();
+
+    const addToBasket = item => {
+        dispatch({
+            type: ADD_TO_BASKET,
+            item
+        })
+    }
+
     const [state, setState] = useState({
         modalOpen: false,
         selectedItem: ''
@@ -77,7 +86,8 @@ const TabsItem = (props) => {
 
     return (
         <>
-            <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}>
+            <li className={styles.item + " mt-6"} onClick={() => addToBasket(props.item)}>
+                {/* <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}> */}
                 <div className={styles.item_image + " ml-4 mr-4"}>
                     <img src={props.item.image} alt={props.item.name} />
                 </div>

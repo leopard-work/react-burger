@@ -1,13 +1,13 @@
-import React, {useState, useContext} from "react";
+import React, {useState} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {BurgerConstructorContext} from '../../services/BurgerConstructorContext';
 import {createOrder} from '../../utils/api';
 
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
+import {useSelector} from "react-redux";
 
 const ConstructorItem = (props) => {
     return (
@@ -30,7 +30,7 @@ ConstructorItem.propTypes = {
 
 const BurgerConstructor = () => {
 
-    const {orderItems} = useContext(BurgerConstructorContext);
+    const orderItems = useSelector(state => state.cart.items.data);
 
     const [state, setState] = useState({
         modalOpen: false,

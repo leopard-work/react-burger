@@ -4,7 +4,10 @@ import {
 } from "../actions/cart";
 
 const initialState = {
-    items: [],
+    items: {
+        data: [],
+        success: false
+    },
     itemsRequest: false,
     itemsFailed: false,
 

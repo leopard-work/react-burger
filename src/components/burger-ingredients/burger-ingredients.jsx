@@ -1,13 +1,13 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {BurgerIngredientsContext} from '../../services/BurgerIngredientsContext';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -46,8 +46,8 @@ const Tabs = () => {
 }
 
 const TabsCategory = (props) => {
-    const {data} = useContext(BurgerIngredientsContext);
-    const items = data.filter(function(category) {
+    const cart = useSelector(state => state.cart);
+    const items = cart.items.data.filter(function(category) {
         return category.type === props.category;
     });
     return (

@@ -1,7 +1,8 @@
 import {
     ADD_TO_BASKET,
     GET_ITEMS_FAILED,
-    GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS
+    GET_ITEMS_REQUEST,
+    GET_ITEMS_SUCCESS
 } from "../actions/cart";
 
 const initialState = {
@@ -57,13 +58,16 @@ export const cartReducer = (state = initialState, action) => {
             }
             else {                                                                          // Если не булка
                 const itemFromBasket = state.basket.find(i => i._id === action.item._id);   // Проверка существования товара в корзине
-                if (itemFromBasket) {
-                    state.basket.map((item) => {                                            // Увеличивам количество
+                if (itemFromBasket) {                                                       // Если товар есть в корзине
+                    state.basket.map((item) => {                                            // Увеличиваем количество
                         if (item._id === action.item._id) {
                             item.count++;
                         }
                         return state;
                     })
+                    return {
+                        ...state
+                    }
                 }
                 else {                                                                      // Если товара нет, добавляем в корзину c увеличением счетчика
                     return {

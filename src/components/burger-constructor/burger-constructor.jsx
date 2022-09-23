@@ -16,7 +16,7 @@ const ConstructorItem = (props) => {
             <ConstructorElement
                 type={props.item.type === 'bun' ? props.type : ''}
                 isLocked={props.item.type === 'bun'}
-                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(низ)' : '')}
+                text={props.item.name + (props.type === 'top' ? '\n(верх)' : '') + (props.type === 'bottom' ? '\n(низ)' : '') + (props.item.count > 1 ? ' x' + props.item.count : '')}
                 price={props.item.price}
                 thumbnail={props.item.image}
             />

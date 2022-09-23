@@ -53,7 +53,7 @@ const TabsCategory = (props) => {
     });
     return (
         <ul className={styles.items + " pl-4 pr-4"}>
-            {items.map((item) => <TabsItem key={item._id} item={item} />)}
+            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={cart.basket.find(i => i._id === item._id)} />)}
         </ul>
     )
 }
@@ -96,7 +96,7 @@ const TabsItem = (props) => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-                {props.item.count && <Counter count="{props.item.count}" size="default" />}
+                {props.basketCart && <Counter count={props.basketCart.count} size="default" />}
             </li>
             {state.selectedItem && <Modal isOpen={state.modalOpen} close={() => modalChange(props.item)}>
                 <IngredientDetails item={state.selectedItem} />

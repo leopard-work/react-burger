@@ -1,9 +1,7 @@
 import {
-    GET_ITEMS_FAILED,
-    GET_ITEMS_REQUEST,
-    GET_ITEMS_SUCCESS,
-    ADD_TO_BASKET,
-    REMOVE_FROM_BASKET
+    GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,
+    ADD_TO_BASKET, REMOVE_FROM_BASKET,
+    CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILED, CLEAR_ORDER
 } from "../actions/cart";
 
 const initialState = {
@@ -11,10 +9,15 @@ const initialState = {
         data: [],
         success: false
     },
-    itemsRequest: false,
+    itemsRequest: true,
     itemsFailed: false,
 
-    basket: []
+    basket: [],
+
+    orderInfo: {},
+    orderModalOpen: false,
+    orderRequest: false,
+    orderFailed: false
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -94,6 +97,36 @@ export const cartReducer = (state = initialState, action) => {
                     ...state,
                     basket: state.basket.filter(item => item._id !== action.item._id)
                 }
+            }
+        }
+        case CHECKOUT_REQUEST: {
+            return {
+                ...state,
+                orderRequest: true
+            }
+        }
+        case CHECKOUT_SUCCESS: {
+            return {
+                ...state,
+                orderRequest: false,
+                orderFailed: false,
+                orderModalOpen: true,
+                orderInfo: action.order,
+                basket: []
+            };
+        }
+        case CHECKOUT_FAILED: {
+            return {
+                ...state,
+                orderFailed: true,
+                orderRequest: false
+            }
+        }
+        case CLEAR_ORDER: {
+            return {
+                ...state,
+                orderInfo: {},
+                orderModalOpen: false
             }
         }
         default: {

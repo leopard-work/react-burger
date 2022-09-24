@@ -2,13 +2,12 @@ import React, {useState} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {createOrder} from '../../utils/api';
 
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {REMOVE_FROM_BASKET} from "../../services/actions/cart";
+import {checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET} from "../../services/actions/cart";
 
 const ConstructorItem = (props) => {
     return (
@@ -34,7 +33,8 @@ const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
 
-    const orderItems = useSelector(state => state.cart.basket);
+    const cart = useSelector(state => state.cart);
+    const orderItems = cart.basket;
 
     const [state, setState] = useState({
         modalOpen: false,
@@ -58,26 +58,35 @@ const BurgerConstructor = () => {
     }, initialValue)
 
 
-    const modalChange = () => {
-        setState ({
-            ...state,
-            modalOpen: !state.modalOpen
-        })
+    const modalClose = () => {
+        // setState ({
+        //     ...state,
+        //     modalOpen: !state.modalOpen
+        // })
+
     }
 
     const checkOut = () => {
-        setLoading(true);
-        const body = {
-            ingredients: orderItems.map(item => item._id),
-        }
-        createOrder(body).then((response) => {
-            setState ({
-                ...state,
-                orderNumber: response.order.number,
-                modalOpen: !state.modalOpen
-            });
-            setLoading(false);
+
+        // setLoading(true);
+
+        // createOrder(body).then((response) => {
+        //     setState ({
+        //         ...state,
+        //         orderNumber: response.order.number,
+        //         modalOpen: !state.modalOpen
+        //     });
+        //     setLoading(false);
+        // });
+        const ingredients = [];
+        orderItems.forEach(item => {
+            for (let i = 0; i < item.count; i++) {
+                ingredients.push(item._id);
+                if (item.type === 'bun') ingredients.push(item._id);
+            }
         });
+        const body = {ingredients: ingredients}
+        dispatch(checkOutSend(body));
     }
 
     return (
@@ -93,19 +102,24 @@ const BurgerConstructor = () => {
                     <span className="text text_type_digits-medium mr-2">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                {!loading &&
-                    <Button type="primary" size="medium" onClick={checkOut}>
+                {!cart.orderRequest && !cart.orderFailed &&
+                    (<Button type="primary" size="medium" onClick={checkOut} disabled={!cart.basket.length && 'disabled'}>
                         Оформить заказ
-                    </Button>
+                    </Button>)
                 }
-                {loading &&
+                {cart.orderRequest && !cart.orderFailed &&
                     <Button type="primary" size="medium" disabled="disabled">
                         Загрузка...
                     </Button>
                 }
+                {cart.orderFailed &&
+                    <Button type="primary" size="medium">
+                        Ошибка. Повторите попытку
+                    </Button>
+                }
             </div>
-            <Modal isOpen={state.modalOpen} close={modalChange}>
-                <OrderDetails number={state.orderNumber} />
+            <Modal isOpen={cart.orderModalOpen} close={() => dispatch({type: CLEAR_ORDER})}>
+                <OrderDetails info={cart.orderInfo} />
             </Modal>
         </section>
     );

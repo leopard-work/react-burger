@@ -21,7 +21,7 @@ function App() {
       <>
           <AppHeader />
           <main className={styles.main + " pb-10"}>
-              {cart.items.success &&
+              {cart.items.success && !cart.itemsFailed &&
                   <div className="container pl-4 pr-4">
                       <div className={styles.blocks}>
                           <BurgerIngredients/>
@@ -29,8 +29,11 @@ function App() {
                       </div>
                   </div>
               }
-              {!cart.items.success &&
+              {!cart.items.success && !cart.itemsFailed &&
                   <div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>
+              }
+              {cart.itemsFailed &&
+                  <div className={`${styles.loading} text text_type_main-medium`}>Ошибка. Повторите попытку ...</div>
               }
           </main>
       </>

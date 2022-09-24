@@ -7,7 +7,8 @@ import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET} from "../../services/actions/cart";
+import {ADD_TO_BASKET, checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET} from "../../services/actions/cart";
+import {useDrop} from "react-dnd";
 
 const ConstructorItem = (props) => {
     return (
@@ -63,13 +64,28 @@ const BurgerConstructor = () => {
         dispatch(checkOutSend(body));
     }
 
+    const [{ active }, drop] = useDrop({
+        accept: 'items',
+        collect: monitor => ({
+            active: monitor.isOver()
+        }),
+        drop(item) {
+            dispatch({
+                type: ADD_TO_BASKET,
+                item
+            })
+        }
+    });
+
     return (
-        <section className={styles.section + " mt-25"}>
-            {bun ? <ConstructorItem item={bun} type='top'/> : ''}
-            <ul className={styles.content + " pr-2"}>
-                {items}
-            </ul>
-            {bun ? <ConstructorItem item={bun} type='bottom'/> : ''}
+        <section className={styles.section + " mt-25 "} >
+            <div className={`${styles.items} ${(active ? styles.active: '')}`} ref={drop}>
+                {bun ? <ConstructorItem item={bun} type='top'/> : ''}
+                <ul className={styles.content + " pr-2"}>
+                    {items}
+                </ul>
+                {bun ? <ConstructorItem item={bun} type='bottom'/> : ''}
+            </div>
             <div className={styles.info + " mt-10 mr-4"}>
                 <p className={styles.price + " mr-10"}>
                     <span className="text text_type_digits-medium mr-2">{totalPrice}</span>

@@ -7,6 +7,8 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {getItems} from "../../services/actions/cart";
+import {DndProvider} from "react-dnd";
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
 
@@ -24,8 +26,10 @@ function App() {
               {cart.items.success && !cart.itemsFailed &&
                   <div className="container pl-4 pr-4">
                       <div className={styles.blocks}>
-                          <BurgerIngredients/>
-                          <BurgerConstructor />
+                          <DndProvider backend={HTML5Backend}>
+                              <BurgerIngredients/>
+                              <BurgerConstructor />
+                          </DndProvider>
                       </div>
                   </div>
               }

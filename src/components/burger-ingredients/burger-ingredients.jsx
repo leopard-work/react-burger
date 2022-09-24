@@ -9,6 +9,7 @@ import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/cart";
+import {useDrag} from "react-dnd";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -69,12 +70,21 @@ TabsCategory.propTypes = {
     category: PropTypes.string.isRequired
 }
 
+
 const TabsItem = (props) => {
     const dispatch = useDispatch();
 
+    const [{ opacity }, ref] = useDrag({
+        type: 'items',
+        item: props.item,
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.3 : 1
+        })
+    });
+
     return (
         <>
-            <li className={styles.item + " mt-6"} onClick={() => dispatch({type: VIEW_ITEM, item: props.item})}>
+            <li className={styles.item + " mt-6"} onClick={() => dispatch({type: VIEW_ITEM, item: props.item})} ref={ref} style={{ opacity }}>
                 <div className={styles.item_image + " ml-4 mr-4"}>
                     <img src={props.item.image} alt={props.item.name} />
                 </div>

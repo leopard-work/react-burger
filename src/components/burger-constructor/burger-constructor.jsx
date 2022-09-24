@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -36,12 +36,6 @@ const BurgerConstructor = () => {
     const cart = useSelector(state => state.cart);
     const orderItems = cart.basket;
 
-    const [state, setState] = useState({
-        modalOpen: false,
-        orderNumber: 0,
-    });
-    const [loading, setLoading] = useState(false);
-
     const removeFromBasket = item => {
         dispatch({
             type: REMOVE_FROM_BASKET,
@@ -54,30 +48,10 @@ const BurgerConstructor = () => {
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
         if (currentValue.type === 'bun') return accumulator + currentValue.price * 2;
-        else return accumulator + currentValue.price;
+        else return accumulator + currentValue.price * currentValue.count;
     }, initialValue)
 
-
-    const modalClose = () => {
-        // setState ({
-        //     ...state,
-        //     modalOpen: !state.modalOpen
-        // })
-
-    }
-
     const checkOut = () => {
-
-        // setLoading(true);
-
-        // createOrder(body).then((response) => {
-        //     setState ({
-        //         ...state,
-        //         orderNumber: response.order.number,
-        //         modalOpen: !state.modalOpen
-        //     });
-        //     setLoading(false);
-        // });
         const ingredients = [];
         orderItems.forEach(item => {
             for (let i = 0; i < item.count; i++) {
@@ -90,7 +64,6 @@ const BurgerConstructor = () => {
     }
 
     return (
-
         <section className={styles.section + " mt-25"}>
             {bun ? <ConstructorItem item={bun} type='top'/> : ''}
             <ul className={styles.content + " pr-2"}>

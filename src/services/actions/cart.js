@@ -9,6 +9,8 @@ export const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST';
 export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILED = 'CHECKOUT_FAILED';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
+export const VIEW_ITEM = 'VIEW_ITEM';
+export const CLOSE_VIEW_ITEM = 'CLOSE_VIEW_ITEM';
 
 export function getItems() {
     return function(dispatch) {

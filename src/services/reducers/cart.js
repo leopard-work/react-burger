@@ -1,7 +1,8 @@
 import {
     GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,
     ADD_TO_BASKET, REMOVE_FROM_BASKET,
-    CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILED, CLEAR_ORDER
+    CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILED, CLEAR_ORDER,
+    VIEW_ITEM, CLOSE_VIEW_ITEM
 } from "../actions/cart";
 
 const initialState = {
@@ -17,7 +18,10 @@ const initialState = {
     orderInfo: {},
     orderModalOpen: false,
     orderRequest: false,
-    orderFailed: false
+    orderFailed: false,
+
+    viewItemModalOpen: false,
+    viewItemElement: []
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -127,6 +131,20 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 orderInfo: {},
                 orderModalOpen: false
+            }
+        }
+        case VIEW_ITEM: {
+            return {
+                ...state,
+                viewItemElement: action.item,
+                viewItemModalOpen: true
+            }
+        }
+        case CLOSE_VIEW_ITEM: {
+            return {
+                ...state,
+                viewItemElement: [],
+                viewItemModalOpen: false
             }
         }
         default: {

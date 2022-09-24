@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -8,7 +8,7 @@ import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TO_BASKET} from "../../services/actions/cart";
+import {CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/cart";
 
 const TabsNav = () => {
     const [current, setCurrent] = React.useState('one')
@@ -28,21 +28,28 @@ const TabsNav = () => {
 }
 
 const Tabs = () => {
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart);
     return (
-        <div className={styles.content} data-name="tabs" id="tabs">
-            <div className="mt-10" data-name="category" data-val="bun">
-                <h2 className="text text_type_main-medium">Булки</h2>
-                {<TabsCategory category="bun" />}
+        <>
+            <div className={styles.content} data-name="tabs" id="tabs">
+                <div className="mt-10" data-name="category" data-val="bun">
+                    <h2 className="text text_type_main-medium">Булки</h2>
+                    {<TabsCategory category="bun" />}
+                </div>
+                <div className="mt-10" data-name="category" data-val="sauce">
+                    <h2 className="text text_type_main-medium">Соусы</h2>
+                    {<TabsCategory category="sauce" />}
+                </div>
+                <div className="mt-10" data-name="category" data-val="main">
+                    <h2 className="text text_type_main-medium">Начинки</h2>
+                    {<TabsCategory category="main" />}
+                </div>
             </div>
-            <div className="mt-10" data-name="category" data-val="sauce">
-                <h2 className="text text_type_main-medium">Соусы</h2>
-                {<TabsCategory category="sauce" />}
-            </div>
-            <div className="mt-10" data-name="category" data-val="main">
-                <h2 className="text text_type_main-medium">Начинки</h2>
-                {<TabsCategory category="main" />}
-            </div>
-        </div>
+            <Modal isOpen={cart.viewItemModalOpen} close={() => dispatch({type: CLOSE_VIEW_ITEM})}>
+                <IngredientDetails item={cart.viewItemElement} />
+            </Modal>
+        </>
     )
 }
 
@@ -65,29 +72,9 @@ TabsCategory.propTypes = {
 const TabsItem = (props) => {
     const dispatch = useDispatch();
 
-    const addToBasket = item => {
-        dispatch({
-            type: ADD_TO_BASKET,
-            item
-        })
-    }
-
-    const [state, setState] = useState({
-        modalOpen: false,
-        selectedItem: ''
-    });
-    const modalChange = (props) => {
-        setState ({
-            ...state,
-            modalOpen: !state.modalOpen,
-            selectedItem: props
-        })
-    }
-
     return (
         <>
-            <li className={styles.item + " mt-6"} onClick={() => addToBasket(props.item)}>
-                {/* <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}> */}
+            <li className={styles.item + " mt-6"} onClick={() => dispatch({type: VIEW_ITEM, item: props.item})}>
                 <div className={styles.item_image + " ml-4 mr-4"}>
                     <img src={props.item.image} alt={props.item.name} />
                 </div>
@@ -98,9 +85,6 @@ const TabsItem = (props) => {
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
                 {props.basketCart && <Counter count={props.basketCart.count} size="default" />}
             </li>
-            {state.selectedItem && <Modal isOpen={state.modalOpen} close={() => modalChange(props.item)}>
-                <IngredientDetails item={state.selectedItem} />
-            </Modal>}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -7,12 +7,38 @@ import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TO_BASKET, checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET} from "../../services/actions/cart";
-import {useDrop} from "react-dnd";
+import {ADD_TO_BASKET, checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET, SORT_BASKET} from "../../services/actions/cart";
+import {useDrag, useDrop} from "react-dnd";
 
 const ConstructorItem = (props) => {
+    const dispatch = useDispatch();
+    const refItem = useRef(null);
+    const refBun = useRef(null);
+
+    const [{}, dropItem] = useDrop({
+        accept: 'card',
+        hover(item, monitor) {
+            dispatch({
+                type: SORT_BASKET,
+                item: item,
+                index: props.index
+            })
+        }
+    })
+
+    const [{ isDragging }, dragItem] = useDrag({
+        type: 'card',
+        item: props.item,
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+
+    dragItem(dropItem(refItem));
+    const opacity = isDragging ? 0 : 1;
+
     return (
-        <li className={styles.item + " mt-4"}>
+        <li className={styles.item + " mt-4"} ref={props.item.type !== 'bun' ? refItem : refBun} style={{ opacity }}>
             {props.item.type !== 'bun' ? <span className={styles.drag}><DragIcon type="primary" /></span> : (<span />)}
             <ConstructorElement
                 type={props.item.type === 'bun' ? props.type : ''}
@@ -44,7 +70,7 @@ const BurgerConstructor = () => {
         })
     }
 
-    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} deleteItem={removeFromBasket}/> : '');
+    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={removeFromBasket}/> : '');
     const bun = orderItems.find(item => item.type === 'bun');
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {

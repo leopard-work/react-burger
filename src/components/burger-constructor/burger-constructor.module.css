@@ -38,7 +38,7 @@
     height: 36px;
 }
 .drag {
-    cursor: pointer;
+    cursor: move;
 }
 .items {
     transition: all 0.3s;

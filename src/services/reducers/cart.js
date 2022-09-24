@@ -1,6 +1,6 @@
 import {
     GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,
-    ADD_TO_BASKET, REMOVE_FROM_BASKET,
+    ADD_TO_BASKET, REMOVE_FROM_BASKET, SORT_BASKET,
     CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILED, CLEAR_ORDER,
     VIEW_ITEM, CLOSE_VIEW_ITEM
 } from "../actions/cart";
@@ -21,7 +21,20 @@ const initialState = {
     orderFailed: false,
 
     viewItemModalOpen: false,
-    viewItemElement: []
+    viewItemElement: {
+        _id: '',
+        name: '',
+        type: '',
+        proteins: 0,
+        fat: 0,
+        carbohydrates: 0,
+        calories: 0,
+        price: 0,
+        image: '',
+        image_mobile: '',
+        image_large: '',
+        __v: 0
+    }
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -143,9 +156,17 @@ export const cartReducer = (state = initialState, action) => {
         case CLOSE_VIEW_ITEM: {
             return {
                 ...state,
-                viewItemElement: [],
+                viewItemElement: initialState.viewItemElement,
                 viewItemModalOpen: false
             }
+        }
+        case SORT_BASKET: {
+            let tempBasket = [...state.basket];
+            tempBasket[action.index] = tempBasket.splice(state.basket.indexOf(action.item), 1, tempBasket[action.index])[0];
+            return {
+                ...state,
+                basket: tempBasket
+            };
         }
         default: {
             return state;

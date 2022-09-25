@@ -14,7 +14,7 @@ export const CLOSE_VIEW_ITEM = 'CLOSE_VIEW_ITEM';
 export const SORT_BASKET = 'SORT_BASKET';
 export const CHANGE_ACTIVE_TAB = 'CHANGE_ACTIVE_TAB';
 
-export function getItems() {
+export function getItems() {                                        // Загрузка меню
     return function(dispatch) {
         dispatch({type: GET_ITEMS_REQUEST});
         loadIngredients().then((data) => {
@@ -25,7 +25,7 @@ export function getItems() {
     };
 }
 
-export function checkOutSend(body) {
+export function checkOutSend(body) {                                // Отправка заказа
     return function(dispatch) {
         dispatch({type: CHECKOUT_REQUEST});
         createOrder(body).then((data) => {

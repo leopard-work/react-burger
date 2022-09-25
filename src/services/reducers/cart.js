@@ -7,22 +7,22 @@ import {
 } from "../actions/cart";
 
 const initialState = {
-    items: {
+    items: {                                                                                // Меню
         data: [],
         success: false
     },
     itemsRequest: true,
     itemsFailed: false,
 
-    basket: [],
+    basket: [],                                                                             // Корзина
 
-    orderInfo: {},
-    orderModalOpen: false,
+    orderInfo: {},                                                                          // Информация о заказе
+    orderModalOpen: false,                                                                  // Открытие окна с заказом
     orderRequest: false,
     orderFailed: false,
 
-    viewItemModalOpen: false,
-    viewItemElement: {
+    viewItemModalOpen: false,                                                               // Открытие окна с информацией о товаре
+    viewItemElement: {                                                                      // Подробная информация о товаре в всплывающем окне
         _id: '',
         name: '',
         type: '',
@@ -37,7 +37,7 @@ const initialState = {
         __v: 0
     },
 
-    activeTab: 'one'
+    activeTab: 'one'                                                                        // Активаная вкладка навигации в меню
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -63,7 +63,7 @@ export const cartReducer = (state = initialState, action) => {
                 itemsRequest: false
             }
         }
-        case ADD_TO_BASKET: {
+        case ADD_TO_BASKET: {                                                               // Добавление товара в корзину
             if (action.item.type === "bun") {                                               // Проверка булка или нет
                 let itemFromBasket = state.basket.find(i => i.type === "bun");
                 if (itemFromBasket) {                                                       // Если булка есть
@@ -101,7 +101,7 @@ export const cartReducer = (state = initialState, action) => {
                 }
             }
         }
-        case REMOVE_FROM_BASKET: {
+        case REMOVE_FROM_BASKET: {                                                          // Удаление товара из корзины
             if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
                 state.basket.map((item) => {
                     if (item._id === action.item._id) {
@@ -119,7 +119,7 @@ export const cartReducer = (state = initialState, action) => {
                 }
             }
         }
-        case CHECKOUT_REQUEST: {
+        case CHECKOUT_REQUEST: {                                                            // Отправка заказа
             return {
                 ...state,
                 orderRequest: true
@@ -142,28 +142,28 @@ export const cartReducer = (state = initialState, action) => {
                 orderRequest: false
             }
         }
-        case CLEAR_ORDER: {
+        case CLEAR_ORDER: {                                                                 // Удаление информации о заказе
             return {
                 ...state,
                 orderInfo: {},
                 orderModalOpen: false
             }
         }
-        case VIEW_ITEM: {
+        case VIEW_ITEM: {                                                                   // Подробный просмотр товара
             return {
                 ...state,
                 viewItemElement: action.item,
                 viewItemModalOpen: true
             }
         }
-        case CLOSE_VIEW_ITEM: {
+        case CLOSE_VIEW_ITEM: {                                                             // Закрытие окна и удаление информации подробного просмотра товара
             return {
                 ...state,
                 viewItemElement: initialState.viewItemElement,
                 viewItemModalOpen: false
             }
         }
-        case SORT_BASKET: {
+        case SORT_BASKET: {                                                                 // Сортировка корзины в зависимости от перемещенных элементов
             let tempBasket = [...state.basket];
             tempBasket[action.index] = tempBasket.splice(state.basket.indexOf(action.item), 1, tempBasket[action.index])[0];
             return {
@@ -171,7 +171,7 @@ export const cartReducer = (state = initialState, action) => {
                 basket: tempBasket
             };
         }
-        case CHANGE_ACTIVE_TAB: {
+        case CHANGE_ACTIVE_TAB: {                                                           // Установка активного элемента в навигации меню
             return {
                 ...state,
                 activeTab: action.activeTab

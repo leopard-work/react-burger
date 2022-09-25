@@ -63,14 +63,7 @@ const BurgerConstructor = () => {
     const cart = useSelector(state => state.cart);
     const orderItems = cart.basket;
 
-    const removeFromBasket = item => {
-        dispatch({
-            type: REMOVE_FROM_BASKET,
-            item
-        })
-    }
-
-    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={removeFromBasket}/> : '');
+    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={() => dispatch({type: REMOVE_FROM_BASKET, item})}/> : '');
     const bun = orderItems.find(item => item.type === 'bun');
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -8,41 +8,70 @@ import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/cart";
+import {CHANGE_ACTIVE_TAB, CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/cart";
 import {useDrag} from "react-dnd";
 
-const TabsNav = () => {
-    const [current, setCurrent] = React.useState('one')
-    return (
-        <div className={styles.tabs}>
-            <Tab className={styles.tab} value="one" active={current === 'one'} onClick={setCurrent}>
-                Булки
-            </Tab>
-            <Tab className={styles.tab} value="two" active={current === 'two'} onClick={setCurrent}>
-                Соусы
-            </Tab>
-            <Tab className={styles.tab} value="three" active={current === 'three'} onClick={setCurrent}>
-                Начинки
-            </Tab>
-        </div>
-    )
-}
 
 const Tabs = () => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+    const current = cart.activeTab;
+
+    const tabsNavRef = useRef(null);
+    const tabsBunRef = useRef(null);
+    const tabsSauceRef = useRef(null);
+    const tabsMainRef = useRef(null);
+
+    const updateNav = (props) => {
+        const scrollTop = tabsNavRef.current.offsetTop + tabsNavRef.current.scrollTop;
+        const coords = [tabsBunRef.current.offsetTop, tabsSauceRef.current.offsetTop, tabsMainRef.current.offsetTop];
+        if (props.selected) {
+            tabsNavRef.current.scrollTop = coords[props.selected] - tabsNavRef.current.offsetTop;
+        } else {
+            if (scrollTop < coords[2]) {
+                if (scrollTop < coords[1]) {
+                    dispatch({
+                        type: CHANGE_ACTIVE_TAB,
+                        activeTab: 'one'
+                    })
+                } else {
+                    dispatch({
+                        type: CHANGE_ACTIVE_TAB,
+                        activeTab: 'two'
+                    })
+                }
+            } else {
+                dispatch({
+                    type: CHANGE_ACTIVE_TAB,
+                    activeTab: 'three'
+                })
+            }
+        }
+    }
+
     return (
         <>
-            <div className={styles.content} data-name="tabs" id="tabs">
-                <div className="mt-10" data-name="category" data-val="bun">
+            <div className={styles.tabs}>
+                <Tab className={styles.tab} value="one" active={current === 'one'} onClick={() => updateNav({selected: '0'})}>
+                    Булки
+                </Tab>
+                <Tab className={styles.tab} value="two" active={current === 'two'} onClick={() => updateNav({selected: '1'})}>
+                    Соусы
+                </Tab>
+                <Tab className={styles.tab} value="three" active={current === 'three'} onClick={() => updateNav({selected: '2'})}>
+                    Начинки
+                </Tab>
+            </div>
+            <div className={styles.content} ref={tabsNavRef} onScroll={updateNav}>
+                <div className="mt-10" data-val="bun" ref={tabsBunRef}>
                     <h2 className="text text_type_main-medium">Булки</h2>
                     {<TabsCategory category="bun" />}
                 </div>
-                <div className="mt-10" data-name="category" data-val="sauce">
+                <div className="mt-10" data-val="sauce" ref={tabsSauceRef}>
                     <h2 className="text text_type_main-medium">Соусы</h2>
                     {<TabsCategory category="sauce" />}
                 </div>
-                <div className="mt-10" data-name="category" data-val="main">
+                <div className="mt-10" data-val="main" ref={tabsMainRef}>
                     <h2 className="text text_type_main-medium">Начинки</h2>
                     {<TabsCategory category="main" />}
                 </div>
@@ -103,11 +132,12 @@ TabsItem.propTypes = {
     item: ItemPropTypes
 }
 
+
+
 function BurgerIngredients() {
     return (
         <section className={styles.section + " mt-10"}>
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-            {<TabsNav />}
             {<Tabs />}
         </section>
     );

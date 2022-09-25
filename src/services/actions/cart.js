@@ -12,6 +12,7 @@ export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const VIEW_ITEM = 'VIEW_ITEM';
 export const CLOSE_VIEW_ITEM = 'CLOSE_VIEW_ITEM';
 export const SORT_BASKET = 'SORT_BASKET';
+export const CHANGE_ACTIVE_TAB = 'CHANGE_ACTIVE_TAB';
 
 export function getItems() {
     return function(dispatch) {

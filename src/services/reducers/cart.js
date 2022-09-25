@@ -2,7 +2,8 @@ import {
     GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,
     ADD_TO_BASKET, REMOVE_FROM_BASKET, SORT_BASKET,
     CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILED, CLEAR_ORDER,
-    VIEW_ITEM, CLOSE_VIEW_ITEM
+    VIEW_ITEM, CLOSE_VIEW_ITEM,
+    CHANGE_ACTIVE_TAB
 } from "../actions/cart";
 
 const initialState = {
@@ -34,7 +35,9 @@ const initialState = {
         image_mobile: '',
         image_large: '',
         __v: 0
-    }
+    },
+
+    activeTab: 'one'
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -167,6 +170,12 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 basket: tempBasket
             };
+        }
+        case CHANGE_ACTIVE_TAB: {
+            return {
+                ...state,
+                activeTab: action.activeTab
+            }
         }
         default: {
             return state;

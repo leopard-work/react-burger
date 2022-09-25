@@ -11,6 +11,7 @@
 .content {
     max-height: 756px;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 .content::-webkit-scrollbar {
     width: 8px;

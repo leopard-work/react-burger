@@ -7,7 +7,8 @@ import '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TO_BASKET, checkOutSend, CLEAR_ORDER, REMOVE_FROM_BASKET, SORT_BASKET} from "../../services/actions/cart";
+import {checkOutSend, CLEAR_ORDER} from "../../services/actions/order";
+import {ADD_TO_BASKET, BASKET_CLEAR, REMOVE_FROM_BASKET, SORT_BASKET} from "../../services/actions/basket";
 import {useDrag, useDrop} from "react-dnd";
 
 const ConstructorItem = (props) => {
@@ -60,8 +61,9 @@ const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
 
-    const cart = useSelector(state => state.cart);
-    const orderItems = cart.basket;
+    const basket = useSelector(state => state.basket);
+    const order = useSelector(state => state.order);
+    const orderItems = basket.basket;
 
     const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={() => dispatch({type: REMOVE_FROM_BASKET, item})}/> : '');
     const bun = orderItems.find(item => item.type === 'bun');
@@ -80,6 +82,9 @@ const BurgerConstructor = () => {
             }
         });
         const body = {ingredients: ingredients}
+        dispatch({
+            type: BASKET_CLEAR
+        })
         dispatch(checkOutSend(body));
     }
 
@@ -110,24 +115,24 @@ const BurgerConstructor = () => {
                     <span className="text text_type_digits-medium mr-2">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                {!cart.orderRequest && !cart.orderFailed &&
-                    (<Button type="primary" size="medium" onClick={checkOut} disabled={!cart.basket.length && 'disabled'}>
+                {!order.orderRequest && !order.orderFailed &&
+                    (<Button type="primary" size="medium" onClick={checkOut} disabled={!basket.basket.length && 'disabled'}>
                         Оформить заказ
                     </Button>)
                 }
-                {cart.orderRequest && !cart.orderFailed &&
+                {order.orderRequest && !order.orderFailed &&
                     <Button type="primary" size="medium" disabled="disabled">
                         Загрузка...
                     </Button>
                 }
-                {cart.orderFailed &&
-                    <Button type="primary" size="medium">
-                        Ошибка. Повторите попытку
+                {order.orderFailed &&
+                    <Button type="primary" size="medium" disabled="disabled">
+                        Ошибка. Попробуйте позже
                     </Button>
                 }
             </div>
-            <Modal isOpen={cart.orderModalOpen} close={() => dispatch({type: CLEAR_ORDER})}>
-                <OrderDetails info={cart.orderInfo} />
+            <Modal isOpen={order.orderModalOpen} close={() => dispatch({type: CLEAR_ORDER})}>
+                <OrderDetails info={order.orderInfo} />
             </Modal>
         </section>
     );

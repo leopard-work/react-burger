@@ -8,14 +8,16 @@ import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {CHANGE_ACTIVE_TAB, CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/cart";
+import {CHANGE_ACTIVE_TAB} from "../../services/actions/catalog";
+import {CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/item";
 import {useDrag} from "react-dnd";
 
 
 const Tabs = () => {
     const dispatch = useDispatch();
-    const cart = useSelector(state => state.cart);
-    const current = cart.activeTab;
+    const catalog = useSelector(state => state.catalog);
+    const viewed = useSelector(state => state.item);
+    const current = catalog.activeTab;
 
     const tabsNavRef = useRef(null);
     const tabsBunRef = useRef(null);
@@ -76,21 +78,22 @@ const Tabs = () => {
                     {<TabsCategory category="main" />}
                 </div>
             </div>
-            <Modal isOpen={cart.viewItemModalOpen} close={() => dispatch({type: CLOSE_VIEW_ITEM})}>
-                <IngredientDetails item={cart.viewItemElement} />
+            <Modal isOpen={viewed.viewItemModalOpen} close={() => dispatch({type: CLOSE_VIEW_ITEM})}>
+                <IngredientDetails item={viewed.viewItemElement} />
             </Modal>
         </>
     )
 }
 
 const TabsCategory = (props) => {
-    const cart = useSelector(state => state.cart);
-    const items = cart.items.data.filter(function(category) {
+    const catalog = useSelector(state => state.catalog);
+    const basket = useSelector(state => state.basket);
+    const items = catalog.items.data.filter(function(category) {
         return category.type === props.category;
     });
     return (
         <ul className={styles.items + " pl-4 pr-4"}>
-            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={cart.basket.find(i => i._id === item._id)} />)}
+            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={basket.basket.find(i => i._id === item._id)} />)}
         </ul>
     )
 }

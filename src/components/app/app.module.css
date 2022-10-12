@@ -10,3 +10,10 @@
     width: 100%;
     text-align: center;
 }
+.loading a {
+    color: #ffffff;
+    font-size: 16px;
+}
+.loading a:hover {
+    text-decoration: none;
+}

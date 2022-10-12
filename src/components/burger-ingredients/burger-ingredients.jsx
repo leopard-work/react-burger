@@ -1,58 +1,99 @@
-import React, {useContext, useState} from "react";
+import React, {useRef} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {BurgerIngredientsContext} from '../../services/BurgerIngredientsContext';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {CHANGE_ACTIVE_TAB} from "../../services/actions/catalog";
+import {CLOSE_VIEW_ITEM, VIEW_ITEM} from "../../services/actions/item";
+import {useDrag} from "react-dnd";
 
-const TabsNav = () => {
-    const [current, setCurrent] = React.useState('one')
-    return (
-        <div className={styles.tabs}>
-            <Tab className={styles.tab} value="one" active={current === 'one'} onClick={setCurrent}>
-                Булки
-            </Tab>
-            <Tab className={styles.tab} value="two" active={current === 'two'} onClick={setCurrent}>
-                Соусы
-            </Tab>
-            <Tab className={styles.tab} value="three" active={current === 'three'} onClick={setCurrent}>
-                Начинки
-            </Tab>
-        </div>
-    )
-}
 
 const Tabs = () => {
+    const dispatch = useDispatch();
+    const catalog = useSelector(state => state.catalog);
+    const viewed = useSelector(state => state.item);
+    const current = catalog.activeTab;
+
+    const tabsNavRef = useRef(null);
+    const tabsBunRef = useRef(null);
+    const tabsSauceRef = useRef(null);
+    const tabsMainRef = useRef(null);
+
+    const updateNav = (props) => {
+        const scrollTop = tabsNavRef.current.offsetTop + tabsNavRef.current.scrollTop;
+        const coords = [tabsBunRef.current.offsetTop, tabsSauceRef.current.offsetTop, tabsMainRef.current.offsetTop];
+        if (props.selected) {
+            tabsNavRef.current.scrollTop = coords[props.selected] - tabsNavRef.current.offsetTop;
+        } else {
+            if (scrollTop < coords[2]) {
+                if (scrollTop < coords[1]) {
+                    dispatch({
+                        type: CHANGE_ACTIVE_TAB,
+                        activeTab: 'one'
+                    })
+                } else {
+                    dispatch({
+                        type: CHANGE_ACTIVE_TAB,
+                        activeTab: 'two'
+                    })
+                }
+            } else {
+                dispatch({
+                    type: CHANGE_ACTIVE_TAB,
+                    activeTab: 'three'
+                })
+            }
+        }
+    }
+
     return (
-        <div className={styles.content }>
-            <div className={styles.content_block+ " mt-10"}>
-                <h2 className="text text_type_main-medium">Булки</h2>
-                {<TabsCategory category="bun" />}
+        <>
+            <div className={styles.tabs}>
+                <Tab className={styles.tab} value="one" active={current === 'one'} onClick={() => updateNav({selected: '0'})}>
+                    Булки
+                </Tab>
+                <Tab className={styles.tab} value="two" active={current === 'two'} onClick={() => updateNav({selected: '1'})}>
+                    Соусы
+                </Tab>
+                <Tab className={styles.tab} value="three" active={current === 'three'} onClick={() => updateNav({selected: '2'})}>
+                    Начинки
+                </Tab>
             </div>
-            <div className={styles.content_block+ " mt-10"}>
-                <h2 className="text text_type_main-medium">Соусы</h2>
-                {<TabsCategory category="sauce" />}
+            <div className={styles.content} ref={tabsNavRef} onScroll={updateNav}>
+                <div className="mt-10" data-val="bun" ref={tabsBunRef}>
+                    <h2 className="text text_type_main-medium">Булки</h2>
+                    {<TabsCategory category="bun" />}
+                </div>
+                <div className="mt-10" data-val="sauce" ref={tabsSauceRef}>
+                    <h2 className="text text_type_main-medium">Соусы</h2>
+                    {<TabsCategory category="sauce" />}
+                </div>
+                <div className="mt-10" data-val="main" ref={tabsMainRef}>
+                    <h2 className="text text_type_main-medium">Начинки</h2>
+                    {<TabsCategory category="main" />}
+                </div>
             </div>
-            <div className={styles.content_block+ " mt-10"}>
-                <h2 className="text text_type_main-medium">Начинки</h2>
-                {<TabsCategory category="main" />}
-            </div>
-        </div>
+            <Modal isOpen={viewed.viewItemModalOpen} close={() => dispatch({type: CLOSE_VIEW_ITEM})}>
+                <IngredientDetails item={viewed.viewItemElement} />
+            </Modal>
+        </>
     )
 }
 
 const TabsCategory = (props) => {
-    const {data} = useContext(BurgerIngredientsContext);
-    const items = data.filter(function(category) {
+    const catalog = useSelector(state => state.catalog);
+    const basket = useSelector(state => state.basket);
+    const items = catalog.items.data.filter(function(category) {
         return category.type === props.category;
     });
     return (
         <ul className={styles.items + " pl-4 pr-4"}>
-            {items.map((item) => <TabsItem key={item._id} item={item} />)}
+            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={basket.basket.find(i => i._id === item._id)} />)}
         </ul>
     )
 }
@@ -63,21 +104,19 @@ TabsCategory.propTypes = {
 
 
 const TabsItem = (props) => {
-    const [state, setState] = useState({
-        modalOpen: false,
-        selectedItem: ''
-    });
-    const modalChange = (props) => {
-        setState ({
-            ...state,
-            modalOpen: !state.modalOpen,
-            selectedItem: props
+    const dispatch = useDispatch();
+
+    const [{ opacity }, ref] = useDrag({
+        type: 'items',
+        item: props.item,
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.3 : 1
         })
-    }
+    });
 
     return (
         <>
-            <li className={styles.item + " mt-6"} onClick={() => modalChange(props.item)}>
+            <li className={styles.item + " mt-6"} onClick={() => dispatch({type: VIEW_ITEM, item: props.item})} ref={ref} style={{ opacity }}>
                 <div className={styles.item_image + " ml-4 mr-4"}>
                     <img src={props.item.image} alt={props.item.name} />
                 </div>
@@ -86,11 +125,8 @@ const TabsItem = (props) => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-                {props.item.count && <Counter count="{props.item.count}" size="default" />}
+                {props.basketCart && <Counter count={props.basketCart.count} size="default" />}
             </li>
-            {state.selectedItem && <Modal isOpen={state.modalOpen} close={() => modalChange(props.item)}>
-                <IngredientDetails item={state.selectedItem} />
-            </Modal>}
         </>
     )
 }
@@ -99,11 +135,12 @@ TabsItem.propTypes = {
     item: ItemPropTypes
 }
 
+
+
 function BurgerIngredients() {
     return (
         <section className={styles.section + " mt-10"}>
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-            {<TabsNav />}
             {<Tabs />}
         </section>
     );

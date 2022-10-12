@@ -17,14 +17,10 @@ function getData(method, url, body) {
         },
         body: JSON.stringify(body)
     })
-        .then((response) => {
-            if (response.ok) return response.json();
-            else return Promise.reject(`Ошибка ${response.status}`);
-        })
-        .then((responseData) => {
-            return responseData;
-        })
-        .catch((error) => { console.warn(error); })
+    .then((response) => {
+        if (response.ok) return response.json();
+        else return Promise.reject(`Ошибка ${response.status}`);
+    })
 }
 
 

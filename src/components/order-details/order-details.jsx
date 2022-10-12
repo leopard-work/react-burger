@@ -9,7 +9,7 @@ import styles from "./order-details.module.css";
 const OrderDetails = (props) => {
     return (
         <div className={styles.checkout + " pt-30 pb-30"}>
-            <p className="text text_type_digits-large mb-8">{props.number}</p>
+            <p className="text text_type_digits-large mb-8">{props.info.order.number}</p>
             <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
             <div className={styles.done + " mb-15"}>
                 <CheckMarkIcon type="primary"/>
@@ -22,7 +22,7 @@ const OrderDetails = (props) => {
 }
 
 OrderDetails.propTypes = {
-    number: PropTypes.number.isRequired
+    info: PropTypes.object.isRequired
 }
 
 export default OrderDetails;

@@ -2,7 +2,7 @@
     width: calc(50% - 20px);
 }
 .content {
-    max-height: 455px;
+    max-height: 520px;
     overflow-y: scroll;
     padding-left: 0px;
 }
@@ -38,5 +38,12 @@
     height: 36px;
 }
 .drag {
-    cursor: pointer;
+    cursor: move;
+}
+.items {
+    transition: all 0.3s;
+    height: 700px;
+}
+.active {
+    opacity: 0.3;
 }

@@ -11,6 +11,7 @@
 .content {
     max-height: 756px;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 .content::-webkit-scrollbar {
     width: 8px;
@@ -31,6 +32,7 @@
     min-height: 208px;
     position: relative;
     cursor: pointer;
+    transition: all 0.3s;
 }
 .item_price {
     display: flex;
@@ -40,5 +42,4 @@
     text-align: center;
 }
 .item_image {
-
 }

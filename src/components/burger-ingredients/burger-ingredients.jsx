@@ -1,8 +1,8 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useHistory, useLocation  } from 'react-router-dom';
+import {useHistory, useLocation, useParams} from 'react-router-dom';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -24,6 +24,14 @@ const Tabs = () => {
     const tabsBunRef = useRef(null);
     const tabsSauceRef = useRef(null);
     const tabsMainRef = useRef(null);
+
+    const location = useLocation();
+    const history = useHistory();
+    const { id } = useParams();
+
+    useEffect(() => {
+        if (location.state) dispatch({type: VIEW_ITEM, item: catalog.items.data.find(item => item._id === id)});
+    },[location.state, id, dispatch, catalog.items.data])
 
     const updateNav = (props) => {
         const scrollTop = tabsNavRef.current.offsetTop + tabsNavRef.current.scrollTop;
@@ -50,6 +58,11 @@ const Tabs = () => {
                 })
             }
         }
+    }
+
+    const modalClose = () => {
+        dispatch({type: CLOSE_VIEW_ITEM});
+        history.push('/');
     }
 
     return (
@@ -79,7 +92,7 @@ const Tabs = () => {
                     {<TabsCategory category="main" />}
                 </div>
             </div>
-            <Modal isOpen={viewed.viewItemModalOpen} close={() => dispatch({type: CLOSE_VIEW_ITEM})}>
+            <Modal isOpen={viewed.viewItemModalOpen} close={() => modalClose()}>
                 <IngredientDetails item={viewed.viewItemElement} />
             </Modal>
         </>
@@ -119,8 +132,7 @@ const TabsItem = (props) => {
 
     const openItem= (item) => {
         dispatch({type: VIEW_ITEM, item: props.item});
-        history.replace("/ingredients/60d3b41abdacab0026a733c6", {modal: true});
-        //"60d3b41abdacab0026a733c6"
+        history.replace(`/ingredients/${props.item._id}`, {modal: true});
     }
 
     return (

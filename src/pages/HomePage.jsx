@@ -4,6 +4,7 @@ import BurgerConstructor from "../components/burger-constructor/burger-construct
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../components/app/app.module.css";
+import stylesDetails from "../components/ingredient-details/ingredient-details.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {getItems} from "../services/actions/catalog";
 import {DndProvider} from "react-dnd";
@@ -35,9 +36,11 @@ function HomePage(props) {
         return (
             <>
                 {catalog.items.success && !catalog.itemsFailed &&
-                <div className="container pl-4 pr-4">
-                    <IngredientDetails item={catalog.items.data.find(item => item._id === id)} />
-                </div>
+                    <div className="container pl-4 pr-4">
+                        <div className={stylesDetails.page}>
+                            <IngredientDetails item={catalog.items.data.find(item => item._id === id)} />
+                        </div>
+                    </div>
                 }
                 {!catalog.items.success && !catalog.itemsFailed && loadingContent()}
                 {catalog.itemsFailed && errorContent()}
@@ -49,7 +52,7 @@ function HomePage(props) {
         <>
             <main className={styles.main + " pb-10"}>
                 {catalog.items.success && !catalog.itemsFailed &&
-                <div className="container pl-4 pr-4">
+                <div className="container pl-4 pr-4 cnt">
                     <div className={styles.blocks}>
                         <DndProvider backend={HTML5Backend}>
                             <BurgerIngredients/>

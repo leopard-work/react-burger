@@ -2,6 +2,7 @@ import React, {useRef} from "react";
 import {ItemPropTypes} from "../../utils/data";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useHistory, useLocation  } from 'react-router-dom';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab, CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -114,9 +115,17 @@ const TabsItem = (props) => {
         })
     });
 
+    const history = useHistory();
+
+    const openItem= (item) => {
+        dispatch({type: VIEW_ITEM, item: props.item});
+        history.replace("/ingredients/60d3b41abdacab0026a733c6", {modal: true});
+        //"60d3b41abdacab0026a733c6"
+    }
+
     return (
         <>
-            <li className={styles.item + " mt-6"} onClick={() => dispatch({type: VIEW_ITEM, item: props.item})} ref={ref} style={{ opacity }}>
+            <li className={styles.item + " mt-6"} onClick={() => openItem(props.item)} ref={ref} style={{ opacity }}>
                 <div className={styles.item_image + " ml-4 mr-4"}>
                     <img src={props.item.image} alt={props.item.name} />
                 </div>

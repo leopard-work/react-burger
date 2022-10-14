@@ -8,15 +8,42 @@ import {useDispatch, useSelector} from "react-redux";
 import {getItems} from "../services/actions/catalog";
 import {DndProvider} from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import {useLocation, useParams} from "react-router-dom";
+import IngredientDetails from "../components/ingredient-details/ingredient-details";
 
-function HomePage() {
+
+function HomePage(props) {
 
     const dispatch = useDispatch();
     const catalog  = useSelector(state => state.catalog);
 
+    const location = useLocation();
+    const { id } = useParams();
+
+    const loadingContent = () => {
+        return (<div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>);
+    }
+    const errorContent = () => {
+        return (<div className={`${styles.loading} text text_type_main-medium`}>Ошибка. Повторите попытку ...</div>);
+    }
+
     useEffect(() => {
         dispatch(getItems());
     }, [dispatch]);
+
+    if (props.openItem && !location.state) {
+        return (
+            <>
+                {catalog.items.success && !catalog.itemsFailed &&
+                <div className="container pl-4 pr-4">
+                    <IngredientDetails item={catalog.items.data.find(item => item._id === id)} />
+                </div>
+                }
+                {!catalog.items.success && !catalog.itemsFailed && loadingContent()}
+                {catalog.itemsFailed && errorContent()}
+            </>
+        )
+    }
 
     return (
         <>
@@ -31,12 +58,8 @@ function HomePage() {
                     </div>
                 </div>
                 }
-                {!catalog.items.success && !catalog.itemsFailed &&
-                <div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>
-                }
-                {catalog.itemsFailed &&
-                <div className={`${styles.loading} text text_type_main-medium`}>Ошибка. Повторите попытку ...</div>
-                }
+                {!catalog.items.success && !catalog.itemsFailed && loadingContent()}
+                {catalog.itemsFailed && errorContent()}
             </main>
         </>
     );

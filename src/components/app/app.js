@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, useHistory, useLocation} from 'react-router-dom';
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app.module.css";
@@ -14,6 +14,7 @@ import ResetPage from "../../pages/ResetPage";
 import ProfilePage from "../../pages/ProfilePage";
 import OrdersPage from "../../pages/OrdrersPage";
 import FeedPage from "../../pages/FeedPage";
+import IngredientDetailsPage from "../../pages/IngredientDetailsPage";
 
 function App() {
 
@@ -25,6 +26,9 @@ function App() {
                   <Switch>
                       <Route path="/" exact={true}>
                           <HomePage />
+                      </Route>
+                      <Route path="/ingredients/:id" exact={true}>
+                          <HomePage openItem="true" />
                       </Route>
                       <Route path="/login" exact={true}>
                           <LoginPage />

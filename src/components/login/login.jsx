@@ -30,9 +30,9 @@ const Login = ({ type }) => {
                 </div>
                 <div className="mb-20"><Button type="primary" size="medium" htmlType="submit">Войти</Button></div>
                 <p className="text text_type_main-default text_color_inactive mb-4">Вы — новый пользователь? <Link
-                    className={styles.link} to="/">Зарегистрироваться</Link></p>
+                    className={styles.link} to="/register">Зарегистрироваться</Link></p>
                 <p className="text text_type_main-default text_color_inactive">Забыли пароль? <Link
-                    className={styles.link} to="/">Восстановить пароль</Link></p>
+                    className={styles.link} to="/forgot-password">Восстановить пароль</Link></p>
             </div>
         );
     }
@@ -57,7 +57,7 @@ const Login = ({ type }) => {
                 <div className="mb-6"><PasswordInput onChange={onChangeValues} value={values.password} name={'password'}/></div>
                 <div className="mb-20"><Button type="primary" size="medium" htmlType="submit">Зарегистрироваться</Button></div>
                 <p className="text text_type_main-default text_color_inactive mb-4">Уже зарегистрированы? <Link
-                    className={styles.link} to="/">Войти</Link></p>
+                    className={styles.link} to="/login">Войти</Link></p>
             </div>
         );
     }
@@ -69,7 +69,7 @@ const Login = ({ type }) => {
                 <div className="mb-6"><EmailInput onChange={onChangeValues} value={values.email} name={'email'}/></div>
                 <div className="mb-20"><Button type="primary" size="medium"  htmlType="submit">Восстановить</Button></div>
                 <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
-                    className={styles.link} to="/">Войти</Link></p>
+                    className={styles.link} to="/login">Войти</Link></p>
             </div>
         );
     }
@@ -93,7 +93,7 @@ const Login = ({ type }) => {
                 </div>
                 <div className="mb-20"><Button type="primary" size="medium" htmlType="submit">Сохранить</Button></div>
                 <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
-                    className={styles.link} to="/">Войти</Link></p>
+                    className={styles.link} to="/login">Войти</Link></p>
             </div>
         );
     }

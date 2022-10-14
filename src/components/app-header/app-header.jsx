@@ -1,35 +1,36 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./app-header.module.css";
 
 const AppHeader = () => {
-  return (
+    return (
       <header className={headerStyles.header}>
           <div className="container">
               <div className={headerStyles.header_blocks + " pt-4 pb-4"}>
-                  <div className={headerStyles.logo}>
+                  <NavLink to="/" className={headerStyles.logo}>
                       <Logo />
-                  </div>
+                  </NavLink>
                   <div className={headerStyles.left_btns}>
-                      <a href="/" className={headerStyles.btn + " p-4 mr-2 " + headerStyles.btn_active}>
-                          <BurgerIcon type="primary" />
+                      <NavLink to="/" exact className={isActive => headerStyles.btn + " p-4 mr-2 " + (isActive ? headerStyles.btn_active : '')}>
+                          <BurgerIcon type="secondary" />
                           <span className="text text_type_main-default ml-2">Конструктор</span>
-                      </a>
-                      <a href="/" className={headerStyles.btn + " p-4 mr-2"}>
+                      </NavLink>
+                      <NavLink to="/orders" className={headerStyles.btn + " p-4 mr-2"}>
                           <ListIcon type="secondary" />
                           <span className="text text_type_main-default ml-2">Лента заказов</span>
-                      </a>
+                      </NavLink>
                   </div>
-                  <a href="/" className={headerStyles.btn + " p-4 mr-2"}>
+                  <NavLink to="/profile" className={isActive => headerStyles.btn + " p-4 mr-2 " + (isActive ? headerStyles.btn_active : '')}>
                       <ProfileIcon type="secondary" />
                       <span className="text text_type_main-default ml-2">Личный кабинет</span>
-                  </a>
+                  </NavLink>
               </div>
           </div>
       </header>
-  );
+    );
 }
 
 export default AppHeader;

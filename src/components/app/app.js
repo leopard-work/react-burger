@@ -8,14 +8,17 @@ import AppHeader from "../app-header/app-header";
 import HomePage from "../../pages/HomePage";
 import Page404 from "../../pages/Page404";
 import LoginPage from "../../pages/LoginPage";
+import RegisterPage from "../../pages/RegisterPage";
+import ForgotPage from "../../pages/ForgotPage";
+import ResetPage from "../../pages/ResetPage";
 
 function App() {
 
     return (
       <>
-          <AppHeader />
-          <main className={styles.main + " pb-10"}>
-              <Router>
+          <Router>
+              <AppHeader />
+              <main className={styles.main + " pb-10"}>
                   <Switch>
                       <Route path="/" exact={true}>
                           <HomePage />
@@ -23,12 +26,24 @@ function App() {
                       <Route path="/login" exact={true}>
                           <LoginPage />
                       </Route>
+                      <Route path="/register" exact={true}>
+                          <RegisterPage />
+                      </Route>
+                      <Route path="/forgot-password" exact={true}>
+                          <ForgotPage />
+                      </Route>
+                      <Route path="/reset-password" exact={true}>
+                          <ResetPage />
+                      </Route>
+                      <Route path="/profile" exact={true}>
+                          <LoginPage />
+                      </Route>
                       <Route>
                           <Page404 />
                       </Route>
                   </Switch>
-              </Router>
-          </main>
+              </main>
+          </Router>
       </>
     );
 }

@@ -17,3 +17,6 @@
 .loading a:hover {
     text-decoration: none;
 }
+.link {
+    color: #8585AD !important;
+}

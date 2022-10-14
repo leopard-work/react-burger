@@ -11,6 +11,9 @@ import LoginPage from "../../pages/LoginPage";
 import RegisterPage from "../../pages/RegisterPage";
 import ForgotPage from "../../pages/ForgotPage";
 import ResetPage from "../../pages/ResetPage";
+import ProfilePage from "../../pages/ProfilePage";
+import OrdersPage from "../../pages/OrdrersPage";
+import FeedPage from "../../pages/FeedPage";
 
 function App() {
 
@@ -36,7 +39,13 @@ function App() {
                           <ResetPage />
                       </Route>
                       <Route path="/profile" exact={true}>
-                          <LoginPage />
+                          <ProfilePage />
+                      </Route>
+                      <Route path="/profile/orders" exact={true}>
+                          <OrdersPage />
+                      </Route>
+                      <Route path="/feed" exact={true}>
+                          <FeedPage />
                       </Route>
                       <Route>
                           <Page404 />

@@ -18,7 +18,7 @@ const AppHeader = () => {
                           <BurgerIcon type="secondary" />
                           <span className="text text_type_main-default ml-2">Конструктор</span>
                       </NavLink>
-                      <NavLink to="/orders" className={headerStyles.btn + " p-4 mr-2"}>
+                      <NavLink to="/feed" className={isActive => headerStyles.btn + " p-4 mr-2 " + (isActive ? headerStyles.btn_active : '')}>
                           <ListIcon type="secondary" />
                           <span className="text text_type_main-default ml-2">Лента заказов</span>
                       </NavLink>

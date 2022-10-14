@@ -2,11 +2,11 @@ import React from "react";
 import Profile from "../components/profile/profile";
 
 
-function LoginPage() {
+function OrdersPage() {
     return (
-        <Profile type="setup" />
+        <Profile type="orders" />
     );
 }
 
 
-export default LoginPage;
+export default OrdersPage;

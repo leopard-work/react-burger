@@ -12,6 +12,7 @@
 }
 .sidebar ul {
     padding-left: 0px;
+    margin: 0;
 }
 .sidebar ul li a {
     text-decoration: none;
@@ -33,4 +34,16 @@
 }
 .info {
     opacity: 0.4;
+}
+.setup {
+    width: 480px;
+    margin-top: 120px;
+}
+.setup_buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
 }

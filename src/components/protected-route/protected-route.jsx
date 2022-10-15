@@ -1,49 +1,27 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Redirect, Route} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {tokenUser} from "../../services/actions/user";
+import {useSelector} from "react-redux";
 import Cookies from 'js-cookie';
-import styles from "../app/app.module.css";
 
 const ProtectedRoute = ({path, children}) => {
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
 
-    const init = async () => {
-        if (!user.user && Cookies.get('token')) {
-            const body = {token: Cookies.get('token')}
-            await dispatch(tokenUser(body));
-        }
-    };
-
-    useEffect(() => {
-        init();
-    }, []);
-
-    if (user.tokenRequest || user.userInfoRequest) {
+    if (user.user) {
         return (
-            <div className={`${styles.loading} text text_type_main-medium`}>Загрузка ...</div>
+            <Route path={path} exact={true}>
+                {children}
+            </Route>
+        );
+    } else {
+        if (user.tokenSuccess || !Cookies.get('token'))
+        return (
+            <Redirect
+                to={{
+                    pathname: "/login"
+                }}
+            />
         );
     }
-    else {
-        if (user.user) {
-            return (
-                <Route path={path} exact={true}>
-                    {children}
-                </Route>
-            );
-        } else {
-            return (
-                <div>redirect</div>
-                // <Redirect
-                //     to={{
-                //         pathname: "/login"
-                //     }}
-                // />
-            );
-        }
-    }
-
 }
 
 export default ProtectedRoute;

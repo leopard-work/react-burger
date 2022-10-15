@@ -20,7 +20,7 @@ import {
     GET_LOGOUT_SUCCESS,
     GET_LOGOUT_FAILED,
     GET_FORGOT_REQUEST,
-    GET_FORGOT_SUCCESS, GET_FORGOT_FAILED, SET_FORGOT_EMAIL
+    GET_FORGOT_SUCCESS, GET_FORGOT_FAILED, SET_FORGOT_EMAIL, GET_RESET_REQUEST, GET_RESET_SUCCESS, GET_RESET_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -48,7 +48,10 @@ const initialState = {
     forgotRequest: false,
     forgotFailed: false,
     forgotSuccess: false,
-    forgotEmail: ''
+    forgotEmail: '',
+    resetRequest: false,
+    resetFailed: false,
+    resetSuccess: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -93,7 +96,8 @@ export const userReducer = (state = initialState, action) => {
                 refreshToken: action.data.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
-                loginSuccess: true
+                loginSuccess: true,
+                resetSuccess: false
             }
         }
         case GET_LOGIN_FAILED: {
@@ -219,6 +223,28 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 forgotEmail: action.data
+            }
+        }
+        case GET_RESET_REQUEST: {
+            return {
+                ...state,
+                resetRequest: true
+            };
+        }
+        case GET_RESET_SUCCESS: {
+            return {
+                ...state,
+                resetRequest: false,
+                resetFailed: false,
+                resetSuccess: true,
+                forgotSuccess: false
+            }
+        }
+        case GET_RESET_FAILED: {
+            return {
+                ...state,
+                resetFailed: true,
+                resetRequest: false
             }
         }
         default: {

@@ -46,6 +46,11 @@ export function forgotUserAPI(body) {
     return getData('POST', url, body);
 }
 
+export function resetUserAPI(body) {
+    const url = "https://norma.nomoreparties.space/api/password-reset/reset";
+    return getData('POST', url, body);
+}
+
 function getData(method, url, body, auth = '') {
     return fetch(url, {
         method: method,

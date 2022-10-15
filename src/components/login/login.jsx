@@ -4,7 +4,7 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
-import {forgotUser, loginUser, registerUser} from "../../services/actions/user";
+import {forgotUser, loginUser, registerUser, resetUser} from "../../services/actions/user";
 import {useDispatch, useSelector} from "react-redux";
 
 const Login = ({ type }) => {
@@ -84,7 +84,11 @@ const Login = ({ type }) => {
             disabled: false
         })
         if (user.loginSuccess) {
-            history.replace('/');
+            setValues({
+                ...values,
+                disabled: false
+            });
+            history.goBack();
         }
     },[user])
 
@@ -140,6 +144,42 @@ const Login = ({ type }) => {
                 ...values,
                 error: true,
                 errorText: 'Введите вашу почту',
+            })
+        }
+    }
+
+
+    // ИЗМЕНЕНИЕ ПАРОЛЯ
+
+    useEffect(() => {
+        if (user.resetFailed) setValues({
+            ...values,
+            error: true,
+            errorText: 'Неверная почта или код',
+            disabled: false
+        })
+        if (user.resetSuccess) {
+            history.replace('/login');
+        }
+    },[user])
+
+    const resetSend = e => {
+        e.preventDefault();
+        setValues({
+            ...values,
+            disabled: true
+        });
+        if (e.target.password.value && e.target.code.value) {
+            const body = {
+                password: e.target.password.value,
+                token: e.target.code.value,
+            }
+            dispatch(resetUser(body));
+        } else {
+            setValues({
+                ...values,
+                error: true,
+                errorText: 'Требуется заполнить все поля',
             })
         }
     }
@@ -217,22 +257,27 @@ const Login = ({ type }) => {
         return (
             <div className={styles.container}>
                 <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
-                <div className="mb-6"><PasswordInput onChange={onChangeValues} value={values.password} name={'password'} placeholder={'Введите новый пароль'}/></div>
-                <div className="mb-6">
-                    <Input
-                        type={'text'}
-                        placeholder={'Введите код из письма'}
-                        onChange={onChangeValues}
-                        value={values.code}
-                        name={'code'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                <div className="mb-20"><Button type="primary" size="medium" htmlType="submit">Сохранить</Button></div>
-                <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
-                    className={styles.link} to="/login">Войти</Link></p>
+                {values.error ? (
+                    <p className="text text_type_main-default mb-4">{values.errorText}</p>
+                ) : ''}
+                <form onSubmit={resetSend}>
+                    <div className="mb-6"><PasswordInput onChange={onChangeValues} value={values.password} name={'password'} placeholder={'Введите новый пароль'}/></div>
+                    <div className="mb-6">
+                        <Input
+                            type={'text'}
+                            placeholder={'Введите код из письма'}
+                            onChange={onChangeValues}
+                            value={values.code}
+                            name={'code'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
+                    <div className="mb-20"><Button type="primary" size="medium" htmlType="submit"  disabled={values.disabled}>Сохранить</Button></div>
+                    <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
+                        className={styles.link} to="/login">Войти</Link></p>
+                </form>
             </div>
         );
     }

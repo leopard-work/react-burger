@@ -3,7 +3,7 @@ import {
     infoUserAPI,
     loginUserAPI,
     logoutUserAPI,
-    registerUserAPI,
+    registerUserAPI, resetUserAPI,
     tokenUserAPI,
     updateUserAPI
 } from "../../utils/api";
@@ -30,6 +30,9 @@ export const GET_FORGOT_REQUEST = 'GET_FORGOT_REQUEST';
 export const GET_FORGOT_SUCCESS = 'GET_FORGOT_SUCCESS';
 export const GET_FORGOT_FAILED = 'GET_FORGOT_FAILED';
 export const SET_FORGOT_EMAIL = 'SET_FORGOT_EMAIL';
+export const GET_RESET_REQUEST = 'GET_RESET_REQUEST';
+export const GET_RESET_SUCCESS = 'GET_RESET_SUCCESS';
+export const GET_RESET_FAILED = 'GET_RESET_FAILED';
 
 export function registerUser(body) {
     return function(dispatch) {
@@ -120,6 +123,18 @@ export function forgotUser(body) {
             else dispatch({type: GET_FORGOT_FAILED});
         }).catch(() => {
             dispatch({type: GET_FORGOT_FAILED});
+        })
+    };
+}
+
+export function resetUser(body) {
+    return function(dispatch) {
+        dispatch({type: GET_RESET_REQUEST});
+        resetUserAPI(body).then((data) => {
+            if (data.success) dispatch({type: GET_RESET_SUCCESS});
+            else dispatch({type: GET_RESET_FAILED});
+        }).catch(() => {
+            dispatch({type: GET_RESET_FAILED});
         })
     };
 }

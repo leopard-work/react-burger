@@ -18,12 +18,24 @@ export function loginUserAPI(body) {
     return getData('POST', url, body);
 }
 
-function getData(method, url, body) {
+export function tokenUserAPI(body) {
+    const url = "https://norma.nomoreparties.space/api/auth/token";
+    return getData('POST', url, body);
+}
+
+export function infoUserAPI(body, token) {
+    const url = "https://norma.nomoreparties.space/api/auth/user";
+    const auth = 'Bearer ' + token;
+    return getData('GET', url, undefined, auth);
+}
+
+function getData(method, url, body, auth = '') {
     return fetch(url, {
         method: method,
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': auth
         },
         body: JSON.stringify(body)
     })
@@ -42,7 +54,6 @@ function getData(method, url, body) {
     })
     .catch((e) => {
         console.log('Error: ' + e.message);
-        console.log(e.response);
         return e.response;
     });
 }

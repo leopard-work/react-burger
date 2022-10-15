@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
 import {NavLink} from "react-router-dom";
-import {Button, EditIcon, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const Profile = ({ type }) => {
 

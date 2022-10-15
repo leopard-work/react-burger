@@ -18,6 +18,7 @@ import ProtectedRoute from "../protected-route/protected-route";
 import Cookies from "js-cookie";
 import {tokenUser} from "../../services/actions/user";
 import {useDispatch, useSelector} from "react-redux";
+import AuthRoute from "../auth-route/auth-route";
 
 function App() {
 
@@ -52,18 +53,18 @@ function App() {
                             <Route path="/ingredients/:id" exact={true}>
                                 <HomePage openItem="true" />
                             </Route>
-                            <Route path="/login" exact={true}>
+                            <AuthRoute path="/login" exact={true}>
                                 <LoginPage />
-                            </Route>
-                            <Route path="/register" exact={true}>
+                            </AuthRoute>
+                            <AuthRoute path="/register" exact={true}>
                                 <RegisterPage />
-                            </Route>
-                            <Route path="/forgot-password" exact={true}>
+                            </AuthRoute>
+                            <AuthRoute path="/forgot-password" exact={true}>
                                 <ForgotPage />
-                            </Route>
-                            <Route path="/reset-password" exact={true}>
+                            </AuthRoute>
+                            <AuthRoute path="/reset-password" exact={true} page="resetPage">
                                 <ResetPage />
-                            </Route>
+                            </AuthRoute>
 
                             <ProtectedRoute path="/profile" exact={true}>
                                 <ProfilePage />

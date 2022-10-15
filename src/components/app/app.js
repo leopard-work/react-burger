@@ -14,6 +14,7 @@ import ResetPage from "../../pages/ResetPage";
 import ProfilePage from "../../pages/ProfilePage";
 import OrdersPage from "../../pages/OrdrersPage";
 import FeedPage from "../../pages/FeedPage";
+import ProtectedRoute from "../protected-route/protected-route";
 
 function App() {
 
@@ -41,12 +42,14 @@ function App() {
                       <Route path="/reset-password" exact={true}>
                           <ResetPage />
                       </Route>
-                      <Route path="/profile" exact={true}>
+
+                      <ProtectedRoute path="/profile" exact={true}>
                           <ProfilePage />
-                      </Route>
-                      <Route path="/profile/orders" exact={true}>
+                      </ProtectedRoute>
+                      <ProtectedRoute path="/profile/orders" exact={true}>
                           <OrdersPage />
-                      </Route>
+                      </ProtectedRoute>
+
                       <Route path="/feed" exact={true}>
                           <FeedPage />
                       </Route>

@@ -29,6 +29,13 @@ export function infoUserAPI(body, token) {
     return getData('GET', url, undefined, auth);
 }
 
+export function updateUserAPI(body, auth) {
+    const url = "https://norma.nomoreparties.space/api/auth/user";
+    auth = 'Bearer ' + auth;
+    console.log(auth);
+    return getData('PATCH', url, body, auth);
+}
+
 function getData(method, url, body, auth = '') {
     return fetch(url, {
         method: method,

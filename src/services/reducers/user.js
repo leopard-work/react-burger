@@ -12,7 +12,10 @@ import {
     GET_TOKEN_REQUEST,
     GET_USERINFO_FAILED,
     GET_USERINFO_SUCCESS,
-    GET_USERINFO_REQUEST
+    GET_USERINFO_REQUEST,
+    GET_UPDATEUSER_REQUEST,
+    GET_UPDATEUSER_SUCCESS,
+    GET_UPDATEUSER_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -30,7 +33,10 @@ const initialState = {
     tokenSuccess: false,
     userInfoRequest: false,
     userInfoFailed: false,
-    userInfoSuccess: false
+    userInfoSuccess: false,
+    updateUserRequest: false,
+    updateUserFailed: false,
+    updateUserSuccess: false
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -110,7 +116,6 @@ export const userReducer = (state = initialState, action) => {
             }
         }
         case GET_USERINFO_REQUEST: {
-            console.log('x');
             return {
                 ...state,
                 userInfoRequest: true
@@ -130,6 +135,28 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 userInfoFailed: true,
                 userInfoRequest: false
+            }
+        }
+        case GET_UPDATEUSER_REQUEST: {
+            return {
+                ...state,
+                updateUserRequest: true
+            };
+        }
+        case GET_UPDATEUSER_SUCCESS: {
+            return {
+                ...state,
+                user: action.data.user,
+                updateUserRequest: false,
+                updateUserFailed: false,
+                updateUserSuccess: true
+            }
+        }
+        case GET_UPDATEUSER_FAILED: {
+            return {
+                ...state,
+                updateUserFailed: true,
+                updateUserRequest: false
             }
         }
         default: {

@@ -5,10 +5,10 @@ export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILED = 'CHECKOUT_FAILED';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 
-export function checkOutSend(body) {                                // Отправка заказа
+export function checkOutSend(body, token) {                                // Отправка заказа
     return function(dispatch) {
         dispatch({type: CHECKOUT_REQUEST});
-        createOrder(body).then((data) => {
+        createOrder(body, token).then((data) => {
             dispatch({type: CHECKOUT_SUCCESS, order: data});
         }).catch(() => {
             dispatch({type: CHECKOUT_FAILED});

@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {checkOutSend, CLEAR_ORDER} from "../../services/actions/order";
 import {ADD_TO_BASKET, BASKET_CLEAR, REMOVE_FROM_BASKET, SORT_BASKET} from "../../services/actions/basket";
 import {useDrag, useDrop} from "react-dnd";
+import {useHistory} from "react-router-dom";
 
 const ConstructorItem = (props) => {
     const dispatch = useDispatch();
@@ -60,9 +61,11 @@ ConstructorItem.propTypes = {
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const basket = useSelector(state => state.basket);
     const order = useSelector(state => state.order);
+    const user = useSelector(state => state.user);
     const orderItems = basket.basket;
 
     const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={() => dispatch({type: REMOVE_FROM_BASKET, item})}/> : '');
@@ -74,18 +77,23 @@ const BurgerConstructor = () => {
     }, initialValue)
 
     const checkOut = () => {
-        const ingredients = [];
-        orderItems.forEach(item => {
-            for (let i = 0; i < item.count; i++) {
-                ingredients.push(item._id);
-                if (item.type === 'bun') ingredients.push(item._id);
-            }
-        });
-        const body = {ingredients: ingredients}
-        dispatch({
-            type: BASKET_CLEAR
-        })
-        dispatch(checkOutSend(body));
+        if (!user.accessToken) {
+            history.push('/login');
+        }
+        else {
+            const ingredients = [];
+            orderItems.forEach(item => {
+                for (let i = 0; i < item.count; i++) {
+                    ingredients.push(item._id);
+                    if (item.type === 'bun') ingredients.push(item._id);
+                }
+            });
+            const body = {ingredients: ingredients}
+            dispatch({
+                type: BASKET_CLEAR
+            })
+            dispatch(checkOutSend(body, user.accessToken));
+        }
     }
 
     const [{ active }, drop] = useDrop({

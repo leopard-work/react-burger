@@ -3,9 +3,10 @@ export function loadIngredients() {
     return getData('GET', url);
 }
 
-export function createOrder(body) {
+export function createOrder(body, token) {
     const url = "https://norma.nomoreparties.space/api/orders";
-    return getData('POST', url, body);
+    const auth = 'Bearer ' + token;
+    return getData('POST', url, body, auth);
 }
 
 export function registerUserAPI(body) {
@@ -32,7 +33,6 @@ export function infoUserAPI(body, token) {
 export function updateUserAPI(body, auth) {
     const url = "https://norma.nomoreparties.space/api/auth/user";
     auth = 'Bearer ' + auth;
-    console.log(auth);
     return getData('PATCH', url, body, auth);
 }
 

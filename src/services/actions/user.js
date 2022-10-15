@@ -77,7 +77,6 @@ export function infoUser(body, token) {
     return function(dispatch) {
         dispatch({type: GET_USERINFO_REQUEST});
         infoUserAPI(body, token).then((data) => {
-            console.log(data);
             if (data.success) dispatch({type: GET_USERINFO_SUCCESS, data: data});
             else dispatch({type: GET_USERINFO_FAILED});
         }).catch(() => {

@@ -4,7 +4,7 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
-import {registerUser} from "../../services/actions/user";
+import {loginUser, registerUser} from "../../services/actions/user";
 import {useDispatch, useSelector} from "react-redux";
 
 const Login = ({ type }) => {
@@ -74,6 +74,42 @@ const Login = ({ type }) => {
     }
 
 
+    // АВТОРИЗАЦИЯ
+
+    useEffect(() => {
+        if (user.loginFailed) setValues({
+            ...values,
+            error: true,
+            errorText: 'Неверная почта или пароль',
+            disabled: false
+        })
+        if (user.loginSuccess) {
+            history.replace('/');
+        }
+    },[user])
+
+    const loginSend = e => {
+        e.preventDefault();
+        setValues({
+            ...values,
+            disabled: true
+        });
+        if (e.target.email.value && e.target.password.value) {
+            const body = {
+                email: e.target.email.value,
+                password: e.target.password.value
+            }
+            dispatch(loginUser(body));
+        } else {
+            setValues({
+                ...values,
+                error: true,
+                errorText: 'Требуется заполнить все поля',
+            })
+        }
+    }
+
+
 
     
 
@@ -81,14 +117,19 @@ const Login = ({ type }) => {
         return (
             <div className={styles.container}>
                 <div className="text text_type_main-medium mb-6">Вход</div>
+                {values.error ? (
+                    <p className="text text_type_main-default mb-4">{values.errorText}</p>
+                ) : ''}
+                <form onSubmit={loginSend}>
                 <div className="mb-6"><EmailInput onChange={onChangeValues} value={values.email} name={'email'}/></div>
                 <div className="mb-6"><PasswordInput onChange={onChangeValues} value={values.password} name={'password'}/>
                 </div>
-                <div className="mb-20"><Button type="primary" size="medium" htmlType="submit">Войти</Button></div>
+                <div className="mb-20"><Button type="primary" size="medium" disabled={values.disabled} htmlType="submit">Войти</Button></div>
                 <p className="text text_type_main-default text_color_inactive mb-4">Вы — новый пользователь? <Link
                     className={styles.link} to="/register">Зарегистрироваться</Link></p>
                 <p className="text text_type_main-default text_color_inactive">Забыли пароль? <Link
                     className={styles.link} to="/forgot-password">Восстановить пароль</Link></p>
+                </form>
             </div>
         );
     }

@@ -13,6 +13,11 @@ export function registerUserAPI(body) {
     return getData('POST', url, body);
 }
 
+export function loginUserAPI(body) {
+    const url = "https://norma.nomoreparties.space/api/auth/login";
+    return getData('POST', url, body);
+}
+
 function getData(method, url, body) {
     return fetch(url, {
         method: method,

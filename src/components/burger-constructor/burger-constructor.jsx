@@ -124,17 +124,17 @@ const BurgerConstructor = () => {
                     <CurrencyIcon type="primary" />
                 </p>
                 {!order.orderRequest && !order.orderFailed &&
-                    (<Button type="primary" size="medium" onClick={checkOut} disabled={!basket.basket.length && 'disabled'}>
+                    (<Button type="primary" size="medium" onClick={checkOut} htmlType="submit" disabled={!basket.basket.length && 'disabled'}>
                         Оформить заказ
                     </Button>)
                 }
                 {order.orderRequest && !order.orderFailed &&
-                    <Button type="primary" size="medium" disabled="disabled">
+                    <Button type="primary" size="medium" disabled="disabled" htmlType="submit">
                         Загрузка...
                     </Button>
                 }
                 {order.orderFailed &&
-                    <Button type="primary" size="medium" disabled="disabled">
+                    <Button type="primary" size="medium" disabled="disabled" htmlType="submit">
                         Ошибка. Попробуйте позже
                     </Button>
                 }

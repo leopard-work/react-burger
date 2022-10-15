@@ -6,6 +6,7 @@ import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-deve
 import {Link, useHistory} from "react-router-dom";
 import {forgotUser, loginUser, registerUser, resetUser} from "../../services/actions/user";
 import {useDispatch, useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 const Login = ({ type }) => {
 
@@ -155,7 +156,7 @@ const Login = ({ type }) => {
         if (user.resetFailed) setValues({
             ...values,
             error: true,
-            errorText: 'Неверная почта или код',
+            errorText: 'Неверный код',
             disabled: false
         })
         if (user.resetSuccess) {
@@ -281,6 +282,10 @@ const Login = ({ type }) => {
             </div>
         );
     }
+}
+
+Login.propTypes = {
+    type: PropTypes.string.isRequired
 }
 
 export default Login;

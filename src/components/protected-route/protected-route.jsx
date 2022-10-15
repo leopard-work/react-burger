@@ -2,6 +2,7 @@ import React from "react";
 import {Redirect, Route} from "react-router-dom";
 import {useSelector} from "react-redux";
 import Cookies from 'js-cookie';
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({path, children}) => {
     const user = useSelector(state => state.user);
@@ -22,6 +23,11 @@ const ProtectedRoute = ({path, children}) => {
             />
         );
     }
+}
+
+ProtectedRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
 }
 
 export default ProtectedRoute;

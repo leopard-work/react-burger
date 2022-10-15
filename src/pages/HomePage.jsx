@@ -11,6 +11,7 @@ import {DndProvider} from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {useLocation, useParams} from "react-router-dom";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
+import Page404 from "./Page404";
 
 
 function HomePage(props) {
@@ -33,19 +34,28 @@ function HomePage(props) {
     }, [dispatch]);
 
     if (props.openItem && !location.state) {
-        return (
-            <>
-                {catalog.items.success && !catalog.itemsFailed &&
+        if (catalog.items.success && !catalog.itemsFailed) {
+            const item = catalog.items.data.find(item => item._id === id);
+            if (item) {
+                return (
                     <div className="container pl-4 pr-4">
                         <div className={stylesDetails.page}>
                             <IngredientDetails item={catalog.items.data.find(item => item._id === id)} />
                         </div>
                     </div>
-                }
-                {!catalog.items.success && !catalog.itemsFailed && loadingContent()}
-                {catalog.itemsFailed && errorContent()}
-            </>
-        )
+                )
+            }
+            else {
+                return (<Page404 />);
+            }
+        } else {
+            return (
+                <>
+                    {!catalog.items.success && !catalog.itemsFailed && loadingContent()}
+                    {catalog.itemsFailed && errorContent()}
+                </>
+            )
+        }
     }
 
     return (

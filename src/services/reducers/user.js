@@ -177,19 +177,10 @@ export const userReducer = (state = initialState, action) => {
         }
         case GET_LOGOUT_REQUEST: {
             Cookies.remove('token');
-            return {
-                ...state,
-                logoutRequest: true
-            };
+            return initialState;
         }
         case GET_LOGOUT_SUCCESS: {
-            return {
-                ...state,
-                user: {},
-                logoutRequest: false,
-                logoutFailed: false,
-                logoutSuccess: true
-            }
+            return initialState;
         }
         case GET_LOGOUT_FAILED: {
             return {

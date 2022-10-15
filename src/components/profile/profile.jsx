@@ -2,12 +2,14 @@ import React, {useEffect, useState} from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUserAction, updateUser} from "../../services/actions/user";
+import PropTypes from "prop-types";
 
 const Profile = ({ type }) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const [editProfile, setEditProfile] = useState(false);
@@ -78,7 +80,8 @@ const Profile = ({ type }) => {
         }
     }
 
-    const logoutUser = () => {
+    const logoutUser = (e) => {
+        e.preventDefault();
         const body = {
             token: user.refreshToken
         }
@@ -141,6 +144,10 @@ const Profile = ({ type }) => {
         </div>
     );
     
+}
+
+Profile.propTypes = {
+    type: PropTypes.string.isRequired
 }
 
 export default Profile;

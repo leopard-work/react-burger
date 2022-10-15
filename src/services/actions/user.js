@@ -89,7 +89,6 @@ export function updateUser(body, auth) {
     return function(dispatch) {
         dispatch({type: GET_UPDATEUSER_REQUEST});
         updateUserAPI(body, auth).then((data) => {
-            console.log(data);
             if (data.success) dispatch({type: GET_UPDATEUSER_SUCCESS, data: data});
             else dispatch({type: GET_UPDATEUSER_FAILED});
         }).catch(() => {
@@ -102,8 +101,7 @@ export function logoutUserAction(body) {
     return function(dispatch) {
         dispatch({type: GET_LOGOUT_REQUEST});
         logoutUserAPI(body).then((data) => {
-            console.log(data);
-            if (data.success) dispatch({type: GET_UPDATEUSER_SUCCESS, data: data});
+            if (data.success) {dispatch({type: GET_LOGOUT_SUCCESS, data: data});}
             else dispatch({type: GET_LOGOUT_FAILED});
         }).catch(() => {
             dispatch({type: GET_LOGOUT_FAILED});

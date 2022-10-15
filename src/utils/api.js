@@ -36,6 +36,11 @@ export function updateUserAPI(body, auth) {
     return getData('PATCH', url, body, auth);
 }
 
+export function logoutUserAPI(body) {
+    const url = "https://norma.nomoreparties.space/api/auth/logout";
+    return getData('POST', url, body);
+}
+
 function getData(method, url, body, auth = '') {
     return fetch(url, {
         method: method,

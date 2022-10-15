@@ -15,7 +15,7 @@ import {
     GET_USERINFO_REQUEST,
     GET_UPDATEUSER_REQUEST,
     GET_UPDATEUSER_SUCCESS,
-    GET_UPDATEUSER_FAILED
+    GET_UPDATEUSER_FAILED, GET_LOGOUT_REQUEST, GET_LOGOUT_SUCCESS, GET_LOGOUT_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -36,7 +36,10 @@ const initialState = {
     userInfoSuccess: false,
     updateUserRequest: false,
     updateUserFailed: false,
-    updateUserSuccess: false
+    updateUserSuccess: false,
+    logoutRequest: false,
+    logoutFailed: false,
+    logoutSuccess: false
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -157,6 +160,29 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 updateUserFailed: true,
                 updateUserRequest: false
+            }
+        }
+        case GET_LOGOUT_REQUEST: {
+            Cookies.remove('token');
+            return {
+                ...state,
+                logoutRequest: true
+            };
+        }
+        case GET_LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                user: {},
+                logoutRequest: false,
+                logoutFailed: false,
+                logoutSuccess: true
+            }
+        }
+        case GET_LOGOUT_FAILED: {
+            return {
+                ...state,
+                logoutFailed: true,
+                logoutRequest: false
             }
         }
         default: {

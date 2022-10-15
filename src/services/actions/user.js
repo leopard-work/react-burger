@@ -1,4 +1,4 @@
-import {infoUserAPI, loginUserAPI, registerUserAPI, tokenUserAPI, updateUserAPI} from "../../utils/api";
+import {infoUserAPI, loginUserAPI, logoutUserAPI, registerUserAPI, tokenUserAPI, updateUserAPI} from "../../utils/api";
 
 export const GET_REGISTER_REQUEST = 'GET_REGISTER_REQUEST';
 export const GET_REGISTER_SUCCESS = 'GET_REGISTER_SUCCESS';
@@ -15,6 +15,9 @@ export const GET_USERINFO_FAILED = 'GET_USERINFO_FAILED';
 export const GET_UPDATEUSER_REQUEST = 'GET_UPDATEUSER_REQUEST';
 export const GET_UPDATEUSER_SUCCESS = 'GET_UPDATEUSER_SUCCESS';
 export const GET_UPDATEUSER_FAILED = 'GET_UPDATEUSER_FAILED';
+export const GET_LOGOUT_REQUEST = 'GET_LOGOUT_REQUEST';
+export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
+export const GET_LOGOUT_FAILED = 'GET_LOGOUT_FAILED';
 
 export function registerUser(body) {
     return function(dispatch) {
@@ -77,6 +80,19 @@ export function updateUser(body, auth) {
             else dispatch({type: GET_UPDATEUSER_FAILED});
         }).catch(() => {
             dispatch({type: GET_UPDATEUSER_FAILED});
+        })
+    };
+}
+
+export function logoutUserAction(body) {
+    return function(dispatch) {
+        dispatch({type: GET_LOGOUT_REQUEST});
+        logoutUserAPI(body).then((data) => {
+            console.log(data);
+            if (data.success) dispatch({type: GET_UPDATEUSER_SUCCESS, data: data});
+            else dispatch({type: GET_LOGOUT_FAILED});
+        }).catch(() => {
+            dispatch({type: GET_LOGOUT_FAILED});
         })
     };
 }

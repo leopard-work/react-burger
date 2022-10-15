@@ -5,7 +5,7 @@ import styles from "./profile.module.css";
 import {NavLink} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import {registerUser, updateUser} from "../../services/actions/user";
+import {logoutUserAction, updateUser} from "../../services/actions/user";
 
 const Profile = ({ type }) => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Profile = ({ type }) => {
             setValues({
                 ...values,
                 error: true,
-                errorText: 'Сохранение прошло успешно',
+                errorText: 'Сохранено',
                 disabled: false
             });
             setEditProfile(false);
@@ -69,7 +69,6 @@ const Profile = ({ type }) => {
                 }
             }
             dispatch(updateUser(body, user.accessToken));
-            console.log(body);
         } else {
             setValues({
                 ...values,
@@ -77,6 +76,13 @@ const Profile = ({ type }) => {
                 errorText: 'Имя или почта не могут быть пустыми',
             })
         }
+    }
+
+    const logoutUser = () => {
+        const body = {
+            token: user.refreshToken
+        }
+        dispatch(logoutUserAction(body));
     }
 
     return (
@@ -87,7 +93,7 @@ const Profile = ({ type }) => {
                     <ul>
                         <li><NavLink exact to="/profile" className="text text_type_main-medium text_color_inactive" activeClassName={styles.active}>Профиль</NavLink></li>
                         <li><NavLink exact to="/profile/orders" className="text text_type_main-medium text_color_inactive" activeClassName={styles.active}>История заказов</NavLink></li>
-                        <li><NavLink exact to="/" className="text text_type_main-medium text_color_inactive" activeClassName={styles.active}>Выход</NavLink></li>
+                        <li><a href="/" onClick={logoutUser} className="text text_type_main-medium text_color_inactive">Выход</a></li>
                     </ul>
                     <p className={styles.info + " text text_type_main-default text_color_inactive mt-20"}>
                         {type === 'setup' ? 'В этом разделе вы можете изменить свои персональные данные' : ''}

@@ -15,7 +15,12 @@ import {
     GET_USERINFO_REQUEST,
     GET_UPDATEUSER_REQUEST,
     GET_UPDATEUSER_SUCCESS,
-    GET_UPDATEUSER_FAILED, GET_LOGOUT_REQUEST, GET_LOGOUT_SUCCESS, GET_LOGOUT_FAILED
+    GET_UPDATEUSER_FAILED,
+    GET_LOGOUT_REQUEST,
+    GET_LOGOUT_SUCCESS,
+    GET_LOGOUT_FAILED,
+    GET_FORGOT_REQUEST,
+    GET_FORGOT_SUCCESS, GET_FORGOT_FAILED, SET_FORGOT_EMAIL
 } from "../actions/user";
 
 const initialState = {
@@ -39,7 +44,11 @@ const initialState = {
     updateUserSuccess: false,
     logoutRequest: false,
     logoutFailed: false,
-    logoutSuccess: false
+    logoutSuccess: false,
+    forgotRequest: false,
+    forgotFailed: false,
+    forgotSuccess: false,
+    forgotEmail: ''
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -183,6 +192,33 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 logoutFailed: true,
                 logoutRequest: false
+            }
+        }
+        case GET_FORGOT_REQUEST: {
+            return {
+                ...state,
+                forgotRequest: true
+            };
+        }
+        case GET_FORGOT_SUCCESS: {
+            return {
+                ...state,
+                forgotRequest: false,
+                forgotFailed: false,
+                forgotSuccess: true
+            }
+        }
+        case GET_FORGOT_FAILED: {
+            return {
+                ...state,
+                forgotFailed: true,
+                forgotRequest: false
+            }
+        }
+        case SET_FORGOT_EMAIL: {
+            return {
+                ...state,
+                forgotEmail: action.data
             }
         }
         default: {

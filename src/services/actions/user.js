@@ -1,4 +1,12 @@
-import {infoUserAPI, loginUserAPI, logoutUserAPI, registerUserAPI, tokenUserAPI, updateUserAPI} from "../../utils/api";
+import {
+    forgotUserAPI,
+    infoUserAPI,
+    loginUserAPI,
+    logoutUserAPI,
+    registerUserAPI,
+    tokenUserAPI,
+    updateUserAPI
+} from "../../utils/api";
 
 export const GET_REGISTER_REQUEST = 'GET_REGISTER_REQUEST';
 export const GET_REGISTER_SUCCESS = 'GET_REGISTER_SUCCESS';
@@ -18,6 +26,10 @@ export const GET_UPDATEUSER_FAILED = 'GET_UPDATEUSER_FAILED';
 export const GET_LOGOUT_REQUEST = 'GET_LOGOUT_REQUEST';
 export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
 export const GET_LOGOUT_FAILED = 'GET_LOGOUT_FAILED';
+export const GET_FORGOT_REQUEST = 'GET_FORGOT_REQUEST';
+export const GET_FORGOT_SUCCESS = 'GET_FORGOT_SUCCESS';
+export const GET_FORGOT_FAILED = 'GET_FORGOT_FAILED';
+export const SET_FORGOT_EMAIL = 'SET_FORGOT_EMAIL';
 
 export function registerUser(body) {
     return function(dispatch) {
@@ -93,6 +105,21 @@ export function logoutUserAction(body) {
             else dispatch({type: GET_LOGOUT_FAILED});
         }).catch(() => {
             dispatch({type: GET_LOGOUT_FAILED});
+        })
+    };
+}
+
+export function forgotUser(body) {
+    return function(dispatch) {
+        dispatch({type: GET_FORGOT_REQUEST});
+        forgotUserAPI(body).then((data) => {
+            if (data.success) {
+                dispatch({type: GET_FORGOT_SUCCESS, data: data});
+                dispatch({type: SET_FORGOT_EMAIL, data: body.email});
+            }
+            else dispatch({type: GET_FORGOT_FAILED});
+        }).catch(() => {
+            dispatch({type: GET_FORGOT_FAILED});
         })
     };
 }

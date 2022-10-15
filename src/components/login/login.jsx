@@ -4,7 +4,7 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
-import {loginUser, registerUser} from "../../services/actions/user";
+import {forgotUser, loginUser, registerUser} from "../../services/actions/user";
 import {useDispatch, useSelector} from "react-redux";
 
 const Login = ({ type }) => {
@@ -110,7 +110,39 @@ const Login = ({ type }) => {
     }
 
 
+    // ВОССТАНОВЛЕНИЕ ПАРОЛЯ
 
+    useEffect(() => {
+        if (user.forgotFailed) setValues({
+            ...values,
+            error: true,
+            errorText: 'Неверная почта',
+            disabled: false
+        })
+        if (user.forgotSuccess) {
+            history.replace('/reset-password');
+        }
+    },[user])
+
+    const forgotSend = e => {
+        e.preventDefault();
+        setValues({
+            ...values,
+            disabled: true
+        });
+        if (e.target.email.value) {
+            const body = {
+                email: e.target.email.value,
+            }
+            dispatch(forgotUser(body));
+        } else {
+            setValues({
+                ...values,
+                error: true,
+                errorText: 'Введите вашу почту',
+            })
+        }
+    }
     
 
     if (type === 'login') {
@@ -168,10 +200,15 @@ const Login = ({ type }) => {
         return (
             <div className={styles.container}>
                 <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
-                <div className="mb-6"><EmailInput onChange={onChangeValues} value={values.email} name={'email'}/></div>
-                <div className="mb-20"><Button type="primary" size="medium"  htmlType="submit">Восстановить</Button></div>
-                <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
-                    className={styles.link} to="/login">Войти</Link></p>
+                {values.error ? (
+                    <p className="text text_type_main-default mb-4">{values.errorText}</p>
+                ) : ''}
+                <form onSubmit={forgotSend}>
+                    <div className="mb-6"><EmailInput onChange={onChangeValues} value={values.email} name={'email'}/></div>
+                    <div className="mb-20"><Button type="primary" size="medium"  htmlType="submit" disabled={values.disabled}>Восстановить</Button></div>
+                    <p className="text text_type_main-default text_color_inactive mb-4">Вспомнили пароль? <Link
+                        className={styles.link} to="/login">Войти</Link></p>
+                </form>
             </div>
         );
     }

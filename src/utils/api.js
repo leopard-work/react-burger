@@ -1,53 +1,55 @@
+const BASE_URL = 'https://norma.nomoreparties.space/api/';
+
 export function loadIngredients() {
-    const url = "https://norma.nomoreparties.space/api/ingredients";
+    const url = `${BASE_URL}ingredients`;
     return getData('GET', url);
 }
 
 export function createOrder(body, token) {
-    const url = "https://norma.nomoreparties.space/api/orders";
+    const url = `${BASE_URL}orders`;
     const auth = 'Bearer ' + token;
     return getData('POST', url, body, auth);
 }
 
 export function registerUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/auth/register";
+    const url = `${BASE_URL}auth/register`;
     return getData('POST', url, body);
 }
 
 export function loginUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/auth/login";
+    const url = `${BASE_URL}auth/login`;
     return getData('POST', url, body);
 }
 
 export function tokenUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/auth/token";
+    const url = `${BASE_URL}auth/token`;
     return getData('POST', url, body);
 }
 
 export function infoUserAPI(body, token) {
-    const url = "https://norma.nomoreparties.space/api/auth/user";
+    const url = `${BASE_URL}auth/user`;
     const auth = 'Bearer ' + token;
     return getData('GET', url, undefined, auth);
 }
 
 export function updateUserAPI(body, auth) {
-    const url = "https://norma.nomoreparties.space/api/auth/user";
+    const url = `${BASE_URL}auth/user`;
     auth = 'Bearer ' + auth;
     return getData('PATCH', url, body, auth);
 }
 
 export function logoutUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/auth/logout";
+    const url = `${BASE_URL}auth/logout`;
     return getData('POST', url, body);
 }
 
 export function forgotUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/password-reset";
+    const url = `${BASE_URL}password-reset`;
     return getData('POST', url, body);
 }
 
 export function resetUserAPI(body) {
-    const url = "https://norma.nomoreparties.space/api/password-reset/reset";
+    const url = `${BASE_URL}password-reset/reset`;
     return getData('POST', url, body);
 }
 

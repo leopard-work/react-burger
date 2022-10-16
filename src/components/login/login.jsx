@@ -17,13 +17,14 @@ import {
 } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { useForm } from "../../hooks/useForm";
 
 const Login = ({ type }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
-  const [values, setValues] = useState({
+  const { values, handleChange, setValues } = useForm({
     name: "",
     email: "",
     password: "",
@@ -33,12 +34,6 @@ const Login = ({ type }) => {
     errorText: "",
     disabled: false,
   });
-  const onChangeValues = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   // РЕГИСТРАЦИЯ
 
@@ -211,14 +206,14 @@ const Login = ({ type }) => {
         <form onSubmit={loginSend}>
           <div className="mb-6">
             <EmailInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.email}
               name={"email"}
             />
           </div>
           <div className="mb-6">
             <PasswordInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.password}
               name={"password"}
             />
@@ -264,7 +259,7 @@ const Login = ({ type }) => {
             <Input
               type={"text"}
               placeholder={"Имя"}
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.name}
               name={"name"}
               error={false}
@@ -274,14 +269,14 @@ const Login = ({ type }) => {
           </div>
           <div className="mb-6">
             <EmailInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.email}
               name={"email"}
             />
           </div>
           <div className="mb-6">
             <PasswordInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.password}
               name={"password"}
             />
@@ -321,7 +316,7 @@ const Login = ({ type }) => {
         <form onSubmit={forgotSend}>
           <div className="mb-6">
             <EmailInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.email}
               name={"email"}
             />
@@ -361,7 +356,7 @@ const Login = ({ type }) => {
         <form onSubmit={resetSend}>
           <div className="mb-6">
             <PasswordInput
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.password}
               name={"password"}
               placeholder={"Введите новый пароль"}
@@ -371,7 +366,7 @@ const Login = ({ type }) => {
             <Input
               type={"text"}
               placeholder={"Введите код из письма"}
-              onChange={onChangeValues}
+              onChange={handleChange}
               value={values.code}
               name={"code"}
               error={false}

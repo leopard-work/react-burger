@@ -1,21 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/app/app';
-import reportWebVitals from './reportWebVitals';
-import {createStore, compose, applyMiddleware} from "redux";
-import { Provider } from 'react-redux';
-import {rootReducer} from "./services/reducers";
-import thunk from 'redux-thunk';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./components/app/app";
+import reportWebVitals from "./reportWebVitals";
+import { createStore, compose, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import { rootReducer } from "./services/reducers";
+import thunk from "redux-thunk";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 declare global {
-    interface Window {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-    }
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,9 +24,9 @@ const store = createStore(rootReducer, enhancer);
 
 root.render(
   <React.StrictMode>
-      <Provider store={store}>
-          <App />
-      </Provider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 

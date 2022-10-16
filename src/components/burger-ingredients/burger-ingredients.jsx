@@ -107,7 +107,7 @@ const TabsCategory = (props) => {
     });
     return (
         <ul className={styles.items + " pl-4 pr-4"}>
-            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={basket.basket.find(i => i._id === item._id)} />)}
+            {items.map((item) => <TabsItem key={item._id} item={item} basketCart={basket.basket.filter(i => i._id === item._id)} />)}
         </ul>
     )
 }
@@ -135,6 +135,8 @@ const TabsItem = (props) => {
         history.replace(`/ingredients/${props.item._id}`, {modal: true});
     }
 
+    const count = props.basketCart.length;
+
     return (
         <>
             <li className={styles.item + " mt-6"} onClick={() => openItem(props.item)} ref={ref} style={{ opacity }}>
@@ -146,7 +148,7 @@ const TabsItem = (props) => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <h3 className={styles.item_title + " p-1 text text_type_main-default"}>{props.item.name}</h3>
-                {props.basketCart && <Counter count={props.basketCart.count} size="default" />}
+                {count !== 0 ? <Counter count={count} size="default" /> : ''}
             </li>
         </>
     )

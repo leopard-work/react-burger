@@ -24,43 +24,51 @@ export const basketReducer = (state = initialState, action) => {
                 }
             }
             else {                                                                          // Если не булка
-                const itemFromBasket = state.basket.find(i => i._id === action.item._id);   // Проверка существования товара в корзине
-                if (itemFromBasket) {                                                       // Если товар есть в корзине
-                    state.basket.map((item) => {                                            // Увеличиваем количество
-                        if (item._id === action.item._id) {
-                            item.count++;
-                        }
-                        return state;
-                    })
-                    return {
-                        ...state
-                    }
+                return {
+                    ...state,
+                    basket: [...state.basket, {...action.item, count: 1}]
                 }
-                else {                                                                      // Если товара нет, добавляем в корзину c увеличением счетчика
-                    return {
-                        ...state,
-                        basket: [...state.basket, {...action.item, count: 1}]
-                    }
-                }
+                // const itemFromBasket = state.basket.find(i => i._id === action.item._id);   // Проверка существования товара в корзине
+                // if (itemFromBasket) {                                                       // Если товар есть в корзине
+                //     state.basket.map((item) => {                                            // Увеличиваем количество
+                //         if (item._id === action.item._id) {
+                //             item.count++;
+                //         }
+                //         return state;
+                //     })
+                //     return {
+                //         ...state
+                //     }
+                // }
+                // else {                                                                      // Если товара нет, добавляем в корзину c увеличением счетчика
+                //     return {
+                //         ...state,
+                //         basket: [...state.basket, {...action.item, count: 1}]
+                //     }
+                // }
             }
         }
         case REMOVE_FROM_BASKET: {                                                          // Удаление товара из корзины
-            if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
-                state.basket.map((item) => {
-                    if (item._id === action.item._id) {
-                        item.count--;
-                    }
-                    return state;
-                });
-                return {
-                    ...state
-                }
-            } else {                                                                        // Удаляем товар
-                return {
-                    ...state,
-                    basket: state.basket.filter(item => item._id !== action.item._id)
-                }
+            return {
+                ...state,
+                basket: state.basket.filter(item => item.uuid !== action.item.uuid)
             }
+            // if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
+            //     state.basket.map((item) => {
+            //         if (item._id === action.item._id) {
+            //             item.count--;
+            //         }
+            //         return state;
+            //     });
+            //     return {
+            //         ...state
+            //     }
+            // } else {                                                                        // Удаляем товар
+            //     return {
+            //         ...state,
+            //         basket: state.basket.filter(item => item._id !== action.item._id)
+            //     }
+            // }
         }
         case SORT_BASKET: {                                                                 // Сортировка корзины в зависимости от перемещенных элементов
             let tempBasket = [...state.basket];

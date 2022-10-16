@@ -11,6 +11,7 @@ import {checkOutSend, CLEAR_ORDER} from "../../services/actions/order";
 import {ADD_TO_BASKET, BASKET_CLEAR, REMOVE_FROM_BASKET, SORT_BASKET} from "../../services/actions/basket";
 import {useDrag, useDrop} from "react-dnd";
 import {useHistory} from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 const ConstructorItem = (props) => {
     const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const BurgerConstructor = () => {
     const user = useSelector(state => state.user);
     const orderItems = basket.basket;
 
-    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item._id} item={item} index={i} deleteItem={() => dispatch({type: REMOVE_FROM_BASKET, item})}/> : '');
+    const items = orderItems.map((item, i) => item.type !== 'bun' ? <ConstructorItem key={item.uuid} item={item} index={i} deleteItem={() => dispatch({type: REMOVE_FROM_BASKET, item})}/> : '');
     const bun = orderItems.find(item => item.type === 'bun');
     const initialValue = 0;
     const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
@@ -102,6 +103,7 @@ const BurgerConstructor = () => {
             active: monitor.isOver()
         }),
         drop(item) {
+            item = {...item, uuid: uuidv4()};
             dispatch({
                 type: ADD_TO_BASKET,
                 item

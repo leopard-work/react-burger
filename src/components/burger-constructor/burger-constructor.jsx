@@ -90,9 +90,9 @@ const BurgerConstructor = () => {
                 }
             });
             const body = {ingredients: ingredients}
-            dispatch({
-                type: BASKET_CLEAR
-            })
+            // dispatch({
+            //     type: BASKET_CLEAR
+            // })
             dispatch(checkOutSend(body, user.accessToken));
         }
     }

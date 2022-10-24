@@ -21,10 +21,17 @@
     color: #8585AD;
     align-items: center;
     text-decoration: none;
+    transition: all 0.3s;
+}
+.btn svg path {
+    transition: all 0.3s;
 }
 .btn:last-child {
     margin-right: 0px;
 }
-.btn_active {
+.btn_active, .btn:hover {
     color: #F2F2F3;
+}
+.btn_active svg path, .btn:hover svg path {
+    fill: #ffffff;
 }

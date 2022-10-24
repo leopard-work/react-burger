@@ -1,0 +1,13 @@
+.container {
+    width: 480px;
+    margin: 180px auto 0 auto;
+    text-align: center;
+}
+.link {
+    color: #4C4CFF;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.link:hover {
+    color: #ffffff;
+}

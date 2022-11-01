@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, FC } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
@@ -16,12 +16,17 @@ import {
   resetUser,
 } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { useForm } from "../../hooks/useForm";
 
-const Login = ({ type }) => {
+type LoginProps = {
+  type: string;
+};
+
+// @ts-ignore
+const Login: FC<LoginProps> = ({ type }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // @ts-ignore
   const user = useSelector((state) => state.user);
 
   const { values, handleChange, setValues } = useForm({
@@ -57,7 +62,7 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const registerSend = (e) => {
+  const registerSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -73,6 +78,7 @@ const Login = ({ type }) => {
         password: e.target.password.value,
         name: e.target.name.value,
       };
+      // @ts-ignore
       dispatch(registerUser(body));
     } else {
       setValues({
@@ -102,7 +108,7 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const loginSend = (e) => {
+  const loginSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -113,6 +119,7 @@ const Login = ({ type }) => {
         email: e.target.email.value,
         password: e.target.password.value,
       };
+      // @ts-ignore
       dispatch(loginUser(body));
     } else {
       setValues({
@@ -138,7 +145,7 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const forgotSend = (e) => {
+  const forgotSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -148,6 +155,7 @@ const Login = ({ type }) => {
       const body = {
         email: e.target.email.value,
       };
+      // @ts-ignore
       dispatch(forgotUser(body));
     } else {
       setValues({
@@ -173,7 +181,7 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const resetSend = (e) => {
+  const resetSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -184,6 +192,7 @@ const Login = ({ type }) => {
         password: e.target.password.value,
         token: e.target.code.value,
       };
+      // @ts-ignore
       dispatch(resetUser(body));
     } else {
       setValues({
@@ -394,10 +403,6 @@ const Login = ({ type }) => {
       </div>
     );
   }
-};
-
-Login.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 export default Login;

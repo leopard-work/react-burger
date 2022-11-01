@@ -1,9 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 
-const ProtectedRoute = ({ path, children, exact }) => {
+type ProtectedRouteProps = {
+  path: string;
+  children: JSX.Element;
+  exact?: boolean;
+};
+
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ path, children, exact }) => {
+  // @ts-ignore
   const user = useSelector((state) => state.user);
   const location = useLocation();
 
@@ -24,12 +30,6 @@ const ProtectedRoute = ({ path, children, exact }) => {
       />
     );
   }
-};
-
-ProtectedRoute.propTypes = {
-  path: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  exact: PropTypes.bool,
 };
 
 export default ProtectedRoute;

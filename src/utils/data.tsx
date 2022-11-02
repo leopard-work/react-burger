@@ -215,6 +215,23 @@ export const data = [
   },
 ];
 
+export type ItemProps = {
+  item: {
+    id: string;
+    name: string;
+    type: string;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+    calories: number;
+    price: number;
+    image: string;
+    image_mobile: string;
+    image_large: string;
+    __v?: string;
+  };
+};
+
 export const ItemPropTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

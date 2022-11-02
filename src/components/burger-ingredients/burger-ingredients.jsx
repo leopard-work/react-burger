@@ -78,6 +78,8 @@ const Tabs = () => {
     history.push("/");
   };
 
+  console.log(viewed.viewItemElement);
+
   return (
     <>
       <div className={styles.tabs}>

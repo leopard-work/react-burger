@@ -62,6 +62,13 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
+  type profileProps = {
+    email?: string;
+    name?: string;
+    password?: string;
+    token?: string;
+  };
+
   const registerSend = (e: any) => {
     e.preventDefault();
     setValues({
@@ -73,7 +80,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       e.target.password.value &&
       e.target.name.value
     ) {
-      const body = {
+      const body: profileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
         name: e.target.name.value,
@@ -115,7 +122,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.email.value && e.target.password.value) {
-      const body = {
+      const body: profileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
       };
@@ -152,7 +159,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.email.value) {
-      const body = {
+      const body: profileProps = {
         email: e.target.email.value,
       };
       // @ts-ignore
@@ -188,7 +195,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.password.value && e.target.code.value) {
-      const body = {
+      const body: profileProps = {
         password: e.target.password.value,
         token: e.target.code.value,
       };

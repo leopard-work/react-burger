@@ -199,7 +199,9 @@ const BurgerConstructor = () => {
         isOpen={order.orderModalOpen}
         close={() => dispatch({ type: CLEAR_ORDER })}
       >
-        <OrderDetails info={order.orderInfo} />
+        {order.orderInfo.order.number && (
+          <OrderDetails number={order.orderInfo.order.number} />
+        )}
       </Modal>
     </section>
   );

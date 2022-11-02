@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { ItemPropTypes } from "../../utils/data";
+import React, { FC, useRef } from "react";
+import { ItemPropTypes, ItemProps } from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
@@ -23,12 +23,19 @@ import { useDrag, useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-const ConstructorItem = (props) => {
+type ConstructorItemProps = {
+  item: ItemProps;
+  index?: number;
+  deleteItem?: any;
+  type?: any;
+};
+
+const ConstructorItem: FC<ConstructorItemProps> = (props) => {
   const dispatch = useDispatch();
   const refItem = useRef(null);
   const refBun = useRef(null);
 
-  const [{}, dropItem] = useDrop({
+  const [Object, dropItem] = useDrop({
     accept: "card",
     hover(item, monitor) {
       dispatch({
@@ -88,37 +95,45 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // @ts-ignore
   const basket = useSelector((state) => state.basket);
+  // @ts-ignore
   const order = useSelector((state) => state.order);
+  // @ts-ignore
   const user = useSelector((state) => state.user);
   const orderItems = basket.basket;
 
-  const items = orderItems.map((item, i) =>
-    item.type !== "bun" ? (
-      <ConstructorItem
-        key={item.uuid}
-        item={item}
-        index={i}
-        deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
-      />
-    ) : (
-      ""
-    )
+  const items = orderItems.map(
+    (item: ItemProps & { uuid: string }, i: number) =>
+      item.type !== "bun" ? (
+        <ConstructorItem
+          key={item.uuid}
+          item={item}
+          index={i}
+          deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
+        />
+      ) : (
+        ""
+      )
   );
-  const bun = orderItems.find((item) => item.type === "bun");
+  const bun = orderItems.find((item: ItemProps) => item.type === "bun");
   const initialValue = 0;
-  const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
+  const totalPrice = orderItems.reduce(function (
+    accumulator: number,
+    currentValue: ItemProps
+  ) {
     if (currentValue.type === "bun")
       return accumulator + currentValue.price * 2;
     else return accumulator + currentValue.price * currentValue.count;
-  }, initialValue);
+  },
+  initialValue);
 
   const checkOut = () => {
     if (!user.accessToken) {
       history.push("/login");
     } else {
-      const ingredients = [];
-      orderItems.forEach((item) => {
+      const ingredients: Array<string> = [];
+      orderItems.forEach((item: ItemProps) => {
         for (let i = 0; i < item.count; i++) {
           ingredients.push(item._id);
           if (item.type === "bun") ingredients.push(item._id);
@@ -128,6 +143,8 @@ const BurgerConstructor = () => {
       // dispatch({
       //     type: BASKET_CLEAR
       // })
+
+      // @ts-ignore
       dispatch(checkOutSend(body, user.accessToken));
     }
   };
@@ -138,7 +155,7 @@ const BurgerConstructor = () => {
       active: monitor.isOver(),
     }),
     drop(item) {
-      item = { ...item, uuid: uuidv4() };
+      item = { ...(item as ItemProps), uuid: uuidv4() };
       dispatch({
         type: ADD_TO_BASKET,
         item,
@@ -169,7 +186,7 @@ const BurgerConstructor = () => {
             size="medium"
             onClick={checkOut}
             htmlType="submit"
-            disabled={!basket.basket.length && "disabled"}
+            disabled={!!(!basket.basket.length && "disabled")}
           >
             Оформить заказ
           </Button>
@@ -178,7 +195,7 @@ const BurgerConstructor = () => {
           <Button
             type="primary"
             size="medium"
-            disabled="disabled"
+            disabled={true}
             htmlType="submit"
           >
             Загрузка...
@@ -188,7 +205,7 @@ const BurgerConstructor = () => {
           <Button
             type="primary"
             size="medium"
-            disabled="disabled"
+            disabled={true}
             htmlType="submit"
           >
             Ошибка. Попробуйте позже

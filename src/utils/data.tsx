@@ -227,7 +227,8 @@ export type ItemProps = {
   image: string;
   image_mobile: string;
   image_large: string;
-  __v?: string;
+  __v?: any;
+  count?: any;
 };
 
 export const ItemPropTypes = PropTypes.shape({

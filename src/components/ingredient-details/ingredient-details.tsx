@@ -4,7 +4,11 @@ import { ItemProps } from "../../utils/data";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails: FC<ItemProps> = (props) => {
+type DetailsProps = {
+  item: ItemProps;
+};
+
+const IngredientDetails: FC<DetailsProps> = (props) => {
   return (
     <div className={styles.container + " pt-10 pb-15 pl-10 pr-10"}>
       <p className={styles.title + " text text_type_main-large mt-2 mb-2"}>

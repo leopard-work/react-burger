@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
@@ -11,11 +11,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserAction, updateUser } from "../../services/actions/user";
-import PropTypes from "prop-types";
 
-const Profile = ({ type }) => {
+type LoginProps = {
+  type: string;
+};
+
+const Profile: FC<LoginProps> = ({ type }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  // @ts-ignore
   const user = useSelector((state) => state.user);
   const [editProfile, setEditProfile] = useState(false);
   const initialState = {
@@ -23,10 +27,12 @@ const Profile = ({ type }) => {
     email: user.user.email,
     password: "",
     disabled: false,
+    error: false,
+    errorText: "",
   };
   const [values, setValues] = useState(initialState);
 
-  const onChangeValues = (e) => {
+  const onChangeValues = (e: any) => {
     setEditProfile(true);
     setValues({
       ...values,
@@ -58,14 +64,19 @@ const Profile = ({ type }) => {
     }
   }, [user]);
 
-  const updateUserSend = (e) => {
+  const updateUserSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
       disabled: true,
     });
     if (e.target.email.value && e.target.name.value) {
-      let body = {
+      type profileProps = {
+        email: string;
+        name: string;
+        password?: string;
+      };
+      let body: profileProps = {
         email: e.target.email.value,
         name: e.target.name.value,
       };
@@ -75,6 +86,7 @@ const Profile = ({ type }) => {
           password: e.target.password.value,
         };
       }
+      // @ts-ignore
       dispatch(updateUser(body, user.accessToken));
     } else {
       setValues({
@@ -85,11 +97,12 @@ const Profile = ({ type }) => {
     }
   };
 
-  const logoutUser = (e) => {
+  const logoutUser = (e: any) => {
     e.preventDefault();
     const body = {
       token: user.refreshToken,
     };
+    // @ts-ignore
     dispatch(logoutUserAction(body));
   };
 
@@ -171,7 +184,6 @@ const Profile = ({ type }) => {
                     onChange={onChangeValues}
                     value={values.email}
                     name={"email"}
-                    icon={"EditIcon"}
                   />
                 </div>
                 <div className="mb-6">
@@ -219,10 +231,6 @@ const Profile = ({ type }) => {
       </div>
     </div>
   );
-};
-
-Profile.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 export default Profile;

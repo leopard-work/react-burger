@@ -18,10 +18,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 
-type LoginProps = {
-  type: string;
-};
-
 // @ts-ignore
 const Login: FC<LoginProps> = ({ type }) => {
   const dispatch = useDispatch();
@@ -39,6 +35,17 @@ const Login: FC<LoginProps> = ({ type }) => {
     errorText: "",
     disabled: false,
   });
+
+  type LoginProps = {
+    type: string;
+  };
+
+  type ProfileProps = {
+    email?: string;
+    name?: string;
+    password?: string;
+    token?: string;
+  };
 
   // РЕГИСТРАЦИЯ
 
@@ -62,13 +69,6 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
-  type profileProps = {
-    email?: string;
-    name?: string;
-    password?: string;
-    token?: string;
-  };
-
   const registerSend = (e: any) => {
     e.preventDefault();
     setValues({
@@ -80,7 +80,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       e.target.password.value &&
       e.target.name.value
     ) {
-      const body: profileProps = {
+      const body: ProfileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
         name: e.target.name.value,
@@ -122,7 +122,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.email.value && e.target.password.value) {
-      const body: profileProps = {
+      const body: ProfileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
       };
@@ -159,7 +159,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.email.value) {
-      const body: profileProps = {
+      const body: ProfileProps = {
         email: e.target.email.value,
       };
       // @ts-ignore
@@ -195,7 +195,7 @@ const Login: FC<LoginProps> = ({ type }) => {
       disabled: true,
     });
     if (e.target.password.value && e.target.code.value) {
-      const body: profileProps = {
+      const body: ProfileProps = {
         password: e.target.password.value,
         token: e.target.code.value,
       };

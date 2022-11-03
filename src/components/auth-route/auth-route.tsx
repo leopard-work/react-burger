@@ -1,13 +1,7 @@
 import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-type AuthRouteProps = {
-  path: string;
-  children: JSX.Element;
-  page?: string;
-  exact?: boolean;
-};
+import { AuthRouteProps } from "../../utils/types";
 
 const AuthRoute: FC<AuthRouteProps> = ({ path, children, page, exact }) => {
   // @ts-ignore

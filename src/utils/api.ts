@@ -1,3 +1,13 @@
+import {
+  IngredientsProps,
+  LoginUserProps,
+  RegisterUserProps,
+  TokenUserProps,
+  UpdateUserProps,
+  ForgotUserProps,
+  ResetUserProps,
+} from "./types";
+
 const BASE_URL = "https://norma.nomoreparties.space/api/";
 
 export function loadIngredients() {
@@ -6,7 +16,7 @@ export function loadIngredients() {
 }
 
 export function createOrder(
-  body: { ingredients: Array<string> },
+  body: { ingredients: IngredientsProps },
   token: string
 ) {
   const url = `${BASE_URL}orders`;
@@ -14,21 +24,17 @@ export function createOrder(
   return makeRequest("POST", url, body, auth);
 }
 
-export function registerUserAPI(body: {
-  email: string;
-  password: string;
-  name: string;
-}) {
+export function registerUserAPI(body: RegisterUserProps) {
   const url = `${BASE_URL}auth/register`;
   return makeRequest("POST", url, body);
 }
 
-export function loginUserAPI(body: { email: string; password: string }) {
+export function loginUserAPI(body: LoginUserProps) {
   const url = `${BASE_URL}auth/login`;
   return makeRequest("POST", url, body);
 }
 
-export function tokenUserAPI(body: { token: string }) {
+export function tokenUserAPI(body: TokenUserProps) {
   const url = `${BASE_URL}auth/token`;
   return makeRequest("POST", url, body);
 }
@@ -39,26 +45,23 @@ export function infoUserAPI(token: string) {
   return makeRequest("GET", url, undefined, auth);
 }
 
-export function updateUserAPI(
-  body: { email?: string; password?: string; name?: string },
-  auth: string
-) {
+export function updateUserAPI(body: UpdateUserProps, auth: string) {
   const url = `${BASE_URL}auth/user`;
   auth = "Bearer " + auth;
   return makeRequest("PATCH", url, body, auth);
 }
 
-export function logoutUserAPI(body: { token: string }) {
+export function logoutUserAPI(body: TokenUserProps) {
   const url = `${BASE_URL}auth/logout`;
   return makeRequest("POST", url, body);
 }
 
-export function forgotUserAPI(body: { email: string }) {
+export function forgotUserAPI(body: ForgotUserProps) {
   const url = `${BASE_URL}password-reset`;
   return makeRequest("POST", url, body);
 }
 
-export function resetUserAPI(body: { password: string; token: string }) {
+export function resetUserAPI(body: ResetUserProps) {
   const url = `${BASE_URL}password-reset/reset`;
   return makeRequest("POST", url, body);
 }

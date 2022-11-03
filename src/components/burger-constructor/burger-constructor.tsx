@@ -1,5 +1,5 @@
 import React, { FC, useRef } from "react";
-import { ItemPropTypes, ItemProps } from "../../utils/data";
+import { IngredientsProps, ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
@@ -87,10 +87,6 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
   );
 };
 
-ConstructorItem.propTypes = {
-  item: ItemPropTypes,
-};
-
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -132,7 +128,7 @@ const BurgerConstructor = () => {
     if (!user.accessToken) {
       history.push("/login");
     } else {
-      const ingredients: Array<string> = [];
+      const ingredients: IngredientsProps = [];
       orderItems.forEach((item: ItemProps) => {
         for (let i = 0; i < item.count; i++) {
           ingredients.push(item._id);

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ItemProps } from "../../utils/data";
+import { ItemProps } from "../../utils/types";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";

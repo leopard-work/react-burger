@@ -8,6 +8,13 @@ import {
   tokenUserAPI,
   updateUserAPI,
 } from "../../utils/api";
+import {
+  LoginUserProps,
+  TokenUserProps,
+  UpdateUserProps,
+  ResetUserProps,
+  ForgotUserProps,
+} from "../../utils/types";
 
 export const GET_REGISTER_REQUEST = "GET_REGISTER_REQUEST";
 export const GET_REGISTER_SUCCESS = "GET_REGISTER_SUCCESS";
@@ -35,8 +42,8 @@ export const GET_RESET_REQUEST = "GET_RESET_REQUEST";
 export const GET_RESET_SUCCESS = "GET_RESET_SUCCESS";
 export const GET_RESET_FAILED = "GET_RESET_FAILED";
 
-export function registerUser(body) {
-  return function (dispatch) {
+export function registerUser(body: any) {
+  return function (dispatch: any) {
     dispatch({ type: GET_REGISTER_REQUEST });
     registerUserAPI(body)
       .then((data) => {
@@ -49,8 +56,8 @@ export function registerUser(body) {
   };
 }
 
-export function loginUser(body) {
-  return function (dispatch) {
+export function loginUser(body: LoginUserProps) {
+  return function (dispatch: any) {
     dispatch({ type: GET_LOGIN_REQUEST });
     loginUserAPI(body)
       .then((data) => {
@@ -63,8 +70,8 @@ export function loginUser(body) {
   };
 }
 
-export function tokenUser(body) {
-  return function (dispatch) {
+export function tokenUser(body: TokenUserProps) {
+  return function (dispatch: any) {
     dispatch({ type: GET_TOKEN_REQUEST });
     tokenUserAPI(body)
       .then((data) => {
@@ -79,8 +86,8 @@ export function tokenUser(body) {
   };
 }
 
-export function infoUser(body, token) {
-  return function (dispatch) {
+export function infoUser(body: null, token: string) {
+  return function (dispatch: any) {
     dispatch({ type: GET_USERINFO_REQUEST });
     infoUserAPI(token)
       .then((data) => {
@@ -93,8 +100,8 @@ export function infoUser(body, token) {
   };
 }
 
-export function updateUser(body, auth) {
-  return function (dispatch) {
+export function updateUser(body: UpdateUserProps, auth: string) {
+  return function (dispatch: any) {
     dispatch({ type: GET_UPDATEUSER_REQUEST });
     updateUserAPI(body, auth)
       .then((data) => {
@@ -108,8 +115,8 @@ export function updateUser(body, auth) {
   };
 }
 
-export function logoutUserAction(body) {
-  return function (dispatch) {
+export function logoutUserAction(body: TokenUserProps) {
+  return function (dispatch: any) {
     dispatch({ type: GET_LOGOUT_REQUEST });
     logoutUserAPI(body)
       .then((data) => {
@@ -123,8 +130,8 @@ export function logoutUserAction(body) {
   };
 }
 
-export function forgotUser(body) {
-  return function (dispatch) {
+export function forgotUser(body: ForgotUserProps) {
+  return function (dispatch: any) {
     dispatch({ type: GET_FORGOT_REQUEST });
     forgotUserAPI(body)
       .then((data) => {
@@ -139,8 +146,8 @@ export function forgotUser(body) {
   };
 }
 
-export function resetUser(body) {
-  return function (dispatch) {
+export function resetUser(body: ResetUserProps) {
+  return function (dispatch: any) {
     dispatch({ type: GET_RESET_REQUEST });
     resetUserAPI(body)
       .then((data) => {

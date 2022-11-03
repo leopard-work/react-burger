@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { ItemProps } from "../../utils/data";
+import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useHistory, useLocation, useParams } from "react-router-dom";

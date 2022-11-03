@@ -245,13 +245,13 @@ const Login: FC<LoginProps> = ({ type }) => {
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive mb-4">
-            Вы — новый пользователь?
+            Вы — новый пользователь?{" "}
             <Link className={styles.link} to="/register">
               Зарегистрироваться
             </Link>
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            Забыли пароль?
+            Забыли пароль?{" "}
             <Link className={styles.link} to="/forgot-password">
               Восстановить пароль
             </Link>
@@ -308,7 +308,7 @@ const Login: FC<LoginProps> = ({ type }) => {
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive mb-4">
-            Уже зарегистрированы?
+            Уже зарегистрированы?{" "}
             <Link className={styles.link} to="/login">
               Войти
             </Link>

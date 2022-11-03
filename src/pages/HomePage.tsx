@@ -12,13 +12,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useLocation, useParams } from "react-router-dom";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import Page404 from "./Page404";
+import { ItemProps } from "../utils/types";
 
-function HomePage(props) {
+function HomePage(props: { openItem?: boolean }) {
   const dispatch = useDispatch();
+  // @ts-ignore
   const catalog = useSelector((state) => state.catalog);
 
   const location = useLocation();
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
 
   const loadingContent = () => {
     return (
@@ -37,13 +39,17 @@ function HomePage(props) {
 
   if (props.openItem && !location.state) {
     if (catalog.items.success && !catalog.itemsFailed) {
-      const item = catalog.items.data.find((item) => item._id === id);
+      const item = catalog.items.data.find(
+        (item: ItemProps) => item._id === id
+      );
       if (item) {
         return (
           <div className="container pl-4 pr-4">
             <div className={stylesDetails.page}>
               <IngredientDetails
-                item={catalog.items.data.find((item) => item._id === id)}
+                item={catalog.items.data.find(
+                  (item: ItemProps) => item._id === id
+                )}
               />
             </div>
           </div>

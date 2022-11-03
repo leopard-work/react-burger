@@ -59,7 +59,7 @@ function App() {
               <HomePage />
             </Route>
             <Route path="/ingredients/:id" exact={true}>
-              <HomePage openItem="true" />
+              <HomePage openItem={true} />
             </Route>
             <AuthRoute path="/login" exact={true}>
               <LoginPage />

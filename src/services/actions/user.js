@@ -82,7 +82,7 @@ export function tokenUser(body) {
 export function infoUser(body, token) {
   return function (dispatch) {
     dispatch({ type: GET_USERINFO_REQUEST });
-    infoUserAPI(body, token)
+    infoUserAPI(token)
       .then((data) => {
         if (data.success) dispatch({ type: GET_USERINFO_SUCCESS, data: data });
         else dispatch({ type: GET_USERINFO_FAILED });

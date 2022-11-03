@@ -7,7 +7,7 @@ export const CHANGE_ACTIVE_TAB = "CHANGE_ACTIVE_TAB";
 
 export function getItems() {
   // Загрузка меню
-  return function (dispatch) {
+  return function (dispatch: any) {
     dispatch({ type: GET_ITEMS_REQUEST });
     loadIngredients()
       .then((data) => {

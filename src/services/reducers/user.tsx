@@ -59,7 +59,7 @@ const initialState = {
   resetSuccess: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_REGISTER_REQUEST: {
       return {

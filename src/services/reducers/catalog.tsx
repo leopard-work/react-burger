@@ -17,7 +17,7 @@ const initialState = {
   activeTab: "one", // Активаная вкладка навигации в меню
 };
 
-export const catalogReducer = (state = initialState, action) => {
+export const catalogReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_ITEMS_REQUEST: {
       return {

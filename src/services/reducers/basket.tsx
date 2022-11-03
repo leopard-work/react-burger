@@ -9,17 +9,17 @@ const initialState = {
   basket: [], // Корзина
 };
 
-export const basketReducer = (state = initialState, action) => {
+export const basketReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case ADD_TO_BASKET: {
       // Добавление товара в корзину
       if (action.item.type === "bun") {
         // Проверка булка или нет
-        let itemFromBasket = state.basket.find((i) => i.type === "bun");
+        let itemFromBasket = state.basket.find((i: any) => i.type === "bun");
         if (itemFromBasket) {
           // Если булка есть
           const tempBasket = state.basket.filter(
-            (i) => i.type !== action.item.type
+            (i: any) => i.type !== action.item.type
           );
           return {
             ...state,
@@ -62,7 +62,9 @@ export const basketReducer = (state = initialState, action) => {
       // Удаление товара из корзины
       return {
         ...state,
-        basket: state.basket.filter((item) => item.uuid !== action.item.uuid),
+        basket: state.basket.filter(
+          (item: any) => item.uuid !== action.item.uuid
+        ),
       };
       // if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
       //     state.basket.map((item) => {
@@ -85,6 +87,7 @@ export const basketReducer = (state = initialState, action) => {
       // Сортировка корзины в зависимости от перемещенных элементов
       let tempBasket = [...state.basket];
       tempBasket[action.index] = tempBasket.splice(
+        // @ts-ignore
         state.basket.indexOf(action.item),
         1,
         tempBasket[action.index]

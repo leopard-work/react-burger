@@ -18,7 +18,7 @@ const initialState = {
   },
 };
 
-export const itemReducer = (state = initialState, action) => {
+export const itemReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case VIEW_ITEM: {
       // Подробный просмотр товара

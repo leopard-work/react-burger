@@ -16,7 +16,7 @@ const initialState = {
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case CHECKOUT_REQUEST: {
       // Отправка заказа

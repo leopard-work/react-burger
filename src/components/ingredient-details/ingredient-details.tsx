@@ -1,10 +1,14 @@
-import React from "react";
-import { ItemPropTypes } from "../../utils/data";
+import React, { FC } from "react";
+import { ItemProps } from "../../utils/types";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails = (props) => {
+type DetailsProps = {
+  item: ItemProps;
+};
+
+const IngredientDetails: FC<DetailsProps> = (props) => {
   return (
     <div className={styles.container + " pt-10 pb-15 pl-10 pr-10"}>
       <p className={styles.title + " text text_type_main-large mt-2 mb-2"}>
@@ -44,10 +48,6 @@ const IngredientDetails = (props) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  item: ItemPropTypes,
 };
 
 export default IngredientDetails;

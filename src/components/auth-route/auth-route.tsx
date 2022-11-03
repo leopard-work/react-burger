@@ -1,9 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { AuthRouteProps } from "../../utils/types";
 
-const AuthRoute = ({ path, children, page }) => {
+const AuthRoute: FC<AuthRouteProps> = ({ path, children, page, exact }) => {
+  // @ts-ignore
   const user = useSelector((state) => state.user);
 
   if (!user.user) {
@@ -20,12 +21,6 @@ const AuthRoute = ({ path, children, page }) => {
   } else {
     return <Redirect to={{ pathname: "/" }} />;
   }
-};
-
-AuthRoute.propTypes = {
-  path: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  page: PropTypes.string,
 };
 
 export default AuthRoute;

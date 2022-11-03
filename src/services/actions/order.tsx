@@ -6,9 +6,12 @@ export const CHECKOUT_SUCCESS = "CHECKOUT_SUCCESS";
 export const CHECKOUT_FAILED = "CHECKOUT_FAILED";
 export const CLEAR_ORDER = "CLEAR_ORDER";
 
-export function checkOutSend(body, token) {
+export function checkOutSend(
+  body: { ingredients: Array<string> },
+  token: string
+) {
   // Отправка заказа
-  return function (dispatch) {
+  return function (dispatch: any) {
     dispatch({ type: CHECKOUT_REQUEST });
     createOrder(body, token)
       .then((data) => {

@@ -22,12 +22,14 @@ import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
 
 function App() {
+  // @ts-ignore
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const init = async () => {
     if (!user.user && Cookies.get("token")) {
       const body = { token: Cookies.get("token") };
+      // @ts-ignore
       await dispatch(tokenUser(body));
     }
   };
@@ -37,6 +39,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getItems());
   }, [dispatch]);
 
@@ -56,7 +59,7 @@ function App() {
               <HomePage />
             </Route>
             <Route path="/ingredients/:id" exact={true}>
-              <HomePage openItem="true" />
+              <HomePage openItem={true} />
             </Route>
             <AuthRoute path="/login" exact={true}>
               <LoginPage />

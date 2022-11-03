@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, FC } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
@@ -16,12 +16,13 @@ import {
   resetUser,
 } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { useForm } from "../../hooks/useForm";
 
-const Login = ({ type }) => {
+// @ts-ignore
+const Login: FC<LoginProps> = ({ type }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // @ts-ignore
   const user = useSelector((state) => state.user);
 
   const { values, handleChange, setValues } = useForm({
@@ -34,6 +35,17 @@ const Login = ({ type }) => {
     errorText: "",
     disabled: false,
   });
+
+  type LoginProps = {
+    type: string;
+  };
+
+  type ProfileProps = {
+    email?: string;
+    name?: string;
+    password?: string;
+    token?: string;
+  };
 
   // РЕГИСТРАЦИЯ
 
@@ -57,7 +69,7 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const registerSend = (e) => {
+  const registerSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -68,11 +80,12 @@ const Login = ({ type }) => {
       e.target.password.value &&
       e.target.name.value
     ) {
-      const body = {
+      const body: ProfileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
         name: e.target.name.value,
       };
+      // @ts-ignore
       dispatch(registerUser(body));
     } else {
       setValues({
@@ -102,17 +115,18 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const loginSend = (e) => {
+  const loginSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
       disabled: true,
     });
     if (e.target.email.value && e.target.password.value) {
-      const body = {
+      const body: ProfileProps = {
         email: e.target.email.value,
         password: e.target.password.value,
       };
+      // @ts-ignore
       dispatch(loginUser(body));
     } else {
       setValues({
@@ -138,16 +152,17 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const forgotSend = (e) => {
+  const forgotSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
       disabled: true,
     });
     if (e.target.email.value) {
-      const body = {
+      const body: ProfileProps = {
         email: e.target.email.value,
       };
+      // @ts-ignore
       dispatch(forgotUser(body));
     } else {
       setValues({
@@ -173,17 +188,18 @@ const Login = ({ type }) => {
     }
   }, [user]);
 
-  const resetSend = (e) => {
+  const resetSend = (e: any) => {
     e.preventDefault();
     setValues({
       ...values,
       disabled: true,
     });
     if (e.target.password.value && e.target.code.value) {
-      const body = {
+      const body: ProfileProps = {
         password: e.target.password.value,
         token: e.target.code.value,
       };
+      // @ts-ignore
       dispatch(resetUser(body));
     } else {
       setValues({
@@ -229,13 +245,13 @@ const Login = ({ type }) => {
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive mb-4">
-            Вы — новый пользователь?
+            Вы — новый пользователь?{" "}
             <Link className={styles.link} to="/register">
               Зарегистрироваться
             </Link>
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            Забыли пароль?
+            Забыли пароль?{" "}
             <Link className={styles.link} to="/forgot-password">
               Восстановить пароль
             </Link>
@@ -292,7 +308,7 @@ const Login = ({ type }) => {
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive mb-4">
-            Уже зарегистрированы?
+            Уже зарегистрированы?{" "}
             <Link className={styles.link} to="/login">
               Войти
             </Link>
@@ -394,10 +410,6 @@ const Login = ({ type }) => {
       </div>
     );
   }
-};
-
-Login.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 export default Login;

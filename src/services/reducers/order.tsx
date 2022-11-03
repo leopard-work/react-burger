@@ -6,13 +6,17 @@ import {
 } from "../actions/order";
 
 const initialState = {
-  orderInfo: {}, // Информация о заказе
+  orderInfo: {
+    order: {
+      number: null,
+    },
+  }, // Информация о заказе
   orderModalOpen: false, // Открытие окна с заказом
   orderRequest: false,
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case CHECKOUT_REQUEST: {
       // Отправка заказа
@@ -41,7 +45,7 @@ export const orderReducer = (state = initialState, action) => {
       // Удаление информации о заказе
       return {
         ...state,
-        orderInfo: {},
+        orderInfo: initialState.orderInfo,
         orderFailed: false,
         orderModalOpen: false,
       };

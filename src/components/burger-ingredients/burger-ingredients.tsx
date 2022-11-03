@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { ItemPropTypes } from "../../utils/data";
+import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -19,28 +19,32 @@ import { useDrag } from "react-dnd";
 
 const Tabs = () => {
   const dispatch = useDispatch();
+  // @ts-ignore
   const catalog = useSelector((state) => state.catalog);
+  // @ts-ignore
   const viewed = useSelector((state) => state.item);
   const current = catalog.activeTab;
 
-  const tabsNavRef = useRef(null);
-  const tabsBunRef = useRef(null);
-  const tabsSauceRef = useRef(null);
-  const tabsMainRef = useRef(null);
+  const tabsNavRef: any = useRef(null);
+  const tabsBunRef: any = useRef(null);
+  const tabsSauceRef: any = useRef(null);
+  const tabsMainRef: any = useRef(null);
 
   const location = useLocation();
   const history = useHistory();
-  const { id } = useParams();
+  const params: { id: string } = useParams();
 
   useEffect(() => {
     if (location.state)
       dispatch({
         type: VIEW_ITEM,
-        item: catalog.items.data.find((item) => item._id === id),
+        item: catalog.items.data.find(
+          (item: ItemProps) => item._id === params.id
+        ),
       });
-  }, [location.state, id, dispatch, catalog.items.data]);
+  }, [location.state, params.id, dispatch, catalog.items.data]);
 
-  const updateNav = (props) => {
+  const updateNav = (props: { selected: number | null }) => {
     const scrollTop =
       tabsNavRef.current.offsetTop + tabsNavRef.current.scrollTop;
     const coords = [
@@ -82,31 +86,32 @@ const Tabs = () => {
     <>
       <div className={styles.tabs}>
         <Tab
-          className={styles.tab}
           value="one"
           active={current === "one"}
-          onClick={() => updateNav({ selected: "0" })}
+          onClick={() => updateNav({ selected: 0 })}
         >
           Булки
         </Tab>
         <Tab
-          className={styles.tab}
           value="two"
           active={current === "two"}
-          onClick={() => updateNav({ selected: "1" })}
+          onClick={() => updateNav({ selected: 1 })}
         >
           Соусы
         </Tab>
         <Tab
-          className={styles.tab}
           value="three"
           active={current === "three"}
-          onClick={() => updateNav({ selected: "2" })}
+          onClick={() => updateNav({ selected: 2 })}
         >
           Начинки
         </Tab>
       </div>
-      <div className={styles.content} ref={tabsNavRef} onScroll={updateNav}>
+      <div
+        className={styles.content}
+        ref={tabsNavRef}
+        onScroll={() => updateNav({ selected: null })}
+      >
         <div className="mt-10" data-val="bun" ref={tabsBunRef}>
           <h2 className="text text_type_main-medium">Булки</h2>
           {<TabsCategory category="bun" />}
@@ -127,19 +132,25 @@ const Tabs = () => {
   );
 };
 
-const TabsCategory = (props) => {
+const TabsCategory = (props: { category: string }) => {
+  // @ts-ignore
   const catalog = useSelector((state) => state.catalog);
+  // @ts-ignore
   const basket = useSelector((state) => state.basket);
-  const items = catalog.items.data.filter(function (category) {
+  const items = catalog.items.data.filter(function (category: {
+    type: string;
+  }) {
     return category.type === props.category;
   });
   return (
     <ul className={styles.items + " pl-4 pr-4"}>
-      {items.map((item) => (
+      {items.map((item: ItemProps) => (
         <TabsItem
           key={item._id}
           item={item}
-          basketCart={basket.basket.filter((i) => i._id === item._id)}
+          basketCart={basket.basket.filter(
+            (i: ItemProps) => i._id === item._id
+          )}
         />
       ))}
     </ul>
@@ -150,7 +161,8 @@ TabsCategory.propTypes = {
   category: PropTypes.string.isRequired,
 };
 
-const TabsItem = (props) => {
+//{ item: ItemProps }
+const TabsItem = (props: { item: ItemProps; basketCart: Array<ItemProps> }) => {
   const dispatch = useDispatch();
 
   const [{ opacity }, ref] = useDrag({
@@ -163,7 +175,7 @@ const TabsItem = (props) => {
 
   const history = useHistory();
 
-  const openItem = (item) => {
+  const openItem = (item: ItemProps) => {
     dispatch({ type: VIEW_ITEM, item: props.item });
     history.replace(`/ingredients/${props.item._id}`, { modal: true });
   };
@@ -194,10 +206,6 @@ const TabsItem = (props) => {
       </li>
     </>
   );
-};
-
-TabsItem.propTypes = {
-  item: ItemPropTypes,
 };
 
 function BurgerIngredients() {

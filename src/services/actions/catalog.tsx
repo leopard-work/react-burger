@@ -31,7 +31,21 @@ export type GET_ITEMS_ACTIONS =
   | GET_ITEMS_FAILED_ACTION
   | CHANGE_ACTIVE_TAB_ACTION;
 
-type GetItemsDispatch = Dispatch<GET_ITEMS_ACTIONS>;
+export type GetItemsDispatch = Dispatch<GET_ITEMS_ACTIONS>;
+
+// export function getItems() {
+//   // Загрузка меню
+//   return function (dispatch: GetItemsDispatch) {
+//     dispatch({ type: GET_ITEMS_REQUEST });
+//     loadIngredients()
+//       .then((data) => {
+//         dispatch({ type: GET_ITEMS_SUCCESS, items: data });
+//       })
+//       .catch(() => {
+//         dispatch({ type: GET_ITEMS_FAILED });
+//       });
+//   };
+// }
 
 export function getItems() {
   // Загрузка меню

@@ -17,19 +17,17 @@ import FeedPage from "../../pages/FeedPage";
 import ProtectedRoute from "../protected-route/protected-route";
 import Cookies from "js-cookie";
 import { tokenUser } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
+import { useDispatch, useAppSelector } from "../../services/reducers";
 
 function App() {
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const init = async () => {
-    if (!user.user && Cookies.get("token")) {
+    if (!user["user"] && Cookies.get("token")) {
       const body = { token: Cookies.get("token") };
-      // @ts-ignore
       await dispatch(tokenUser(body));
     }
   };
@@ -39,11 +37,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getItems());
   }, [dispatch]);
 
-  if (user.tokenRequest || user.userInfoRequest) {
+  if (user["tokenRequest"] || user["userInfoRequest"]) {
     return (
       <div className={`${styles.loading} text text_type_main-medium`}>
         Загрузка ...

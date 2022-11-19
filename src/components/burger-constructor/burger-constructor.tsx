@@ -11,17 +11,16 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { checkOutSend, CLEAR_ORDER } from "../../services/actions/order";
 import {
   ADD_TO_BASKET,
-  BASKET_CLEAR,
   REMOVE_FROM_BASKET,
   SORT_BASKET,
 } from "../../services/actions/basket";
 import { useDrag, useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useAppSelector, useDispatch } from "../../services/reducers";
 
 type ConstructorItemProps = {
   item: ItemProps;
@@ -90,17 +89,13 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  // @ts-ignore
-  const basket = useSelector((state) => state.basket);
-  // @ts-ignore
-  const order = useSelector((state) => state.order);
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const basket = useAppSelector((state) => state.basket);
+  const order = useAppSelector((state) => state.order);
+  const user = useAppSelector((state) => state.user);
   const orderItems = basket.basket;
 
   const items = orderItems.map(
-    (item: ItemProps & { uuid: string }, i: number) =>
+    (item: ItemProps & { uuid?: string }, i: number) =>
       item.type !== "bun" ? (
         <ConstructorItem
           key={item.uuid}
@@ -125,7 +120,7 @@ const BurgerConstructor = () => {
   initialValue);
 
   const checkOut = () => {
-    if (!user.accessToken) {
+    if (!user["accessToken"]) {
       history.push("/login");
     } else {
       const ingredients: IngredientsProps = [];
@@ -140,8 +135,7 @@ const BurgerConstructor = () => {
       //     type: BASKET_CLEAR
       // })
 
-      // @ts-ignore
-      dispatch(checkOutSend(body, user.accessToken));
+      dispatch(checkOutSend(body, user["accessToken"]));
     }
   };
 
@@ -176,7 +170,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </p>
-        {!order.orderRequest && !order.orderFailed && (
+        {!order["orderRequest"] && !order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -187,7 +181,7 @@ const BurgerConstructor = () => {
             Оформить заказ
           </Button>
         )}
-        {order.orderRequest && !order.orderFailed && (
+        {order["orderRequest"] && !order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -197,7 +191,7 @@ const BurgerConstructor = () => {
             Загрузка...
           </Button>
         )}
-        {order.orderFailed && (
+        {order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -209,11 +203,11 @@ const BurgerConstructor = () => {
         )}
       </div>
       <Modal
-        isOpen={order.orderModalOpen}
+        isOpen={order["orderModalOpen"]}
         close={() => dispatch({ type: CLEAR_ORDER })}
       >
-        {order.orderInfo.order.number && (
-          <OrderDetails number={order.orderInfo.order.number} />
+        {order["orderInfo"]["order"]["number"] && (
+          <OrderDetails number={order["orderInfo"]["order"]["number"]} />
         )}
       </Modal>
     </section>

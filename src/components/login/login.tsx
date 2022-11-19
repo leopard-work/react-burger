@@ -15,15 +15,18 @@ import {
   registerUser,
   resetUser,
 } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
+import { useAppSelector, useDispatch } from "../../services/reducers";
+
+type LoginProps = {
+  type: string;
+};
 
 // @ts-ignore
 const Login: FC<LoginProps> = ({ type }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
 
   const { values, handleChange, setValues } = useForm({
     name: "",
@@ -36,10 +39,6 @@ const Login: FC<LoginProps> = ({ type }) => {
     disabled: false,
   });
 
-  type LoginProps = {
-    type: string;
-  };
-
   type ProfileProps = {
     email?: string;
     name?: string;
@@ -50,14 +49,14 @@ const Login: FC<LoginProps> = ({ type }) => {
   // РЕГИСТРАЦИЯ
 
   useEffect(() => {
-    if (user.registerFailed)
+    if (user["registerFailed"])
       setValues({
         ...values,
         error: true,
         errorText: "Данный пользователь уже зарегистрирован",
         disabled: false,
       });
-    if (user.registerSuccess) {
+    if (user["registerSuccess"]) {
       setValues({
         ...values,
         error: true,
@@ -85,7 +84,7 @@ const Login: FC<LoginProps> = ({ type }) => {
         password: e.target.password.value,
         name: e.target.name.value,
       };
-      // @ts-ignore
+
       dispatch(registerUser(body));
     } else {
       setValues({
@@ -99,14 +98,14 @@ const Login: FC<LoginProps> = ({ type }) => {
   // АВТОРИЗАЦИЯ
 
   useEffect(() => {
-    if (user.loginFailed)
+    if (user["loginFailed"])
       setValues({
         ...values,
         error: true,
         errorText: "Неверная почта или пароль",
         disabled: false,
       });
-    if (user.loginSuccess) {
+    if (user["loginSuccess"]) {
       setValues({
         ...values,
         disabled: false,
@@ -126,7 +125,6 @@ const Login: FC<LoginProps> = ({ type }) => {
         email: e.target.email.value,
         password: e.target.password.value,
       };
-      // @ts-ignore
       dispatch(loginUser(body));
     } else {
       setValues({
@@ -140,14 +138,14 @@ const Login: FC<LoginProps> = ({ type }) => {
   // ВОССТАНОВЛЕНИЕ ПАРОЛЯ
 
   useEffect(() => {
-    if (user.forgotFailed)
+    if (user["forgotFailed"])
       setValues({
         ...values,
         error: true,
         errorText: "Неверная почта",
         disabled: false,
       });
-    if (user.forgotSuccess) {
+    if (user["forgotSuccess"]) {
       history.replace("/reset-password");
     }
   }, [user]);
@@ -162,7 +160,6 @@ const Login: FC<LoginProps> = ({ type }) => {
       const body: ProfileProps = {
         email: e.target.email.value,
       };
-      // @ts-ignore
       dispatch(forgotUser(body));
     } else {
       setValues({
@@ -176,14 +173,14 @@ const Login: FC<LoginProps> = ({ type }) => {
   // ИЗМЕНЕНИЕ ПАРОЛЯ
 
   useEffect(() => {
-    if (user.resetFailed)
+    if (user["resetFailed"])
       setValues({
         ...values,
         error: true,
         errorText: "Неверный код",
         disabled: false,
       });
-    if (user.resetSuccess) {
+    if (user["resetSuccess"]) {
       history.replace("/login");
     }
   }, [user]);
@@ -199,7 +196,6 @@ const Login: FC<LoginProps> = ({ type }) => {
         password: e.target.password.value,
         token: e.target.code.value,
       };
-      // @ts-ignore
       dispatch(resetUser(body));
     } else {
       setValues({

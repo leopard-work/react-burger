@@ -41,14 +41,14 @@ export type AuthRouteProps = {
 export type IngredientsProps = Array<string>;
 
 export type RegisterUserProps = {
-  email: string;
-  password: string;
-  name: string;
+  email?: string;
+  password?: string;
+  name?: string;
 };
 
 export type LoginUserProps = {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 };
 
 export type TokenUserProps = {
@@ -62,10 +62,16 @@ export type UpdateUserProps = {
 };
 
 export type ForgotUserProps = {
-  email: string;
+  email?: string;
 };
 
 export type ResetUserProps = {
-  password: string;
-  token: string;
+  password?: string;
+  token?: string;
+};
+
+export type userDataProps = {
+  refreshToken: string;
+  accessToken: string;
+  user?: RegisterUserProps;
 };

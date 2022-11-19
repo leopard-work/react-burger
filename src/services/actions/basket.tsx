@@ -16,6 +16,7 @@ interface REMOVE_FROM_BASKET_ACTION {
 interface SORT_BASKET_ACTION {
   readonly type: typeof SORT_BASKET;
   index: number;
+  item: ItemProps;
 }
 export interface BASKET_CLEAR_ACTION {
   readonly type: typeof BASKET_CLEAR;

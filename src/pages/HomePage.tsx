@@ -1,23 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../components/app/app.module.css";
 import stylesDetails from "../components/ingredient-details/ingredient-details.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getItems } from "../services/actions/catalog";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useLocation, useParams } from "react-router-dom";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import Page404 from "./Page404";
 import { ItemProps } from "../utils/types";
+import { useAppSelector } from "../services/reducers";
 
 function HomePage(props: { openItem?: boolean }) {
-  const dispatch = useDispatch();
-  // @ts-ignore
-  const catalog = useSelector((state) => state.catalog);
+  const catalog = useAppSelector((state) => state.catalog);
 
   const location = useLocation();
   const { id }: { id: string } = useParams();

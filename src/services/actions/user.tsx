@@ -15,8 +15,11 @@ import {
   ResetUserProps,
   ForgotUserProps,
   RegisterUserProps,
+  userDataProps,
 } from "../../utils/types";
-import { Dispatch } from "redux";
+import { Action, ActionCreator, Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../reducers";
 
 export const GET_REGISTER_REQUEST: "GET_REGISTER_REQUEST" =
   "GET_REGISTER_REQUEST";
@@ -50,12 +53,6 @@ export const SET_FORGOT_EMAIL: "SET_FORGOT_EMAIL" = "SET_FORGOT_EMAIL";
 export const GET_RESET_REQUEST: "GET_RESET_REQUEST" = "GET_RESET_REQUEST";
 export const GET_RESET_SUCCESS: "GET_RESET_SUCCESS" = "GET_RESET_SUCCESS";
 export const GET_RESET_FAILED: "GET_RESET_FAILED" = "GET_RESET_FAILED";
-
-type userDataProps = {
-  refreshToken: string;
-  accessToken: string;
-  user?: RegisterUserProps;
-};
 
 interface GET_REGISTER_REQUEST_ACTION {
   readonly type: typeof GET_REGISTER_REQUEST;
@@ -127,7 +124,7 @@ interface GET_FORGOT_FAILED_ACTION {
 }
 interface SET_FORGOT_EMAIL_ACTION {
   readonly type: typeof SET_FORGOT_EMAIL;
-  data: string;
+  data: string | undefined;
 }
 interface GET_RESET_REQUEST_ACTION {
   readonly type: typeof GET_RESET_REQUEST;
@@ -192,7 +189,7 @@ export type GET_USER_ALL_ACTIONS =
 
 type GET_REGISTER_DISPATCH = Dispatch<GET_REGISTER_ACTIONS>;
 type GET_LOGIN_DISPATCH = Dispatch<GET_LOGIN_ACTIONS>;
-type GET_TOKEN_DISPATCH = Dispatch<GET_TOKEN_ACTIONS>;
+export type GET_TOKEN_DISPATCH = Dispatch<GET_TOKEN_ACTIONS>;
 type GET_USERINFO_DISPATCH = Dispatch<GET_USERINFO_ACTIONS>;
 type GET_UPDATEUSER_DISPATCH = Dispatch<GET_UPDATEUSER_ACTIONS>;
 type GET_LOGOUT_DISPATCH = Dispatch<GET_LOGOUT_ACTIONS>;
@@ -227,7 +224,12 @@ export function loginUser(body: LoginUserProps) {
   };
 }
 
-export function tokenUser(body: TokenUserProps) {
+export type AppThunk<TReturn = void> = ActionCreator<
+  ThunkAction<TReturn, Action, RootState, GET_TOKEN_ACTIONS>
+>;
+export type AppDispatch = Dispatch<GET_TOKEN_ACTIONS>;
+
+export function tokenUser(body: { token: string | undefined }) {
   return function (dispatch: GET_TOKEN_DISPATCH) {
     dispatch({ type: GET_TOKEN_REQUEST });
     tokenUserAPI(body)

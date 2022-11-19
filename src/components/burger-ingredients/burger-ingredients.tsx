@@ -12,17 +12,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_ACTIVE_TAB } from "../../services/actions/catalog";
 import { CLOSE_VIEW_ITEM, VIEW_ITEM } from "../../services/actions/item";
 import { useDrag } from "react-dnd";
+import { useAppSelector, useDispatch } from "../../services/reducers";
 
 const Tabs = () => {
   const dispatch = useDispatch();
-  // @ts-ignore
-  const catalog = useSelector((state) => state.catalog);
-  // @ts-ignore
-  const viewed = useSelector((state) => state.item);
+  const catalog = useAppSelector((state) => state.catalog);
+  const viewed = useAppSelector((state) => state.item);
   const current = catalog.activeTab;
 
   const tabsNavRef: any = useRef(null);
@@ -133,10 +131,8 @@ const Tabs = () => {
 };
 
 const TabsCategory = (props: { category: string }) => {
-  // @ts-ignore
-  const catalog = useSelector((state) => state.catalog);
-  // @ts-ignore
-  const basket = useSelector((state) => state.basket);
+  const catalog = useAppSelector((state) => state.catalog);
+  const basket = useAppSelector((state) => state.basket);
   const items = catalog.items.data.filter(function (category: {
     type: string;
   }) {

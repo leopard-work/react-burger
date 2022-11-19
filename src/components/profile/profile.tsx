@@ -9,8 +9,8 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { logoutUserAction, updateUser } from "../../services/actions/user";
+import { useAppSelector, useDispatch } from "../../services/reducers";
 
 type LoginProps = {
   type: string;
@@ -19,12 +19,11 @@ type LoginProps = {
 const Profile: FC<LoginProps> = ({ type }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const [editProfile, setEditProfile] = useState(false);
   const initialState = {
-    name: user.user.name,
-    email: user.user.email,
+    name: user["user"]["name"],
+    email: user["user"]["email"],
     password: "",
     disabled: false,
     error: false,
@@ -46,14 +45,14 @@ const Profile: FC<LoginProps> = ({ type }) => {
   };
 
   useEffect(() => {
-    if (user.updateUserFailed)
+    if (user["updateUserFailed"])
       setValues({
         ...values,
         error: true,
         errorText: "Произошла ошибка",
         disabled: false,
       });
-    if (user.updateUserSuccess) {
+    if (user["updateUserSuccess"]) {
       setValues({
         ...values,
         error: true,
@@ -86,8 +85,7 @@ const Profile: FC<LoginProps> = ({ type }) => {
           password: e.target.password.value,
         };
       }
-      // @ts-ignore
-      dispatch(updateUser(body, user.accessToken));
+      dispatch(updateUser(body, user["accessToken"]));
     } else {
       setValues({
         ...values,
@@ -100,9 +98,8 @@ const Profile: FC<LoginProps> = ({ type }) => {
   const logoutUser = (e: any) => {
     e.preventDefault();
     const body = {
-      token: user.refreshToken,
+      token: user["refreshToken"],
     };
-    // @ts-ignore
     dispatch(logoutUserAction(body));
   };
 

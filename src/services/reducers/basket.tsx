@@ -93,7 +93,6 @@ export const basketReducer = (state = initialState, action: BASKET_ACTIONS) => {
       // Сортировка корзины в зависимости от перемещенных элементов
       let tempBasket = [...state.basket];
       tempBasket[action.index] = tempBasket.splice(
-        // @ts-ignore
         state.basket.indexOf(action.item),
         1,
         tempBasket[action.index]

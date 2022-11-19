@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/reducers";
 
 type ProtectedRouteProps = {
   path: string;
@@ -9,11 +9,10 @@ type ProtectedRouteProps = {
 };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ path, children, exact }) => {
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const location = useLocation();
 
-  if (user.user) {
+  if (user["user"]) {
     return (
       <Route path={path} exact={true}>
         {children}

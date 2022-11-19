@@ -1,6 +1,12 @@
-import { CLOSE_VIEW_ITEM, VIEW_ITEM } from "../actions/item";
+import { CLOSE_VIEW_ITEM, VIEW_ITEM, VIEW_ITEM_ACTIONS } from "../actions/item";
+import { ItemProps } from "../../utils/types";
 
-const initialState = {
+type itemState = {
+  viewItemModalOpen: boolean;
+  viewItemElement: ItemProps;
+};
+
+const initialState: itemState = {
   viewItemModalOpen: false,
   viewItemElement: {
     _id: "",
@@ -18,7 +24,10 @@ const initialState = {
   },
 };
 
-export const itemReducer = (state = initialState, action: any) => {
+export const itemReducer = (
+  state = initialState,
+  action: VIEW_ITEM_ACTIONS
+) => {
   switch (action.type) {
     case VIEW_ITEM: {
       // Подробный просмотр товара

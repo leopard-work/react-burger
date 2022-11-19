@@ -1,33 +1,35 @@
 import { createOrder } from "../../utils/api";
-import { BASKET_CLEAR, BasketClearAction } from "./basket";
+import { BASKET_CLEAR, BASKET_CLEAR_ACTION } from "./basket";
 import { Dispatch } from "redux";
+import { OrderProps } from "../../utils/types";
 
 export const CHECKOUT_REQUEST: "CHECKOUT_REQUEST" = "CHECKOUT_REQUEST";
 export const CHECKOUT_SUCCESS: "CHECKOUT_SUCCESS" = "CHECKOUT_SUCCESS";
 export const CHECKOUT_FAILED: "CHECKOUT_FAILED" = "CHECKOUT_FAILED";
 export const CLEAR_ORDER: "CLEAR_ORDER" = "CLEAR_ORDER";
 
-interface CheckoutRequestAction {
+interface CHECKOUT_REQUEST_ACTION {
   readonly type: typeof CHECKOUT_REQUEST;
 }
-interface CheckoutFailedAction {
+interface CHECKOUT_SUCCESS_ACTION {
   readonly type: typeof CHECKOUT_SUCCESS;
+  order: OrderProps;
 }
-interface CheckoutSuccessAction {
+interface CHECKOUT_FAILED_ACTION {
   readonly type: typeof CHECKOUT_FAILED;
 }
-interface ClearOrderAction {
+interface CLEAR_ORDER_ACTION {
   readonly type: typeof CLEAR_ORDER;
 }
 
-type CheckoutActions =
-  | CheckoutRequestAction
-  | CheckoutFailedAction
-  | CheckoutSuccessAction
-  | ClearOrderAction
-  | BasketClearAction;
+export type CHECKOUT_ACTIONS =
+  | CHECKOUT_REQUEST_ACTION
+  | CHECKOUT_SUCCESS_ACTION
+  | CHECKOUT_FAILED_ACTION
+  | CLEAR_ORDER_ACTION
+  | BASKET_CLEAR_ACTION;
 
-type CheckoutDispatch = Dispatch<CheckoutActions>;
+type CheckoutDispatch = Dispatch<CHECKOUT_ACTIONS>;
 
 export function checkOutSend(
   body: { ingredients: Array<string> },

@@ -14,6 +14,23 @@ export type ItemProps = {
   count?: any;
 };
 
+export type OrderProps = {
+  ingredients: Array<ItemProps>;
+  _id: string;
+  owner: {
+    name: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number | null;
+  price: number;
+};
+
 export type AuthRouteProps = {
   path: string;
   children: JSX.Element;

@@ -51,11 +51,18 @@ export const GET_RESET_REQUEST: "GET_RESET_REQUEST" = "GET_RESET_REQUEST";
 export const GET_RESET_SUCCESS: "GET_RESET_SUCCESS" = "GET_RESET_SUCCESS";
 export const GET_RESET_FAILED: "GET_RESET_FAILED" = "GET_RESET_FAILED";
 
+type userDataProps = {
+  refreshToken: string;
+  accessToken: string;
+  user?: RegisterUserProps;
+};
+
 interface GET_REGISTER_REQUEST_ACTION {
   readonly type: typeof GET_REGISTER_REQUEST;
 }
 interface GET_REGISTER_SUCCESS_ACTION {
   readonly type: typeof GET_REGISTER_SUCCESS;
+  data: userDataProps;
 }
 interface GET_REGISTER_FAILED_ACTION {
   readonly type: typeof GET_REGISTER_FAILED;
@@ -65,6 +72,7 @@ interface GET_LOGIN_REQUEST_ACTION {
 }
 interface GET_LOGIN_SUCCESS_ACTION {
   readonly type: typeof GET_LOGIN_SUCCESS;
+  data: userDataProps;
 }
 interface GET_LOGIN_FAILED_ACTION {
   readonly type: typeof GET_LOGIN_FAILED;
@@ -74,6 +82,7 @@ interface GET_TOKEN_REQUEST_ACTION {
 }
 interface GET_TOKEN_SUCCESS_ACTION {
   readonly type: typeof GET_TOKEN_SUCCESS;
+  data: userDataProps;
 }
 interface GET_TOKEN_FAILED_ACTION {
   readonly type: typeof GET_TOKEN_FAILED;
@@ -83,6 +92,7 @@ interface GET_USERINFO_REQUEST_ACTION {
 }
 interface GET_USERINFO_SUCCESS_ACTION {
   readonly type: typeof GET_USERINFO_SUCCESS;
+  data: userDataProps;
 }
 interface GET_USERINFO_FAILED_ACTION {
   readonly type: typeof GET_USERINFO_FAILED;
@@ -92,6 +102,7 @@ interface GET_UPDATEUSER_REQUEST_ACTION {
 }
 interface GET_UPDATEUSER_SUCCESS_ACTION {
   readonly type: typeof GET_UPDATEUSER_SUCCESS;
+  data: userDataProps;
 }
 interface GET_UPDATEUSER_FAILED_ACTION {
   readonly type: typeof GET_UPDATEUSER_FAILED;
@@ -116,6 +127,7 @@ interface GET_FORGOT_FAILED_ACTION {
 }
 interface SET_FORGOT_EMAIL_ACTION {
   readonly type: typeof SET_FORGOT_EMAIL;
+  data: string;
 }
 interface GET_RESET_REQUEST_ACTION {
   readonly type: typeof GET_RESET_REQUEST;
@@ -167,6 +179,16 @@ type GET_RESET_ACTIONS =
   | GET_RESET_REQUEST_ACTION
   | GET_RESET_SUCCESS_ACTION
   | GET_RESET_FAILED_ACTION;
+
+export type GET_USER_ALL_ACTIONS =
+  | GET_REGISTER_ACTIONS
+  | GET_LOGIN_ACTIONS
+  | GET_TOKEN_ACTIONS
+  | GET_USERINFO_ACTIONS
+  | GET_UPDATEUSER_ACTIONS
+  | GET_LOGOUT_ACTIONS
+  | GET_FORGOT_ACTIONS
+  | GET_RESET_ACTIONS;
 
 type GET_REGISTER_DISPATCH = Dispatch<GET_REGISTER_ACTIONS>;
 type GET_LOGIN_DISPATCH = Dispatch<GET_LOGIN_ACTIONS>;

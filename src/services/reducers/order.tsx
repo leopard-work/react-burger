@@ -1,14 +1,38 @@
 import {
+  CHECKOUT_ACTIONS,
   CHECKOUT_FAILED,
   CHECKOUT_REQUEST,
   CHECKOUT_SUCCESS,
   CLEAR_ORDER,
 } from "../actions/order";
+import { OrderProps } from "../../utils/types";
 
-const initialState = {
+type orderState = {
+  orderInfo: {
+    order: OrderProps;
+  };
+  orderModalOpen: boolean;
+  orderRequest: boolean;
+  orderFailed: boolean;
+};
+
+const initialState: orderState = {
   orderInfo: {
     order: {
+      ingredients: [],
+      _id: "",
+      owner: {
+        name: "",
+        email: "",
+        createdAt: "",
+        updatedAt: "",
+      },
+      status: "",
+      name: "",
+      createdAt: "",
+      updatedAt: "",
       number: null,
+      price: 0,
     },
   }, // Информация о заказе
   orderModalOpen: false, // Открытие окна с заказом
@@ -16,7 +40,10 @@ const initialState = {
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action: any) => {
+export const orderReducer = (
+  state = initialState,
+  action: CHECKOUT_ACTIONS
+) => {
   switch (action.type) {
     case CHECKOUT_REQUEST: {
       // Отправка заказа

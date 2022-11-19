@@ -1,11 +1,23 @@
 import {
   CHANGE_ACTIVE_TAB,
+  GET_ITEMS_ACTIONS,
   GET_ITEMS_FAILED,
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
 } from "../actions/catalog";
+import { ItemProps } from "../../utils/types";
 
-const initialState = {
+type catalogState = {
+  items: {
+    data: Array<ItemProps>;
+    success: boolean;
+  };
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+  activeTab: string;
+};
+
+const initialState: catalogState = {
   items: {
     // Меню
     data: [],
@@ -17,7 +29,10 @@ const initialState = {
   activeTab: "one", // Активаная вкладка навигации в меню
 };
 
-export const catalogReducer = (state = initialState, action: any) => {
+export const catalogReducer = (
+  state = initialState,
+  action: GET_ITEMS_ACTIONS
+) => {
   switch (action.type) {
     case GET_ITEMS_REQUEST: {
       return {

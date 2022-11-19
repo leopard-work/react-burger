@@ -26,9 +26,41 @@ import {
   GET_RESET_REQUEST,
   GET_RESET_SUCCESS,
   GET_RESET_FAILED,
+  GET_USER_ALL_ACTIONS,
 } from "../actions/user";
 
-const initialState = {
+type userState = {
+  user: string;
+  refreshToken: string;
+  accessToken: string;
+  registerRequest: boolean;
+  registerFailed: boolean;
+  registerSuccess: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  loginSuccess: boolean;
+  tokenRequest: boolean;
+  tokenFailed: boolean;
+  tokenSuccess: boolean;
+  userInfoRequest: boolean;
+  userInfoFailed: boolean;
+  userInfoSuccess: boolean;
+  updateUserRequest: boolean;
+  updateUserFailed: boolean;
+  updateUserSuccess: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+  logoutSuccess: boolean;
+  forgotRequest: boolean;
+  forgotFailed: boolean;
+  forgotSuccess: boolean;
+  forgotEmail: string;
+  resetRequest: boolean;
+  resetFailed: boolean;
+  resetSuccess: boolean;
+};
+
+const initialState: userState = {
   user: "",
   refreshToken: "",
   accessToken: "",
@@ -59,7 +91,10 @@ const initialState = {
   resetSuccess: false,
 };
 
-export const userReducer = (state = initialState, action: any) => {
+export const userReducer = (
+  state = initialState,
+  action: GET_USER_ALL_ACTIONS
+) => {
   switch (action.type) {
     case GET_REGISTER_REQUEST: {
       return {

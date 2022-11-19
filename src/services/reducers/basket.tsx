@@ -1,15 +1,21 @@
 import {
   ADD_TO_BASKET,
+  BASKET_ACTIONS,
   BASKET_CLEAR,
   REMOVE_FROM_BASKET,
   SORT_BASKET,
 } from "../actions/basket";
+import { ItemProps } from "../../utils/types";
 
-const initialState = {
+type basketState = {
+  basket: Array<ItemProps>;
+};
+
+const initialState: basketState = {
   basket: [], // Корзина
 };
 
-export const basketReducer = (state = initialState, action: any) => {
+export const basketReducer = (state = initialState, action: BASKET_ACTIONS) => {
   switch (action.type) {
     case ADD_TO_BASKET: {
       // Добавление товара в корзину

@@ -11,6 +11,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { logoutUserAction, updateUser } from "../../services/actions/user";
 import { useAppSelector, useDispatch } from "../../services/reducers";
+import { Orders } from "../orders/orders";
 
 type LoginProps = {
   type: string;
@@ -217,13 +218,7 @@ const Profile: FC<LoginProps> = ({ type }) => {
           ) : (
             ""
           )}
-          {type === "orders" ? (
-            <div className={styles.setup}>
-              <p className="text text_type_main-medium">В разработке...</p>
-            </div>
-          ) : (
-            ""
-          )}
+          {type === "orders" ? <Orders /> : ""}
         </div>
       </div>
     </div>

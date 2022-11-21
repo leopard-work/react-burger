@@ -19,7 +19,7 @@ import Cookies from "js-cookie";
 import { tokenUser } from "../../services/actions/user";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
-import { useDispatch, useAppSelector } from "../../services/reducers";
+import { useAppSelector, useDispatch } from "../../services/reducers";
 
 function App() {
   const user = useAppSelector((state) => state.user);
@@ -29,6 +29,8 @@ function App() {
     if (!user["user"] && Cookies.get("token")) {
       const body = { token: Cookies.get("token") };
       await dispatch(tokenUser(body));
+    } else {
+      await dispatch({ type: "GET_TOKEN_FAILED" });
     }
   };
 
@@ -40,7 +42,7 @@ function App() {
     dispatch(getItems());
   }, [dispatch]);
 
-  if (user["tokenRequest"] || user["userInfoRequest"]) {
+  if (user["tokenRequest"] || user["userInfoRequest"] || user["userCheck"]) {
     return (
       <div className={`${styles.loading} text text_type_main-medium`}>
         Загрузка ...
@@ -71,11 +73,11 @@ function App() {
               <ResetPage />
             </AuthRoute>
 
-            <ProtectedRoute path="/profile" exact={true}>
-              <ProfilePage />
-            </ProtectedRoute>
             <ProtectedRoute path="/profile/orders" exact={true}>
               <OrdersPage />
+            </ProtectedRoute>
+            <ProtectedRoute path="/profile" exact={true}>
+              <ProfilePage />
             </ProtectedRoute>
 
             <Route path="/feed" exact={true}>

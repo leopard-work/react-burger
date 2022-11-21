@@ -42,6 +42,7 @@ type userState = {
   tokenRequest: boolean;
   tokenFailed: boolean;
   tokenSuccess: boolean;
+  userCheck: boolean;
   userInfoRequest: boolean;
   userInfoFailed: boolean;
   userInfoSuccess: boolean;
@@ -73,6 +74,7 @@ const initialState: userState = {
   tokenRequest: false,
   tokenFailed: false,
   tokenSuccess: false,
+  userCheck: true,
   userInfoRequest: false,
   userInfoFailed: false,
   userInfoSuccess: false,
@@ -162,6 +164,7 @@ export const userReducer = (
         tokenRequest: false,
         tokenFailed: false,
         tokenSuccess: true,
+        userCheck: false,
       };
     }
     case GET_TOKEN_FAILED: {
@@ -169,6 +172,7 @@ export const userReducer = (
         ...state,
         tokenFailed: true,
         tokenRequest: false,
+        userCheck: false,
       };
     }
     case GET_USERINFO_REQUEST: {

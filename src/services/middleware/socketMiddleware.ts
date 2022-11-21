@@ -11,8 +11,11 @@ import {
 export const socketMiddleware = (wsUrl: string): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
+    console.log("test 1");
 
     return (next) => (action: WS_ACTIONS) => {
+      console.log("test 2");
+
       const { dispatch, getState } = store;
       const { type, payload } = action;
 

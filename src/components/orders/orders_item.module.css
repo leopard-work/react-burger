@@ -1,0 +1,54 @@
+.wrapper {
+    width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.params {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    max-height: 312px;
+}
+.params::-webkit-scrollbar {
+    width: 8px;
+}
+.params::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.params::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+.param {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.param:last-child {
+    margin-bottom: 0px !important;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+.icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: solid 2px greenyellow;
+}
+.bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+

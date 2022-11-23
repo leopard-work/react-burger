@@ -73,6 +73,9 @@ function App() {
               <ResetPage />
             </AuthRoute>
 
+            <ProtectedRoute path="/profile/orders/:id" exact={true}>
+              <OrdersPage />
+            </ProtectedRoute>
             <ProtectedRoute path="/profile/orders" exact={true}>
               <OrdersPage />
             </ProtectedRoute>

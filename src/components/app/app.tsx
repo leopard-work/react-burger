@@ -80,6 +80,9 @@ function App() {
               <ProfilePage />
             </ProtectedRoute>
 
+            <Route path="/feed/:id" exact={true}>
+              <FeedPage />
+            </Route>
             <Route path="/feed" exact={true}>
               <FeedPage />
             </Route>

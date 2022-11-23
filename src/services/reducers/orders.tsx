@@ -5,12 +5,18 @@ import {
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE,
   WS_ACTIONS,
+  OPEN_ORDER_ITEM,
+  CLOSE_ORDER_ITEM,
 } from "../actions/ws";
 
 const initialState: any = {
   test: "",
   ordersRequest: false,
   ordersFailed: false,
+  viewFullOrder: {
+    _id: "",
+  },
+  viewFullOrderModalOpen: false,
 };
 
 export const ordersReducer = (state = initialState, action: WS_ACTIONS) => {
@@ -43,6 +49,20 @@ export const ordersReducer = (state = initialState, action: WS_ACTIONS) => {
         ...state,
         test: action.payload,
         ordersFailed: false,
+      };
+    }
+    case OPEN_ORDER_ITEM: {
+      // Удаление информации о заказе
+      return {
+        ...state,
+        viewFullOrderModalOpen: true,
+      };
+    }
+    case CLOSE_ORDER_ITEM: {
+      // Удаление информации о заказе
+      return {
+        ...state,
+        viewFullOrderModalOpen: false,
       };
     }
     default: {

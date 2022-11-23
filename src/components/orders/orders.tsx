@@ -4,9 +4,10 @@ import styles from "./orders.module.css";
 import stylesItem from "./orders_item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "../../services/reducers";
+import { useAppSelector, useDispatch } from "../../services/reducers";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
+import { CLOSE_ORDER_ITEM, OPEN_ORDER_ITEM } from "../../services/actions/ws";
 
 export const Orders = () => {
   return (
@@ -19,40 +20,67 @@ export const Orders = () => {
 };
 
 export const OrdersItems = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const orders = useAppSelector((state) => state.orders);
+
+  const openOrder = (order: any) => {
+    console.log("aa");
+    dispatch({ type: OPEN_ORDER_ITEM, viewFullOrder: order });
+    history.replace(`/feed/${order._id}`, { modal: true });
+  };
+
+  const modalClose = () => {
+    dispatch({ type: CLOSE_ORDER_ITEM });
+    history.push("/feed");
+  };
+
+  const testItem = {
+    _id: "232323",
+  };
+
   return (
-    <div className={styles.item + " pt-6 pr-6 pb-6 pl-6 mb-4"}>
-      <div className={styles.top + " mb-6"}>
-        <p className="text text_type_digits-default">#034535</p>
-        <p className="text text_type_main-default text_color_inactive">
-          Сегодня, 16:20 i-GMT+3
+    <>
+      <div
+        className={styles.item + " pt-6 pr-6 pb-6 pl-6 mb-4"}
+        onClick={() => openOrder(testItem)}
+      >
+        <div className={styles.top + " mb-6"}>
+          <p className="text text_type_digits-default">#034535</p>
+          <p className="text text_type_main-default text_color_inactive">
+            Сегодня, 16:20 i-GMT+3
+          </p>
+        </div>
+        <p className="text text_type_main-medium mb-2">
+          Death Star Starship Main бургер
         </p>
-      </div>
-      <p className="text text_type_main-medium mb-2">
-        Death Star Starship Main бургер
-      </p>
-      <p className="text text_type_main-default mb-6">Создан</p>
-      <div className={styles.bottom}>
-        <div className={styles.params}>
-          <div
-            className={
-              styles.param + " text text_type_main-default text_color_inactive"
-            }
-          >
-            +3
+        <p className="text text_type_main-default mb-6">Создан</p>
+        <div className={styles.bottom}>
+          <div className={styles.params}>
+            <div
+              className={
+                styles.param +
+                " text text_type_main-default text_color_inactive"
+              }
+            >
+              +3
+            </div>
+            <div className={styles.param}></div>
+            <div className={styles.param}></div>
+            <div className={styles.param}></div>
+            <div className={styles.param}></div>
+            <div className={styles.param}></div>
           </div>
-          <div className={styles.param}></div>
-          <div className={styles.param}></div>
-          <div className={styles.param}></div>
-          <div className={styles.param}></div>
-          <div className={styles.param}></div>
-        </div>
-        <div className={styles.price}>
-          <p className="text text_type_digits-default mr-2">480</p>{" "}
-          <CurrencyIcon type="primary" />
+          <div className={styles.price}>
+            <p className="text text_type_digits-default mr-2">480</p>{" "}
+            <CurrencyIcon type="primary" />
+          </div>
         </div>
       </div>
-      <OrdersModal />
-    </div>
+      <Modal isOpen={orders.viewFullOrderModalOpen} close={() => modalClose()}>
+        <OrderItem />
+      </Modal>
+    </>
   );
 };
 
@@ -137,25 +165,5 @@ export const OrderItem = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-export const OrdersModal = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  /*const openOrder = (order: any) => {
-      dispatch({ type: VIEWORDER_OPEN, item: order });
-      history.replace(`/orders/${order._id}`, { modal: true });
-    };*/
-
-  const modalClose = () => {
-    //dispatch({ type: CLOSE_VIEW_ITEM });
-    history.push("/feed");
-  };
-  return (
-    <Modal isOpen={true} close={() => modalClose()}>
-      <OrderItem />
-    </Modal>
   );
 };

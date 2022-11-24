@@ -27,15 +27,11 @@ interface ORDERS_WS_CLOSE_ACTION {
 }
 interface ORDERS_WS_ERROR_ACTION {
   readonly type: typeof ORDERS_WS_ERROR;
-  payload: {
-    error: string;
-  };
+  error: string;
 }
 interface ORDERS_WS_MESSAGE_ACTION {
   readonly type: typeof ORDERS_WS_MESSAGE;
-  payload: {
-    data: any;
-  };
+  data: any;
 }
 interface OPEN_ORDER_ITEM {
   readonly type: typeof OPEN_ORDER_ITEM;

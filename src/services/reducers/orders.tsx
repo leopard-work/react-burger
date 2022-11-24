@@ -51,7 +51,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "message",
-        orders: action.payload.data,
+        orders: action.data,
       };
     }
     case ORDERS_WS_CLOSE: {
@@ -64,7 +64,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "error",
-        error: action.payload.error,
+        error: action.error,
       };
     }
     case OPEN_ORDER_ITEM: {

@@ -3,7 +3,10 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed.module.css";
 import { OrdersItems } from "../orders/orders";
 import { useAppDispatch } from "../../services/reducers";
-import { ORDERS_CONNECT } from "../../services/actions/orders";
+import {
+  ORDERS_CONNECT,
+  ORDERS_DISCONNECT,
+} from "../../services/actions/orders";
 
 export const Feed = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +16,11 @@ export const Feed = () => {
       type: ORDERS_CONNECT,
       payload: "wss://norma.nomoreparties.space/orders/all",
     });
+    return () => {
+      dispatch({
+        type: ORDERS_DISCONNECT,
+      });
+    };
   }, [dispatch]);
 
   return (

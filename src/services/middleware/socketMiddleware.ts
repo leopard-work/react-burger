@@ -12,14 +12,10 @@ export type TWsActions = {
 };
 
 export const socketMiddleware = (wsActions: TWsActions): Middleware => {
-  return (store) => {
-    console.log("socketMiddleware");
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
-    //socket = new WebSocket("wss://norma.nomoreparties.space/orders/all");
-    //console.log(socket);
     let url = "";
     return (next) => (action) => {
-      console.log("socketMiddleware next");
       const { type, payload } = action;
       const { dispatch } = store;
       const {
@@ -51,6 +47,7 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
         socket.onmessage = (event) => {
           const { data } = event;
           const parseData = JSON.parse(data);
+          console.log(parseData);
           dispatch({ type: onMessage, data: parseData });
         };
 
@@ -70,48 +67,3 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     };
   };
 };
-
-/*export const socketMiddleware = (
-  wsActions: TWsActions
-): Middleware<{}, RootState> => {
-  return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
-    let socket: WebSocket | null = null;
-    console.log("test 1");
-
-    return (next) => (action) => {
-      console.log("test 2");
-
-      // const { dispatch, getState } = store;
-      // const { type, payload } = action;
-      //
-      // if (type === "WS_CONNECTION_START") {
-      //   socket = new WebSocket(wsUrl);
-      // }
-      // if (socket) {
-      //   socket.onopen = (event) => {
-      //     dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
-      //   };
-      //
-      //   socket.onerror = (event) => {
-      //     dispatch({ type: WS_CONNECTION_ERROR, payload: event });
-      //   };
-      //
-      //   socket.onmessage = (event) => {
-      //     const { data } = event;
-      //     dispatch({ type: WS_GET_MESSAGE, payload: data });
-      //   };
-      //
-      //   socket.onclose = (event) => {
-      //     //dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
-      //   };
-      //
-      //   if (type === "WS_SEND_MESSAGE") {
-      //     const message = payload;
-      //     socket.send(JSON.stringify(message));
-      //   }
-      // }
-
-      next(action);
-    };
-  }) as Middleware;
-};*/

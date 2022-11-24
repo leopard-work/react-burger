@@ -19,7 +19,6 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ path, children, exact }) => {
       </Route>
     );
   } else {
-    console.log("ok");
     //if (user.tokenSuccess || !Cookies.get("token"))
     return (
       <Redirect

@@ -2,8 +2,19 @@ import React, { useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed.module.css";
 import { OrdersItems } from "../orders/orders";
+import { useDispatch } from "../../services/reducers";
+import { ORDERS_CONNECT } from "../../services/actions/orders";
 
 export const Feed = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: ORDERS_CONNECT,
+      payload: "wss://norma.nomoreparties.space/orders/all",
+    });
+  }, [dispatch]);
+
   return (
     <div className="container pl-4 pr-4 mt-10">
       <p className="text text_type_main-large mb-4">Лента заказов</p>

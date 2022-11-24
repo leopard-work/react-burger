@@ -224,7 +224,10 @@ export const userReducer = (
       return initialState;
     }
     case GET_LOGOUT_SUCCESS: {
-      return initialState;
+      return {
+        ...initialState,
+        userCheck: false,
+      };
     }
     case GET_LOGOUT_FAILED: {
       return {

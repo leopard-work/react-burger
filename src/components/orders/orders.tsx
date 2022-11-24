@@ -7,7 +7,10 @@ import { useHistory } from "react-router-dom";
 import { useAppSelector, useDispatch } from "../../services/reducers";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
-import { CLOSE_ORDER_ITEM, OPEN_ORDER_ITEM } from "../../services/actions/ws";
+import {
+  CLOSE_ORDER_ITEM,
+  OPEN_ORDER_ITEM,
+} from "../../services/actions/orders";
 
 export const Orders = () => {
   return (
@@ -25,7 +28,6 @@ export const OrdersItems = () => {
   const orders = useAppSelector((state) => state.orders);
 
   const openOrder = (order: any) => {
-    console.log("aa");
     dispatch({ type: OPEN_ORDER_ITEM, viewFullOrder: order });
     history.replace(`/feed/${order._id}`, { modal: true });
   };

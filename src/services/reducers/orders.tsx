@@ -1,65 +1,79 @@
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
-  WS_ACTIONS,
+  ORDERS_CONNECT,
+  ORDERS_DISCONNECT,
+  ORDERS_WS_CONNECTING,
+  ORDERS_WS_OPEN,
+  ORDERS_WS_CLOSE,
+  ORDERS_WS_ERROR,
+  ORDERS_WS_MESSAGE,
+  ORDERS_ACTIONS,
   OPEN_ORDER_ITEM,
   CLOSE_ORDER_ITEM,
-} from "../actions/ws";
+} from "../actions/orders";
 
 const initialState: any = {
-  test: "",
-  ordersRequest: false,
-  ordersFailed: false,
+  orders: "",
+  status: "",
+  error: "",
   viewFullOrder: {
     _id: "",
   },
   viewFullOrderModalOpen: false,
 };
 
-export const ordersReducer = (state = initialState, action: WS_ACTIONS) => {
+export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
   switch (action.type) {
-    case WS_CONNECTION_START: {
-      // Отправка заказа
+    case ORDERS_CONNECT: {
       return {
         ...state,
-        ordersRequest: true,
+        status: "connect...",
       };
     }
-    case WS_CONNECTION_SUCCESS: {
+    case ORDERS_DISCONNECT: {
       return {
         ...state,
-        ordersRequest: false,
-        ordersFailed: false,
-        test: action.payload,
+        status: "disconnect",
       };
     }
-    case WS_CONNECTION_ERROR: {
+    case ORDERS_WS_CONNECTING: {
       return {
         ...state,
-        ordersFailed: true,
-        ordersRequest: false,
+        status: "connecting",
       };
     }
-    case WS_GET_MESSAGE: {
-      // Удаление информации о заказе
+    case ORDERS_WS_OPEN: {
       return {
         ...state,
-        test: action.payload,
-        ordersFailed: false,
+        status: "open",
+      };
+    }
+    case ORDERS_WS_MESSAGE: {
+      return {
+        ...state,
+        status: "message",
+        orders: action.payload.data,
+      };
+    }
+    case ORDERS_WS_CLOSE: {
+      return {
+        ...state,
+        status: "close",
+      };
+    }
+    case ORDERS_WS_ERROR: {
+      return {
+        ...state,
+        status: "error",
+        error: action.payload.error,
       };
     }
     case OPEN_ORDER_ITEM: {
-      // Удаление информации о заказе
       return {
         ...state,
         viewFullOrderModalOpen: true,
       };
     }
     case CLOSE_ORDER_ITEM: {
-      // Удаление информации о заказе
       return {
         ...state,
         viewFullOrderModalOpen: false,

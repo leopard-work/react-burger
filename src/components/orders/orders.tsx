@@ -3,7 +3,7 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./orders.module.css";
 import stylesItem from "./orders_item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useAppSelector, useDispatch } from "../../services/reducers";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
@@ -24,8 +24,18 @@ export const Orders = () => {
 
 export const OrdersItems = () => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const orders = useAppSelector((state) => state.orders);
+  const params: { id: string } = useParams();
+
+  useEffect(() => {
+    if (location.state)
+      dispatch({
+        type: OPEN_ORDER_ITEM,
+        item: params.id,
+      });
+  }, [location.state, params.id, dispatch]);
 
   const openOrder = (order: any) => {
     dispatch({ type: OPEN_ORDER_ITEM, viewFullOrder: order });

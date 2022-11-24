@@ -20,7 +20,7 @@ import {
 import { useDrag, useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 type ConstructorItemProps = {
   item: ItemProps;
@@ -30,7 +30,7 @@ type ConstructorItemProps = {
 };
 
 const ConstructorItem: FC<ConstructorItemProps> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const refItem = useRef(null);
   const refBun = useRef(null);
 
@@ -87,7 +87,7 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
 };
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const basket = useAppSelector((state) => state.basket);
   const order = useAppSelector((state) => state.order);

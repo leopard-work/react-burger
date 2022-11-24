@@ -19,11 +19,11 @@ import Cookies from "js-cookie";
 import { tokenUser } from "../../services/actions/user";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 function App() {
   const user = useAppSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const init = async () => {
     if (!user["user"] && Cookies.get("token")) {

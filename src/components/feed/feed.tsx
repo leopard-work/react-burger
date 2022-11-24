@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed.module.css";
 import { OrdersItems } from "../orders/orders";
-import { useDispatch } from "../../services/reducers";
+import { useAppDispatch } from "../../services/reducers";
 import { ORDERS_CONNECT } from "../../services/actions/orders";
 
 export const Feed = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({

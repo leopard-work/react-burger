@@ -10,7 +10,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { logoutUserAction, updateUser } from "../../services/actions/user";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 import { Orders } from "../orders/orders";
 
 type LoginProps = {
@@ -19,7 +19,7 @@ type LoginProps = {
 
 const Profile: FC<LoginProps> = ({ type }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [editProfile, setEditProfile] = useState(false);
   const initialState = {

@@ -15,10 +15,10 @@ import PropTypes from "prop-types";
 import { CHANGE_ACTIVE_TAB } from "../../services/actions/catalog";
 import { CLOSE_VIEW_ITEM, VIEW_ITEM } from "../../services/actions/item";
 import { useDrag } from "react-dnd";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 const Tabs = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const catalog = useAppSelector((state) => state.catalog);
   const viewed = useAppSelector((state) => state.item);
   const current = catalog.activeTab;
@@ -159,7 +159,7 @@ TabsCategory.propTypes = {
 
 //{ item: ItemProps }
 const TabsItem = (props: { item: ItemProps; basketCart: Array<ItemProps> }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [{ opacity }, ref] = useDrag({
     type: "items",

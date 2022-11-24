@@ -16,7 +16,7 @@ import {
   resetUser,
 } from "../../services/actions/user";
 import { useForm } from "../../hooks/useForm";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 type LoginProps = {
   type: string;
@@ -24,7 +24,7 @@ type LoginProps = {
 
 // @ts-ignore
 const Login: FC<LoginProps> = ({ type }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const user = useAppSelector((state) => state.user);
 

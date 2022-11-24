@@ -4,7 +4,7 @@ import styles from "./orders.module.css";
 import stylesItem from "./orders_item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { useAppSelector, useDispatch } from "../../services/reducers";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import {
@@ -25,7 +25,7 @@ export const Orders = () => {
 export const OrdersItems = () => {
   const history = useHistory();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders);
   const params: { id: string } = useParams();
 

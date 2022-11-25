@@ -14,10 +14,9 @@ import {
 const initialState: any = {
   orders: "",
   status: "",
+  connect: false,
   error: "",
-  viewFullOrder: {
-    _id: "",
-  },
+  viewFullOrder: [],
   viewFullOrderModalOpen: false,
 };
 
@@ -39,6 +38,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "connecting",
+        connect: true,
       };
     }
     case ORDERS_WS_OPEN: {
@@ -58,6 +58,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "close",
+        connect: false,
       };
     }
     case ORDERS_WS_ERROR: {
@@ -65,12 +66,14 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
         ...state,
         status: "error",
         error: action.error,
+        connect: false,
       };
     }
     case OPEN_ORDER_ITEM: {
       return {
         ...state,
         viewFullOrderModalOpen: true,
+        viewFullOrder: action.item,
       };
     }
     case CLOSE_ORDER_ITEM: {

@@ -75,3 +75,13 @@ export type userDataProps = {
   accessToken: string;
   user?: RegisterUserProps;
 };
+
+export type OrderItemProps = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};

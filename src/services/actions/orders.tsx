@@ -1,3 +1,5 @@
+import { OrderItemProps } from "../../utils/types";
+
 export const ORDERS_CONNECT: "ORDERS_CONNECT" = "ORDERS_CONNECT";
 export const ORDERS_DISCONNECT: "ORDERS_DISCONNECT" = "ORDERS_DISCONNECT";
 export const ORDERS_WS_CONNECTING: "ORDERS_WS_CONNECTING" =
@@ -35,6 +37,7 @@ interface ORDERS_WS_MESSAGE_ACTION {
 }
 interface OPEN_ORDER_ITEM {
   readonly type: typeof OPEN_ORDER_ITEM;
+  item: OrderItemProps;
 }
 
 interface CLOSE_ORDER_ITEM {

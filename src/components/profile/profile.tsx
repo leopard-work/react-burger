@@ -110,12 +110,10 @@ const Profile: FC<LoginProps> = ({ type }) => {
   };
 
   useEffect(() => {
-    if (!orders.connect) {
-      dispatch({
-        type: ORDERS_CONNECT,
-        payload: `wss://norma.nomoreparties.space/orders?token=${user["accessToken"]}`,
-      });
-    }
+    dispatch({
+      type: ORDERS_CONNECT,
+      payload: `wss://norma.nomoreparties.space/orders?token=${user["accessToken"]}`,
+    });
     return () => {
       dispatch({
         type: ORDERS_DISCONNECT,
@@ -237,7 +235,11 @@ const Profile: FC<LoginProps> = ({ type }) => {
           ) : (
             ""
           )}
-          {type === "orders" && orders.orders.success ? <Orders /> : ""}
+          {type === "orders" && orders.orders.success ? (
+            <Orders page="profile/orders" />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

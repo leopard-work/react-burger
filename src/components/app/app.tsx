@@ -80,7 +80,7 @@ function App() {
             </AuthRoute>
 
             <ProtectedRoute path="/profile/orders/:id" exact={true}>
-              <OrdersPage />
+              <OrdersPage openOrder={true} />
             </ProtectedRoute>
             <ProtectedRoute path="/profile/orders" exact={true}>
               <OrdersPage />

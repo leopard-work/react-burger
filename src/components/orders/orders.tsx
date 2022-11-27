@@ -12,23 +12,25 @@ import {
   OPEN_ORDER_ITEM,
 } from "../../services/actions/orders";
 
-export const Orders = () => {
+export const Orders = (props: { page?: string }) => {
   return (
     <div className={styles.page + " pt-10"}>
       <div className={styles.wrapper + " pr-2"}>
-        <OrdersItems />
+        <OrdersItems page={props.page} />
       </div>
     </div>
   );
 };
 
-export const OrdersItems = () => {
+export const OrdersItems = (props: { page?: string }) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders);
   const params: { id: string } = useParams();
   const items = orders.orders.orders;
+  let page = "feed";
+  if (props.page) page = props.page;
 
   useEffect(() => {
     if (location.state)
@@ -40,13 +42,13 @@ export const OrdersItems = () => {
 
   const modalClose = () => {
     dispatch({ type: CLOSE_ORDER_ITEM });
-    history.push("/feed");
+    history.push(`/${page}`);
   };
 
   return (
     <>
       {items.map((item: OrderItemProps) => (
-        <OrderItem item={item} key={item._id} />
+        <OrderItem item={item} page={props.page} key={item._id} />
       ))}
       <Modal isOpen={orders.viewFullOrderModalOpen} close={() => modalClose()}>
         <OrderModalItem item={orders.viewFullOrder} />
@@ -135,12 +137,14 @@ const statusParse = (status: string) => {
   if (status === "done") return <span className={styles.done}>Выполнен</span>;
 };
 
-const OrderItem = (props: { item: OrderItemProps }) => {
+const OrderItem = (props: { item: OrderItemProps; page?: string }) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
+  let page = "feed";
+  if (props.page) page = props.page;
   const openOrder = (order: OrderItemProps) => {
     dispatch({ type: OPEN_ORDER_ITEM, item: order });
-    history.replace(`/feed/${order._id}`, { modal: true });
+    history.replace(`/${page}/${order._id}`, { modal: true });
   };
   const item = props.item;
   const catalog = useAppSelector((state) => state.catalog);

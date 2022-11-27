@@ -60,6 +60,12 @@ function App() {
             <Route path="/ingredients/:id" exact={true}>
               <HomePage openItem={true} />
             </Route>
+            <Route path="/feed" exact={true}>
+              <FeedPage />
+            </Route>
+            <Route path="/feed/:id" exact={true}>
+              <FeedPage openOrder={true} />
+            </Route>
             <AuthRoute path="/login" exact={true}>
               <LoginPage />
             </AuthRoute>
@@ -82,13 +88,6 @@ function App() {
             <ProtectedRoute path="/profile" exact={true}>
               <ProfilePage />
             </ProtectedRoute>
-
-            <Route path="/feed" exact={true}>
-              <FeedPage />
-            </Route>
-            <Route path="/feed/:id" exact={true}>
-              <FeedPage openOrder={true} />
-            </Route>
 
             <Route>
               <Page404 />

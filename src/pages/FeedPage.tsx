@@ -12,7 +12,7 @@ function FeedPage(props: { openOrder?: boolean }) {
   const location = useLocation();
 
   if (props.openOrder && !location.state) {
-    return <Feed openOrder={false} />;
+    return <Feed openOrder={true} />;
   }
   return <Feed openOrder={false} />;
 }

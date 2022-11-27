@@ -47,10 +47,10 @@ export const OrdersItems = () => {
   return (
     <>
       {items.map((item: OrderItemProps) => (
-        <OrderItem item={item} />
+        <OrderItem item={item} key={item._id} />
       ))}
       <Modal isOpen={orders.viewFullOrderModalOpen} close={() => modalClose()}>
-        <OrderModalItem />
+        <OrderModalItem item={orders.viewFullOrder} />
       </Modal>
     </>
   );
@@ -74,7 +74,7 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
     if (i < 6) {
       if (i != 5) {
         parseItemsElements.push(
-          <div className={styles.param}>
+          <div className={styles.param} key={i}>
             <img src={item.image} alt="" />
           </div>
         );
@@ -84,17 +84,22 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
             className={
               styles.param + " text text_type_main-default text_color_inactive"
             }
+            key={i}
           >
             <img src={item.image} alt="" />
-            <span className="text text_type_main-default">
-              {parseItems.length - 6 !== 0 ? `+${parseItems.length - 6}` : ""}
-            </span>
+            {parseItems.length - 6 !== 0 ? (
+              <span className="text text_type_main-default">
+                +{parseItems.length - 6}
+              </span>
+            ) : (
+              ""
+            )}
           </div>
         );
       }
     }
     parseItemsElementsModal.push(
-      <div className={stylesItem.param + " mb-4"}>
+      <div className={stylesItem.param + " mb-4"} key={i}>
         <div className={stylesItem.title}>
           <div className={stylesItem.icon + " mr-4"}>
             <img src={item.image} alt={item.name} />
@@ -158,9 +163,7 @@ const OrderItem = (props: { item: OrderItemProps }) => {
         {statusParse(item.status)}
       </p>
       <div className={styles.bottom}>
-        <div className={styles.params}>
-          {parseElements.items.map((el: any) => el)}
-        </div>
+        <div className={styles.params}>{parseElements.items}</div>
         <div className={styles.price}>
           <p className="text text_type_digits-default mr-2">
             {parseElements.price}
@@ -172,9 +175,7 @@ const OrderItem = (props: { item: OrderItemProps }) => {
   );
 };
 
-export const OrderModalItem = () => {
-  const dispatch = useAppDispatch();
-  const item = useAppSelector((state) => state.orders.viewFullOrder);
+export const OrderModalItem: FC<{ item: OrderItemProps }> = ({ item }) => {
   const catalog = useAppSelector((state) => state.catalog);
   const parseElements = ingredientsParse(item.ingredients, catalog.items.data);
 

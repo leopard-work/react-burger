@@ -56,7 +56,7 @@ export const Feed = (props: { openOrder: boolean }) => {
                   <p className="text text_type_main-medium mb-6">Готовы</p>
                   <div className={styles.numbers_blue}>
                     {doneNumbers.map((item: OrderItemProps, i: number) => {
-                      if (i < 6) return numbersTpl(item.number, item._id);
+                      if (i < 11) return numbersTpl(item.number, item._id);
                       return false;
                     })}
                   </div>
@@ -65,7 +65,7 @@ export const Feed = (props: { openOrder: boolean }) => {
                   <p className="text text_type_main-medium mb-6">В работе</p>
                   <div>
                     {pendingNumbers.map((item: OrderItemProps, i: number) => {
-                      if (i < 6) return numbersTpl(item.number, item._id);
+                      if (i < 11) return numbersTpl(item.number, item._id);
                       return false;
                     })}
                   </div>

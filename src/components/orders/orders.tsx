@@ -38,7 +38,7 @@ export const OrdersItems = (props: { page?: string }) => {
         type: OPEN_ORDER_ITEM,
         item: items.find((item: OrderItemProps) => item._id === params.id),
       });
-  }, [location.state, params.id, dispatch]);
+  }, [location.state, params.id, dispatch, items]);
 
   const modalClose = () => {
     dispatch({ type: CLOSE_ORDER_ITEM });
@@ -69,11 +69,12 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
   let price = 0;
   items.map((item) => {
     parseItems.push(catalog.find((el: ItemProps) => el._id === item));
+    return false;
   });
   parseItems.map((item, i: number) => {
     price += item.price;
     if (i < 6) {
-      if (i != 5) {
+      if (i !== 5) {
         parseItemsElements.push(
           <div className={styles.param} key={i}>
             <img src={item.image} alt="" />
@@ -115,10 +116,14 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
         </div>
       </div>
     );
+    return false;
   });
 
   parseItemsElements.reverse();
-  delete parseItemsElementsModal[parseItemsElementsModal.length - 1];
+  if (
+    parseItemsElementsModal[parseItemsElementsModal.length - 1].type === "bun"
+  )
+    delete parseItemsElementsModal[parseItemsElementsModal.length - 1];
 
   // const itemsUnique = parseItems.filter(
   //   (el: any, ind) => ind === parseItems.indexOf(el)

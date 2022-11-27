@@ -1,15 +1,14 @@
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed.module.css";
 import { OrderModalItem, OrdersItems } from "../orders/orders";
 import { useAppDispatch, useAppSelector } from "../../services/reducers";
 import {
-  OPEN_ORDER_ITEM,
   ORDERS_CONNECT,
   ORDERS_DISCONNECT,
 } from "../../services/actions/orders";
 import { loadingContent } from "../loading/loading";
-import { ItemProps, OrderItemProps } from "../../utils/types";
+import { OrderItemProps } from "../../utils/types";
 import { useParams } from "react-router-dom";
 import Page404 from "../../pages/Page404";
 
@@ -58,6 +57,7 @@ export const Feed = (props: { openOrder: boolean }) => {
                   <div className={styles.numbers_blue}>
                     {doneNumbers.map((item: OrderItemProps, i: number) => {
                       if (i < 6) return numbersTpl(item.number, item._id);
+                      return false;
                     })}
                   </div>
                 </div>
@@ -66,6 +66,7 @@ export const Feed = (props: { openOrder: boolean }) => {
                   <div>
                     {pendingNumbers.map((item: OrderItemProps, i: number) => {
                       if (i < 6) return numbersTpl(item.number, item._id);
+                      return false;
                     })}
                   </div>
                 </div>

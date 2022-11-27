@@ -17,12 +17,12 @@ import {
 } from "../../services/actions/user";
 import { useForm } from "../../hooks/useForm";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
+import page404 from "../../pages/Page404";
 
 type LoginProps = {
   type: string;
 };
 
-// @ts-ignore
 const Login: FC<LoginProps> = ({ type }) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -406,6 +406,8 @@ const Login: FC<LoginProps> = ({ type }) => {
       </div>
     );
   }
+
+  return page404();
 };
 
 export default Login;

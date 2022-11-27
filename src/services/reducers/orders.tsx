@@ -29,10 +29,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       };
     }
     case ORDERS_DISCONNECT: {
-      return {
-        ...state,
-        status: "disconnect",
-      };
+      return initialState;
     }
     case ORDERS_WS_CONNECTING: {
       return {

@@ -19,18 +19,16 @@ export const Feed = (props: { openOrder: boolean }) => {
   const { id }: { id: string } = useParams();
 
   useEffect(() => {
-    if (!orders.connect) {
-      dispatch({
-        type: ORDERS_CONNECT,
-        payload: "wss://norma.nomoreparties.space/orders/all",
-      });
-    }
+    dispatch({
+      type: ORDERS_CONNECT,
+      payload: "wss://norma.nomoreparties.space/orders/all",
+    });
     return () => {
       dispatch({
         type: ORDERS_DISCONNECT,
       });
     };
-  }, []);
+  }, [dispatch]);
 
   if (orders.orders.success) {
     const { total, totalToday } = orders.orders;

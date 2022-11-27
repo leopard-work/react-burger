@@ -11,7 +11,6 @@ import {
   CLOSE_ORDER_ITEM,
   OPEN_ORDER_ITEM,
 } from "../../services/actions/orders";
-import { number } from "prop-types";
 
 export const Orders = () => {
   return (

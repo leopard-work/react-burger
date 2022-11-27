@@ -12,6 +12,10 @@ import {
 import { logoutUserAction, updateUser } from "../../services/actions/user";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
 import { Orders } from "../orders/orders";
+import {
+  ORDERS_CONNECT,
+  ORDERS_DISCONNECT,
+} from "../../services/actions/orders";
 
 type LoginProps = {
   type: string;
@@ -20,6 +24,7 @@ type LoginProps = {
 const Profile: FC<LoginProps> = ({ type }) => {
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const orders = useAppSelector((state) => state.orders);
   const user = useAppSelector((state) => state.user);
   const [editProfile, setEditProfile] = useState(false);
   const initialState = {
@@ -103,6 +108,20 @@ const Profile: FC<LoginProps> = ({ type }) => {
     };
     dispatch(logoutUserAction(body));
   };
+
+  useEffect(() => {
+    if (!orders.connect) {
+      dispatch({
+        type: ORDERS_CONNECT,
+        payload: `wss://norma.nomoreparties.space/orders?token=${user["accessToken"]}`,
+      });
+    }
+    return () => {
+      dispatch({
+        type: ORDERS_DISCONNECT,
+      });
+    };
+  }, [dispatch]);
 
   return (
     <div className="container">
@@ -218,7 +237,7 @@ const Profile: FC<LoginProps> = ({ type }) => {
           ) : (
             ""
           )}
-          {type === "orders" ? <Orders /> : ""}
+          {type === "orders" && orders.orders.success ? <Orders /> : ""}
         </div>
       </div>
     </div>

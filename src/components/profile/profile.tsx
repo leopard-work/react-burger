@@ -2,7 +2,7 @@ import React, { useEffect, useState, FC } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import {
   Button,
   EmailInput,
@@ -11,17 +11,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { logoutUserAction, updateUser } from "../../services/actions/user";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
-import { Orders } from "../orders/orders";
+import { OrderModalItem, Orders } from "../orders/orders";
 import {
   ORDERS_CONNECT,
   ORDERS_DISCONNECT,
 } from "../../services/actions/orders";
+import { OrderItemProps } from "../../utils/types";
+import { loadingContent } from "../loading/loading";
 
 type LoginProps = {
   type: string;
+  openOrder?: boolean;
 };
 
-const Profile: FC<LoginProps> = ({ type }) => {
+const Profile: FC<LoginProps> = ({ type, openOrder }) => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders);
@@ -36,6 +39,7 @@ const Profile: FC<LoginProps> = ({ type }) => {
     errorText: "",
   };
   const [values, setValues] = useState(initialState);
+  const { id }: { id: string } = useParams();
 
   const onChangeValues = (e: any) => {
     setEditProfile(true);
@@ -121,129 +125,149 @@ const Profile: FC<LoginProps> = ({ type }) => {
     };
   }, [dispatch]);
 
-  return (
-    <div className="container">
-      <div className={styles.wrapper}>
-        <div className={styles.sidebar}>
-          <ul>
-            <li>
-              <NavLink
-                exact
-                to="/profile"
-                className="text text_type_main-medium text_color_inactive"
-                activeClassName={styles.active}
-              >
-                Профиль
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                exact
-                to="/profile/orders"
-                className="text text_type_main-medium text_color_inactive"
-                activeClassName={styles.active}
-              >
-                История заказов
-              </NavLink>
-            </li>
-            <li>
-              <a
-                href="/"
-                onClick={logoutUser}
-                className="text text_type_main-medium text_color_inactive"
-              >
-                Выход
-              </a>
-            </li>
-          </ul>
-          <p
-            className={
-              styles.info +
-              " text text_type_main-default text_color_inactive mt-20"
-            }
-          >
-            {type === "setup"
-              ? "В этом разделе вы можете изменить свои персональные данные"
-              : ""}
-            {type === "orders"
-              ? "В этом разделе вы можете просмотреть свою историю заказов"
-              : ""}
-          </p>
-        </div>
-        <div className={styles.content}>
-          {type === "setup" ? (
-            <div className={styles.setup}>
-              {values.error ? (
-                <p className="text text_type_main-default mb-4">
-                  {values.errorText}
-                </p>
-              ) : (
-                ""
-              )}
-              <form onSubmit={updateUserSend}>
-                <div className="mb-6">
-                  <Input
-                    type={"text"}
-                    placeholder={"Имя"}
-                    onChange={onChangeValues}
-                    value={values.name}
-                    name={"name"}
-                    error={false}
-                    errorText={"Ошибка"}
-                    size={"default"}
-                    icon={"EditIcon"}
-                  />
-                </div>
-                <div className="mb-6">
-                  <EmailInput
-                    onChange={onChangeValues}
-                    value={values.email}
-                    name={"email"}
-                  />
-                </div>
-                <div className="mb-6">
-                  <PasswordInput
-                    onChange={onChangeValues}
-                    value={values.password}
-                    name={"password"}
-                  />
-                </div>
-                {editProfile === true ? (
-                  <div className={styles.setup_buttons}>
-                    <Button
-                      type="secondary"
-                      size="medium"
-                      htmlType="submit"
-                      onClick={() => cancelEdit()}
-                    >
-                      Отмена
-                    </Button>
-                    <Button
-                      type="primary"
-                      size="medium"
-                      htmlType="submit"
-                      disabled={values.disabled}
-                    >
-                      Сохранить
-                    </Button>
-                  </div>
+  if (!openOrder) {
+    return (
+      <div className="container">
+        <div className={styles.wrapper}>
+          <div className={styles.sidebar}>
+            <ul>
+              <li>
+                <NavLink
+                  exact
+                  to="/profile"
+                  className="text text_type_main-medium text_color_inactive"
+                  activeClassName={styles.active}
+                >
+                  Профиль
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  exact
+                  to="/profile/orders"
+                  className="text text_type_main-medium text_color_inactive"
+                  activeClassName={styles.active}
+                >
+                  История заказов
+                </NavLink>
+              </li>
+              <li>
+                <a
+                  href="/"
+                  onClick={logoutUser}
+                  className="text text_type_main-medium text_color_inactive"
+                >
+                  Выход
+                </a>
+              </li>
+            </ul>
+            <p
+              className={
+                styles.info +
+                " text text_type_main-default text_color_inactive mt-20"
+              }
+            >
+              {type === "setup"
+                ? "В этом разделе вы можете изменить свои персональные данные"
+                : ""}
+              {type === "orders"
+                ? "В этом разделе вы можете просмотреть свою историю заказов"
+                : ""}
+            </p>
+          </div>
+          <div className={styles.content}>
+            {type === "setup" ? (
+              <div className={styles.setup}>
+                {values.error ? (
+                  <p className="text text_type_main-default mb-4">
+                    {values.errorText}
+                  </p>
                 ) : (
                   ""
                 )}
-              </form>
-            </div>
-          ) : (
-            ""
-          )}
-          {type === "orders" && orders.orders.success ? (
-            <Orders page="profile/orders" />
-          ) : (
-            ""
-          )}
+                <form onSubmit={updateUserSend}>
+                  <div className="mb-6">
+                    <Input
+                      type={"text"}
+                      placeholder={"Имя"}
+                      onChange={onChangeValues}
+                      value={values.name}
+                      name={"name"}
+                      error={false}
+                      errorText={"Ошибка"}
+                      size={"default"}
+                      icon={"EditIcon"}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <EmailInput
+                      onChange={onChangeValues}
+                      value={values.email}
+                      name={"email"}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <PasswordInput
+                      onChange={onChangeValues}
+                      value={values.password}
+                      name={"password"}
+                    />
+                  </div>
+                  {editProfile === true ? (
+                    <div className={styles.setup_buttons}>
+                      <Button
+                        type="secondary"
+                        size="medium"
+                        htmlType="submit"
+                        onClick={() => cancelEdit()}
+                      >
+                        Отмена
+                      </Button>
+                      <Button
+                        type="primary"
+                        size="medium"
+                        htmlType="submit"
+                        disabled={values.disabled}
+                      >
+                        Сохранить
+                      </Button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </form>
+              </div>
+            ) : (
+              ""
+            )}
+            {type === "orders" ? (
+              orders.orders.success ? (
+                <Orders page="profile/orders" />
+              ) : (
+                loadingContent()
+              )
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    if (orders.orders.success) {
+      const items = orders.orders.orders;
+      const order = items.find((item: OrderItemProps) => item._id === id);
+      return (
+        <div className="container pl-4 pr-4">
+          <div className={styles.orderPage}>
+            {<OrderModalItem item={order} />}
+          </div>
+        </div>
+      );
+    } else {
+      return loadingContent();
+    }
+  }
 };
 
 export default Profile;

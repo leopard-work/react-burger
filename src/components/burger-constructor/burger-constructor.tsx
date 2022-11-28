@@ -107,30 +107,26 @@ const BurgerConstructor = () => {
       ""
     )
   );
-  const bun = orderItems.find((item: ItemProps) => item.type === "bun");
+  const bun = orderItems.find((item) => item.type === "bun");
   const initialValue = 0;
-  const totalPrice = orderItems.reduce(function (
-    accumulator: number,
-    currentValue: ItemProps
-  ) {
+  const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
     if (currentValue.type === "bun")
       return accumulator + currentValue.price * 2;
     else return accumulator + currentValue.price * currentValue.count;
-  },
-  initialValue);
+  }, initialValue);
 
   const checkOut = () => {
     if (!user["accessToken"]) {
       history.push("/login");
     } else {
       const ingredients: IngredientsProps = [];
-      orderItems.forEach((item: ItemProps) => {
+      orderItems.forEach((item) => {
         for (let i = 0; i < item.count; i++) {
           ingredients.push(item._id);
           if (item.type === "bun") ingredients.push(item._id);
         }
       });
-      const body = { ingredients: ingredients };
+      const body = { ingredients };
       // dispatch({
       //     type: BASKET_CLEAR
       // })

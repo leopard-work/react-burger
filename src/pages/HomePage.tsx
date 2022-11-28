@@ -12,6 +12,7 @@ import IngredientDetails from "../components/ingredient-details/ingredient-detai
 import Page404 from "./Page404";
 import { ItemProps } from "../utils/types";
 import { useAppSelector } from "../services/reducers";
+import { loadingContent } from "../components/loading/loading";
 
 function HomePage(props: { openItem?: boolean }) {
   const catalog = useAppSelector((state) => state.catalog);
@@ -19,13 +20,6 @@ function HomePage(props: { openItem?: boolean }) {
   const location = useLocation();
   const { id }: { id: string } = useParams();
 
-  const loadingContent = () => {
-    return (
-      <div className={`${styles.loading} text text_type_main-medium`}>
-        Загрузка ...
-      </div>
-    );
-  };
   const errorContent = () => {
     return (
       <div className={`${styles.loading} text text_type_main-medium`}>

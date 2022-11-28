@@ -20,6 +20,7 @@ import { GET_TOKEN_FAILED, tokenUser } from "../../services/actions/user";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
+import { loadingContent } from "../loading/loading";
 
 function App() {
   const user = useAppSelector((state) => state.user);
@@ -43,11 +44,7 @@ function App() {
   }, [dispatch]);
 
   if (user["tokenRequest"] || user["userInfoRequest"] || user["userCheck"]) {
-    return (
-      <div className={`${styles.loading} text text_type_main-medium`}>
-        Загрузка ...
-      </div>
-    );
+    return loadingContent();
   } else {
     return (
       <Router>

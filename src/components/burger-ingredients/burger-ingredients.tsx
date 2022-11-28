@@ -36,9 +36,7 @@ const Tabs = () => {
     if (location.state)
       dispatch({
         type: VIEW_ITEM,
-        item: catalog.items.data.find(
-          (item: ItemProps) => item._id === params.id
-        ),
+        item: catalog.items.data.find((item) => item._id === params.id),
       });
   }, [location.state, params.id, dispatch, catalog.items.data]);
 
@@ -140,13 +138,11 @@ const TabsCategory = (props: { category: string }) => {
   });
   return (
     <ul className={styles.items + " pl-4 pr-4"}>
-      {items.map((item: ItemProps) => (
+      {items.map((item) => (
         <TabsItem
           key={item._id}
           item={item}
-          basketCart={basket.basket.filter(
-            (i: ItemProps) => i._id === item._id
-          )}
+          basketCart={basket.basket.filter((i) => i._id === item._id)}
         />
       ))}
     </ul>

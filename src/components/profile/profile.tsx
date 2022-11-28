@@ -2,7 +2,7 @@ import React, { useEffect, useState, FC } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import {
   Button,
   EmailInput,
@@ -25,7 +25,6 @@ type LoginProps = {
 };
 
 const Profile: FC<LoginProps> = ({ type, openOrder }) => {
-  const history = useHistory();
   const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders);
   const user = useAppSelector((state) => state.user);

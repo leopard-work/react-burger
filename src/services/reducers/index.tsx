@@ -1,4 +1,3 @@
-import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { catalogReducer } from "./catalog";
 import { basketReducer } from "./basket";
@@ -11,7 +10,6 @@ import {
   useDispatch as dispatchHook,
   useSelector,
 } from "react-redux";
-import { socketMiddleware } from "../middleware/socketMiddleware";
 import { store } from "../../index";
 
 export const rootReducer = combineReducers({

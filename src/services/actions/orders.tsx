@@ -39,7 +39,6 @@ interface OPEN_ORDER_ITEM {
   readonly type: typeof OPEN_ORDER_ITEM;
   item: OrderItemProps;
 }
-
 interface CLOSE_ORDER_ITEM {
   readonly type: typeof CLOSE_ORDER_ITEM;
 }

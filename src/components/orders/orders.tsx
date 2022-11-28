@@ -67,6 +67,7 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
   let parseItemsElements: any = [];
   let parseItemsElementsModal: any = [];
   let price = 0;
+  let counts: any = [];
   items.map((item) => {
     parseItems.push(catalog.find((el: ItemProps) => el._id === item));
     return false;
@@ -100,6 +101,22 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
         );
       }
     }
+    counts[item._id] = (counts[item._id] || 0) + 1;
+    return false;
+  });
+
+  //console.log(counts);
+
+  parseItemsElements.reverse();
+  // if (
+  //   parseItemsElementsModal[parseItemsElementsModal.length - 1].type === "bun"
+  // )
+  //   delete parseItemsElementsModal[parseItemsElementsModal.length - 1];
+
+  const itemsUnique = parseItems.filter(
+    (el: any, ind) => ind === parseItems.indexOf(el)
+  );
+  itemsUnique.map((item, i) => {
     parseItemsElementsModal.push(
       <div className={stylesItem.param + " mb-4"} key={i}>
         <div className={stylesItem.title}>
@@ -110,7 +127,7 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
         </div>
         <div className={styles.price}>
           <p className="text text_type_digits-default mr-2">
-            {item.type === "bun" ? 2 : 1} x {item.price}
+            {counts[item._id]} x {item.price}
           </p>{" "}
           <CurrencyIcon type="primary" />
         </div>
@@ -118,16 +135,6 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
     );
     return false;
   });
-
-  parseItemsElements.reverse();
-  if (
-    parseItemsElementsModal[parseItemsElementsModal.length - 1].type === "bun"
-  )
-    delete parseItemsElementsModal[parseItemsElementsModal.length - 1];
-
-  // const itemsUnique = parseItems.filter(
-  //   (el: any, ind) => ind === parseItems.indexOf(el)
-  // );
 
   return {
     items: parseItemsElements,

@@ -33,7 +33,12 @@ interface ORDERS_WS_ERROR_ACTION {
 }
 interface ORDERS_WS_MESSAGE_ACTION {
   readonly type: typeof ORDERS_WS_MESSAGE;
-  data: OrderItemProps;
+  data: {
+    orders: OrderItemProps;
+    success: boolean;
+    total: number;
+    totalToday: number;
+  };
 }
 interface OPEN_ORDER_ITEM {
   readonly type: typeof OPEN_ORDER_ITEM;

@@ -10,8 +10,8 @@ export type ItemProps = {
   image: string;
   image_mobile: string;
   image_large: string;
-  __v?: number;
-  count?: any;
+  __v: number;
+  count: number;
 };
 
 export type OrderProps = {

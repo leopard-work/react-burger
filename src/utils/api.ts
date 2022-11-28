@@ -69,7 +69,7 @@ export function resetUserAPI(body: ResetUserProps) {
 function makeRequest(
   method: string,
   url: string,
-  body?: any,
+  body?: ResetUserProps | ForgotUserProps | { ingredients: IngredientsProps },
   auth: string = ""
 ) {
   return fetch(url, {

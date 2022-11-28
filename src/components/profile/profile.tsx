@@ -1,4 +1,11 @@
-import React, { useEffect, useState, FC } from "react";
+import React, {
+  useEffect,
+  useState,
+  FC,
+  ChangeEvent,
+  FormEvent,
+  SyntheticEvent,
+} from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
@@ -40,7 +47,9 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
   const [values, setValues] = useState(initialState);
   const { id }: { id: string } = useParams();
 
-  const onChangeValues = (e: any) => {
+  const onChangeValues = (
+    e: ChangeEvent & { target: { name: string; value: string } }
+  ) => {
     setEditProfile(true);
     setValues({
       ...values,
@@ -72,7 +81,15 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
     }
   }, [user]);
 
-  const updateUserSend = (e: any) => {
+  const updateUserSend = (
+    e: FormEvent<HTMLFormElement> & {
+      target: {
+        name: { value: string };
+        email: { value: string };
+        password: { value: string };
+      };
+    }
+  ) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -104,7 +121,7 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
     }
   };
 
-  const logoutUser = (e: any) => {
+  const logoutUser = (e: SyntheticEvent) => {
     e.preventDefault();
     const body = {
       token: user["refreshToken"],
@@ -240,7 +257,7 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
               ""
             )}
             {type === "orders" ? (
-              orders.orders.success ? (
+              orders.ordersData.success ? (
                 <Orders page="profile/orders" />
               ) : (
                 loadingContent()
@@ -253,8 +270,8 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
       </div>
     );
   } else {
-    if (orders.orders.success) {
-      const items = orders.orders.orders;
+    if (orders.ordersData.success) {
+      const items = orders.ordersData.orders;
       const order = items.find((item: OrderItemProps) => item._id === id);
       return (
         <div className="container pl-4 pr-4">

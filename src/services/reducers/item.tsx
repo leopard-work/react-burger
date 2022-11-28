@@ -21,6 +21,7 @@ const initialState: itemState = {
     image_mobile: "",
     image_large: "",
     __v: 0,
+    count: 0,
   },
 };
 

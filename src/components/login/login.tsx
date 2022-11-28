@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from "react";
+import React, { useEffect, FC, FormEvent } from "react";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
@@ -19,11 +19,16 @@ import { useForm } from "../../hooks/useForm";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
 import page404 from "../../pages/Page404";
 
-type LoginProps = {
-  type: string;
+type event = FormEvent<HTMLFormElement> & {
+  target: {
+    name: { value: string };
+    email: { value: string };
+    password: { value: string };
+    code: { value: string };
+  };
 };
 
-const Login: FC<LoginProps> = ({ type }) => {
+const Login: FC<{ type: string }> = ({ type }) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const user = useAppSelector((state) => state.user);
@@ -68,7 +73,7 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
-  const registerSend = (e: any) => {
+  const registerSend = (e: event) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -114,7 +119,7 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
-  const loginSend = (e: any) => {
+  const loginSend = (e: event) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -150,7 +155,7 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
-  const forgotSend = (e: any) => {
+  const forgotSend = (e: event) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -185,7 +190,7 @@ const Login: FC<LoginProps> = ({ type }) => {
     }
   }, [user]);
 
-  const resetSend = (e: any) => {
+  const resetSend = (e: event) => {
     e.preventDefault();
     setValues({
       ...values,

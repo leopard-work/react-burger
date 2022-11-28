@@ -25,8 +25,8 @@ import { useAppSelector, useAppDispatch } from "../../services/reducers";
 type ConstructorItemProps = {
   item: ItemProps;
   index?: number;
-  deleteItem?: any;
-  type?: any;
+  deleteItem?: (item: ItemProps) => void;
+  type?: string;
 };
 
 const ConstructorItem: FC<ConstructorItemProps> = (props) => {
@@ -70,7 +70,7 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         <span />
       )}
       <ConstructorElement
-        type={props.item.type === "bun" ? props.type : ""}
+        // type={props.item.type === "bun" ? props.type : ""}
         isLocked={props.item.type === "bun"}
         text={
           props.item.name +
@@ -80,6 +80,7 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         }
         price={props.item.price}
         thumbnail={props.item.image}
+        // @ts-ignore
         handleClose={() => props.deleteItem(props.item)}
       />
     </li>
@@ -94,18 +95,17 @@ const BurgerConstructor = () => {
   const user = useAppSelector((state) => state.user);
   const orderItems = basket.basket;
 
-  const items = orderItems.map(
-    (item: ItemProps & { uuid?: string }, i: number) =>
-      item.type !== "bun" ? (
-        <ConstructorItem
-          key={item.uuid}
-          item={item}
-          index={i}
-          deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
-        />
-      ) : (
-        ""
-      )
+  const items = orderItems.map((item: ItemProps & { uuid?: string }, i) =>
+    item.type !== "bun" ? (
+      <ConstructorItem
+        key={item.uuid}
+        item={item}
+        index={i}
+        deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
+      />
+    ) : (
+      ""
+    )
   );
   const bun = orderItems.find((item: ItemProps) => item.type === "bun");
   const initialValue = 0;

@@ -10,13 +10,41 @@ import {
   OPEN_ORDER_ITEM,
   CLOSE_ORDER_ITEM,
 } from "../actions/orders";
+import { OrderItemProps } from "../../utils/types";
 
-const initialState: any = {
-  orders: "",
+type ordersState = {
+  ordersData: {
+    success: boolean;
+    orders: any;
+    total: number;
+    totalToday: number;
+  };
+  status: string;
+  connect: boolean;
+  error: string;
+  viewFullOrder: OrderItemProps;
+  viewFullOrderModalOpen: boolean;
+};
+
+const initialState: ordersState = {
+  ordersData: {
+    success: false,
+    orders: [],
+    total: 0,
+    totalToday: 0,
+  },
   status: "",
   connect: false,
   error: "",
-  viewFullOrder: [],
+  viewFullOrder: {
+    _id: "",
+    ingredients: [],
+    status: "",
+    name: "",
+    createdAt: "",
+    updatedAt: "",
+    number: 0,
+  },
   viewFullOrderModalOpen: false,
 };
 
@@ -48,7 +76,12 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "message",
-        orders: action.data,
+        ordersData: {
+          orders: action.data.orders,
+          success: action.data.success,
+          total: action.data.total,
+          totalToday: action.data.totalToday,
+        },
       };
     }
     case ORDERS_WS_CLOSE: {

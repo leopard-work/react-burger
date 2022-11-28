@@ -29,9 +29,9 @@ export const Feed = (props: { openOrder: boolean }) => {
     };
   }, [dispatch]);
 
-  if (orders.orders.success) {
-    const { total, totalToday } = orders.orders;
-    const items = orders.orders.orders;
+  if (orders.ordersData.success) {
+    const { total, totalToday } = orders.ordersData;
+    const items = orders.ordersData.orders;
     const doneNumbers = items.filter(
       (item: OrderItemProps) => item.status === "done"
     );

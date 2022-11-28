@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -23,10 +23,10 @@ const Tabs = () => {
   const viewed = useAppSelector((state) => state.item);
   const current = catalog.activeTab;
 
-  const tabsNavRef: any = useRef(null);
-  const tabsBunRef: any = useRef(null);
-  const tabsSauceRef: any = useRef(null);
-  const tabsMainRef: any = useRef(null);
+  const tabsNavRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsBunRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsSauceRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsMainRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   const location = useLocation();
   const history = useHistory();

@@ -17,9 +17,7 @@ import {
   RegisterUserProps,
   userDataProps,
 } from "../../utils/types";
-import { Action, ActionCreator, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
-import { RootState } from "../reducers";
+import { Dispatch } from "redux";
 
 export const GET_REGISTER_REQUEST: "GET_REGISTER_REQUEST" =
   "GET_REGISTER_REQUEST";
@@ -223,11 +221,6 @@ export function loginUser(body: LoginUserProps) {
       });
   };
 }
-
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, GET_TOKEN_ACTIONS>
->;
-export type AppDispatch = Dispatch<GET_TOKEN_ACTIONS>;
 
 export function tokenUser(body: { token: string | undefined }) {
   return function (dispatch: GET_TOKEN_DISPATCH) {

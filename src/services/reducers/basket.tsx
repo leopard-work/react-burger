@@ -21,11 +21,11 @@ export const basketReducer = (state = initialState, action: BASKET_ACTIONS) => {
       // Добавление товара в корзину
       if (action.item.type === "bun") {
         // Проверка булка или нет
-        let itemFromBasket = state.basket.find((i: any) => i.type === "bun");
+        let itemFromBasket = state.basket.find((i) => i.type === "bun");
         if (itemFromBasket) {
           // Если булка есть
           const tempBasket = state.basket.filter(
-            (i: any) => i.type !== action.item.type
+            (i) => i.type !== action.item.type
           );
           return {
             ...state,
@@ -69,7 +69,8 @@ export const basketReducer = (state = initialState, action: BASKET_ACTIONS) => {
       return {
         ...state,
         basket: state.basket.filter(
-          (item: any) => item.uuid !== action.item.uuid
+          (item: ItemProps & { uuid?: string }) =>
+            item.uuid !== action.item.uuid
         ),
       };
       // if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество

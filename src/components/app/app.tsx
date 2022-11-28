@@ -16,7 +16,7 @@ import OrdersPage from "../../pages/OrdrersPage";
 import FeedPage from "../../pages/FeedPage";
 import ProtectedRoute from "../protected-route/protected-route";
 import Cookies from "js-cookie";
-import { tokenUser } from "../../services/actions/user";
+import { GET_TOKEN_FAILED, tokenUser } from "../../services/actions/user";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
 import { useAppSelector, useAppDispatch } from "../../services/reducers";
@@ -30,7 +30,7 @@ function App() {
       const body = { token: Cookies.get("token") };
       await dispatch(tokenUser(body));
     } else {
-      await dispatch({ type: "GET_TOKEN_FAILED" });
+      await dispatch({ type: GET_TOKEN_FAILED });
     }
   };
 

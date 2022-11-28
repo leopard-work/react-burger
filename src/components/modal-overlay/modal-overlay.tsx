@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import styles from "./modal-overlay.module.css";
 
 type ModalOverlayProps = {
-  onClick: any;
+  onClick: () => void;
 };
 
 const ModalOverlay: FC<ModalOverlayProps> = (props) => {

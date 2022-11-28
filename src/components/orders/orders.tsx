@@ -28,7 +28,7 @@ export const OrdersItems = (props: { page?: string }) => {
   const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders);
   const params: { id: string } = useParams();
-  const items = orders.orders.orders;
+  const items = orders.ordersData.orders;
   let page = "feed";
   if (props.page) page = props.page;
 
@@ -62,14 +62,18 @@ const dateParse = (date: string) => {
   return n.toLocaleString();
 };
 
-const ingredientsParse = (items: Array<string>, catalog: any) => {
+const ingredientsParse = (items: Array<string>, catalog: Array<ItemProps>) => {
   let parseItems: Array<ItemProps> = [];
-  let parseItemsElements: any = [];
-  let parseItemsElementsModal: any = [];
+  let parseItemsElements: Array<JSX.Element> = [];
+  let parseItemsElementsModal: Array<JSX.Element> = [];
   let price = 0;
-  let counts: any = [];
+  interface StringArray {
+    [index: string]: number;
+  }
+  let counts: StringArray = {};
   items.map((item) => {
-    parseItems.push(catalog.find((el: ItemProps) => el._id === item));
+    // @ts-ignore
+    parseItems.push(catalog.find((el) => el._id === item));
     return false;
   });
   parseItems.map((item, i: number) => {
@@ -105,16 +109,10 @@ const ingredientsParse = (items: Array<string>, catalog: any) => {
     return false;
   });
 
-  //console.log(counts);
-
   parseItemsElements.reverse();
-  // if (
-  //   parseItemsElementsModal[parseItemsElementsModal.length - 1].type === "bun"
-  // )
-  //   delete parseItemsElementsModal[parseItemsElementsModal.length - 1];
 
   const itemsUnique = parseItems.filter(
-    (el: any, ind) => ind === parseItems.indexOf(el)
+    (el, ind) => ind === parseItems.indexOf(el)
   );
   itemsUnique.map((item, i) => {
     parseItemsElementsModal.push(

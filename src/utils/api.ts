@@ -34,7 +34,7 @@ export function loginUserAPI(body: LoginUserProps) {
   return makeRequest("POST", url, body);
 }
 
-export function tokenUserAPI(body: TokenUserProps) {
+export function tokenUserAPI(body: { token: string | undefined }) {
   const url = `${BASE_URL}auth/token`;
   return makeRequest("POST", url, body);
 }
@@ -69,7 +69,7 @@ export function resetUserAPI(body: ResetUserProps) {
 function makeRequest(
   method: string,
   url: string,
-  body?: any,
+  body?: ResetUserProps | ForgotUserProps | { ingredients: IngredientsProps },
   auth: string = ""
 ) {
   return fetch(url, {

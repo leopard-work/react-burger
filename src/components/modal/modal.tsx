@@ -9,14 +9,14 @@ import styles from "./modal.module.css";
 const modals: any = document.querySelector("#modals");
 
 type ModalProps = {
-  isOpen: any;
-  close: any;
+  isOpen: boolean;
+  close: () => void;
   children: JSX.Element;
 };
 
 const Modal: FC<ModalProps> = (props) => {
   useEffect(() => {
-    const esc = (e: Event & { key: string }) => {
+    const esc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         props.close();
       }
@@ -29,9 +29,8 @@ const Modal: FC<ModalProps> = (props) => {
     }
   }, [props.isOpen]);
 
-  return (
-    props.isOpen &&
-    createPortal(
+  if (props.isOpen)
+    return createPortal(
       <div className={styles.container}>
         <div className={styles.modal}>
           <div className={styles.close + " mt-15 mr-10"} onClick={props.close}>
@@ -42,8 +41,8 @@ const Modal: FC<ModalProps> = (props) => {
         <ModalOverlay onClick={props.close} />
       </div>,
       modals
-    )
-  );
+    );
+  else return <></>;
 };
 
 export default Modal;

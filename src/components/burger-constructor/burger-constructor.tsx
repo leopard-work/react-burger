@@ -11,27 +11,26 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { checkOutSend, CLEAR_ORDER } from "../../services/actions/order";
 import {
   ADD_TO_BASKET,
-  BASKET_CLEAR,
   REMOVE_FROM_BASKET,
   SORT_BASKET,
 } from "../../services/actions/basket";
 import { useDrag, useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 type ConstructorItemProps = {
   item: ItemProps;
   index?: number;
-  deleteItem?: any;
-  type?: any;
+  deleteItem?: (item: ItemProps) => void;
+  type?: string;
 };
 
 const ConstructorItem: FC<ConstructorItemProps> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const refItem = useRef(null);
   const refBun = useRef(null);
 
@@ -71,7 +70,7 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         <span />
       )}
       <ConstructorElement
-        type={props.item.type === "bun" ? props.type : ""}
+        // type={props.item.type === "bun" ? props.type : ""}
         isLocked={props.item.type === "bun"}
         text={
           props.item.name +
@@ -81,6 +80,7 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         }
         price={props.item.price}
         thumbnail={props.item.image}
+        // @ts-ignore
         handleClose={() => props.deleteItem(props.item)}
       />
     </li>
@@ -88,60 +88,50 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
 };
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-
-  // @ts-ignore
-  const basket = useSelector((state) => state.basket);
-  // @ts-ignore
-  const order = useSelector((state) => state.order);
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
+  const basket = useAppSelector((state) => state.basket);
+  const order = useAppSelector((state) => state.order);
+  const user = useAppSelector((state) => state.user);
   const orderItems = basket.basket;
 
-  const items = orderItems.map(
-    (item: ItemProps & { uuid: string }, i: number) =>
-      item.type !== "bun" ? (
-        <ConstructorItem
-          key={item.uuid}
-          item={item}
-          index={i}
-          deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
-        />
-      ) : (
-        ""
-      )
+  const items = orderItems.map((item: ItemProps & { uuid?: string }, i) =>
+    item.type !== "bun" ? (
+      <ConstructorItem
+        key={item.uuid}
+        item={item}
+        index={i}
+        deleteItem={() => dispatch({ type: REMOVE_FROM_BASKET, item })}
+      />
+    ) : (
+      ""
+    )
   );
-  const bun = orderItems.find((item: ItemProps) => item.type === "bun");
+  const bun = orderItems.find((item) => item.type === "bun");
   const initialValue = 0;
-  const totalPrice = orderItems.reduce(function (
-    accumulator: number,
-    currentValue: ItemProps
-  ) {
+  const totalPrice = orderItems.reduce(function (accumulator, currentValue) {
     if (currentValue.type === "bun")
       return accumulator + currentValue.price * 2;
     else return accumulator + currentValue.price * currentValue.count;
-  },
-  initialValue);
+  }, initialValue);
 
   const checkOut = () => {
-    if (!user.accessToken) {
+    if (!user["accessToken"]) {
       history.push("/login");
     } else {
       const ingredients: IngredientsProps = [];
-      orderItems.forEach((item: ItemProps) => {
+      orderItems.forEach((item) => {
         for (let i = 0; i < item.count; i++) {
           ingredients.push(item._id);
           if (item.type === "bun") ingredients.push(item._id);
         }
       });
-      const body = { ingredients: ingredients };
+      const body = { ingredients };
       // dispatch({
       //     type: BASKET_CLEAR
       // })
 
-      // @ts-ignore
-      dispatch(checkOutSend(body, user.accessToken));
+      dispatch(checkOutSend(body, user["accessToken"]));
     }
   };
 
@@ -176,7 +166,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </p>
-        {!order.orderRequest && !order.orderFailed && (
+        {!order["orderRequest"] && !order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -187,7 +177,7 @@ const BurgerConstructor = () => {
             Оформить заказ
           </Button>
         )}
-        {order.orderRequest && !order.orderFailed && (
+        {order["orderRequest"] && !order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -197,7 +187,7 @@ const BurgerConstructor = () => {
             Загрузка...
           </Button>
         )}
-        {order.orderFailed && (
+        {order["orderFailed"] && (
           <Button
             type="primary"
             size="medium"
@@ -209,11 +199,11 @@ const BurgerConstructor = () => {
         )}
       </div>
       <Modal
-        isOpen={order.orderModalOpen}
+        isOpen={order["orderModalOpen"]}
         close={() => dispatch({ type: CLEAR_ORDER })}
       >
-        {order.orderInfo.order.number && (
-          <OrderDetails number={order.orderInfo.order.number} />
+        {order["orderInfo"]["order"]["number"] && (
+          <OrderDetails number={order["orderInfo"]["order"]["number"]} />
         )}
       </Modal>
     </section>

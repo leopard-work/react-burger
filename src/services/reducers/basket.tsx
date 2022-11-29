@@ -1,25 +1,31 @@
 import {
   ADD_TO_BASKET,
+  BASKET_ACTIONS,
   BASKET_CLEAR,
   REMOVE_FROM_BASKET,
   SORT_BASKET,
 } from "../actions/basket";
+import { ItemProps } from "../../utils/types";
 
-const initialState = {
+type basketState = {
+  basket: Array<ItemProps>;
+};
+
+const initialState: basketState = {
   basket: [], // Корзина
 };
 
-export const basketReducer = (state = initialState, action: any) => {
+export const basketReducer = (state = initialState, action: BASKET_ACTIONS) => {
   switch (action.type) {
     case ADD_TO_BASKET: {
       // Добавление товара в корзину
       if (action.item.type === "bun") {
         // Проверка булка или нет
-        let itemFromBasket = state.basket.find((i: any) => i.type === "bun");
+        let itemFromBasket = state.basket.find((i) => i.type === "bun");
         if (itemFromBasket) {
           // Если булка есть
           const tempBasket = state.basket.filter(
-            (i: any) => i.type !== action.item.type
+            (i) => i.type !== action.item.type
           );
           return {
             ...state,
@@ -63,7 +69,8 @@ export const basketReducer = (state = initialState, action: any) => {
       return {
         ...state,
         basket: state.basket.filter(
-          (item: any) => item.uuid !== action.item.uuid
+          (item: ItemProps & { uuid?: string }) =>
+            item.uuid !== action.item.uuid
         ),
       };
       // if (action.item.count > 1) {                                                    // Если количество >1 уменьшаем количество
@@ -87,7 +94,6 @@ export const basketReducer = (state = initialState, action: any) => {
       // Сортировка корзины в зависимости от перемещенных элементов
       let tempBasket = [...state.basket];
       tempBasket[action.index] = tempBasket.splice(
-        // @ts-ignore
         state.basket.indexOf(action.item),
         1,
         tempBasket[action.index]

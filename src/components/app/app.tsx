@@ -16,21 +16,22 @@ import OrdersPage from "../../pages/OrdrersPage";
 import FeedPage from "../../pages/FeedPage";
 import ProtectedRoute from "../protected-route/protected-route";
 import Cookies from "js-cookie";
-import { tokenUser } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
+import { GET_TOKEN_FAILED, tokenUser } from "../../services/actions/user";
 import AuthRoute from "../auth-route/auth-route";
 import { getItems } from "../../services/actions/catalog";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
+import { loadingContent } from "../loading/loading";
 
 function App() {
-  // @ts-ignore
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const init = async () => {
-    if (!user.user && Cookies.get("token")) {
+    if (!user["user"] && Cookies.get("token")) {
       const body = { token: Cookies.get("token") };
-      // @ts-ignore
       await dispatch(tokenUser(body));
+    } else {
+      await dispatch({ type: GET_TOKEN_FAILED });
     }
   };
 
@@ -39,16 +40,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getItems());
   }, [dispatch]);
 
-  if (user.tokenRequest || user.userInfoRequest) {
-    return (
-      <div className={`${styles.loading} text text_type_main-medium`}>
-        Загрузка ...
-      </div>
-    );
+  if (user["tokenRequest"] || user["userInfoRequest"] || user["userCheck"]) {
+    return loadingContent();
   } else {
     return (
       <Router>
@@ -60,6 +56,12 @@ function App() {
             </Route>
             <Route path="/ingredients/:id" exact={true}>
               <HomePage openItem={true} />
+            </Route>
+            <Route path="/feed" exact={true}>
+              <FeedPage />
+            </Route>
+            <Route path="/feed/:id" exact={true}>
+              <FeedPage openOrder={true} />
             </Route>
             <AuthRoute path="/login" exact={true}>
               <LoginPage />
@@ -74,16 +76,16 @@ function App() {
               <ResetPage />
             </AuthRoute>
 
-            <ProtectedRoute path="/profile" exact={true}>
-              <ProfilePage />
+            <ProtectedRoute path="/profile/orders/:id" exact={true}>
+              <OrdersPage openOrder={true} />
             </ProtectedRoute>
             <ProtectedRoute path="/profile/orders" exact={true}>
               <OrdersPage />
             </ProtectedRoute>
+            <ProtectedRoute path="/profile" exact={true}>
+              <ProfilePage />
+            </ProtectedRoute>
 
-            <Route path="/feed" exact={true}>
-              <FeedPage />
-            </Route>
             <Route>
               <Page404 />
             </Route>

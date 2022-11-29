@@ -10,8 +10,25 @@ export type ItemProps = {
   image: string;
   image_mobile: string;
   image_large: string;
-  __v?: any;
-  count?: any;
+  __v: number;
+  count: number;
+};
+
+export type OrderProps = {
+  ingredients: Array<ItemProps>;
+  _id: string;
+  owner: {
+    name: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number | null;
+  price: number;
 };
 
 export type AuthRouteProps = {
@@ -24,14 +41,14 @@ export type AuthRouteProps = {
 export type IngredientsProps = Array<string>;
 
 export type RegisterUserProps = {
-  email: string;
-  password: string;
-  name: string;
+  email?: string;
+  password?: string;
+  name?: string;
 };
 
 export type LoginUserProps = {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 };
 
 export type TokenUserProps = {
@@ -45,10 +62,26 @@ export type UpdateUserProps = {
 };
 
 export type ForgotUserProps = {
-  email: string;
+  email?: string;
 };
 
 export type ResetUserProps = {
-  password: string;
-  token: string;
+  password?: string;
+  token?: string;
+};
+
+export type userDataProps = {
+  refreshToken: string;
+  accessToken: string;
+  user?: RegisterUserProps;
+};
+
+export type OrderItemProps = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
 };

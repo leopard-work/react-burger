@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { ItemProps } from "../../utils/types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -12,23 +12,21 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_ACTIVE_TAB } from "../../services/actions/catalog";
 import { CLOSE_VIEW_ITEM, VIEW_ITEM } from "../../services/actions/item";
 import { useDrag } from "react-dnd";
+import { useAppSelector, useAppDispatch } from "../../services/reducers";
 
 const Tabs = () => {
-  const dispatch = useDispatch();
-  // @ts-ignore
-  const catalog = useSelector((state) => state.catalog);
-  // @ts-ignore
-  const viewed = useSelector((state) => state.item);
+  const dispatch = useAppDispatch();
+  const catalog = useAppSelector((state) => state.catalog);
+  const viewed = useAppSelector((state) => state.item);
   const current = catalog.activeTab;
 
-  const tabsNavRef: any = useRef(null);
-  const tabsBunRef: any = useRef(null);
-  const tabsSauceRef: any = useRef(null);
-  const tabsMainRef: any = useRef(null);
+  const tabsNavRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsBunRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsSauceRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const tabsMainRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   const location = useLocation();
   const history = useHistory();
@@ -38,9 +36,7 @@ const Tabs = () => {
     if (location.state)
       dispatch({
         type: VIEW_ITEM,
-        item: catalog.items.data.find(
-          (item: ItemProps) => item._id === params.id
-        ),
+        item: catalog.items.data.find((item) => item._id === params.id),
       });
   }, [location.state, params.id, dispatch, catalog.items.data]);
 
@@ -133,10 +129,8 @@ const Tabs = () => {
 };
 
 const TabsCategory = (props: { category: string }) => {
-  // @ts-ignore
-  const catalog = useSelector((state) => state.catalog);
-  // @ts-ignore
-  const basket = useSelector((state) => state.basket);
+  const catalog = useAppSelector((state) => state.catalog);
+  const basket = useAppSelector((state) => state.basket);
   const items = catalog.items.data.filter(function (category: {
     type: string;
   }) {
@@ -144,13 +138,11 @@ const TabsCategory = (props: { category: string }) => {
   });
   return (
     <ul className={styles.items + " pl-4 pr-4"}>
-      {items.map((item: ItemProps) => (
+      {items.map((item) => (
         <TabsItem
           key={item._id}
           item={item}
-          basketCart={basket.basket.filter(
-            (i: ItemProps) => i._id === item._id
-          )}
+          basketCart={basket.basket.filter((i) => i._id === item._id)}
         />
       ))}
     </ul>
@@ -163,7 +155,7 @@ TabsCategory.propTypes = {
 
 //{ item: ItemProps }
 const TabsItem = (props: { item: ItemProps; basketCart: Array<ItemProps> }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [{ opacity }, ref] = useDrag({
     type: "items",

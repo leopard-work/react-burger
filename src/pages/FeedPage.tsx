@@ -1,19 +1,15 @@
 import React from "react";
-import { Link, useLocation } from 'react-router-dom';
 
-import styles from "../components/app/app.module.css";
+import { Feed } from "../components/feed/feed";
+import { useLocation } from "react-router-dom";
 
-function FeedPage() {
-    const { state } = useLocation();
+function FeedPage(props: { openOrder?: boolean }) {
+  const location = useLocation();
 
-    return (
-        <div className={`${styles.loading} text text_type_main-medium`}>
-            В разработке...<br /><br />
-            <Link to={{ pathname: '/', state }} className={styles.link}>Вернуться на главную</Link>
-        </div>
-    );
+  if (props.openOrder && !location.state) {
+    return <Feed openOrder={true} />;
+  }
+  return <Feed openOrder={false} />;
 }
 
-
 export default FeedPage;
-

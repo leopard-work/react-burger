@@ -26,9 +26,42 @@ import {
   GET_RESET_REQUEST,
   GET_RESET_SUCCESS,
   GET_RESET_FAILED,
+  GET_USER_ALL_ACTIONS,
 } from "../actions/user";
 
-const initialState = {
+type userState = {
+  user: string;
+  refreshToken: string;
+  accessToken: string;
+  registerRequest: boolean;
+  registerFailed: boolean;
+  registerSuccess: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  loginSuccess: boolean;
+  tokenRequest: boolean;
+  tokenFailed: boolean;
+  tokenSuccess: boolean;
+  userCheck: boolean;
+  userInfoRequest: boolean;
+  userInfoFailed: boolean;
+  userInfoSuccess: boolean;
+  updateUserRequest: boolean;
+  updateUserFailed: boolean;
+  updateUserSuccess: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+  logoutSuccess: boolean;
+  forgotRequest: boolean;
+  forgotFailed: boolean;
+  forgotSuccess: boolean;
+  forgotEmail: string;
+  resetRequest: boolean;
+  resetFailed: boolean;
+  resetSuccess: boolean;
+};
+
+const initialState: userState = {
   user: "",
   refreshToken: "",
   accessToken: "",
@@ -41,6 +74,7 @@ const initialState = {
   tokenRequest: false,
   tokenFailed: false,
   tokenSuccess: false,
+  userCheck: true,
   userInfoRequest: false,
   userInfoFailed: false,
   userInfoSuccess: false,
@@ -59,7 +93,10 @@ const initialState = {
   resetSuccess: false,
 };
 
-export const userReducer = (state = initialState, action: any) => {
+export const userReducer = (
+  state = initialState,
+  action: GET_USER_ALL_ACTIONS
+) => {
   switch (action.type) {
     case GET_REGISTER_REQUEST: {
       return {
@@ -127,6 +164,7 @@ export const userReducer = (state = initialState, action: any) => {
         tokenRequest: false,
         tokenFailed: false,
         tokenSuccess: true,
+        userCheck: false,
       };
     }
     case GET_TOKEN_FAILED: {
@@ -134,6 +172,7 @@ export const userReducer = (state = initialState, action: any) => {
         ...state,
         tokenFailed: true,
         tokenRequest: false,
+        userCheck: false,
       };
     }
     case GET_USERINFO_REQUEST: {
@@ -185,7 +224,10 @@ export const userReducer = (state = initialState, action: any) => {
       return initialState;
     }
     case GET_LOGOUT_SUCCESS: {
-      return initialState;
+      return {
+        ...initialState,
+        userCheck: false,
+      };
     }
     case GET_LOGOUT_FAILED: {
       return {

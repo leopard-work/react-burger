@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ссылка рендерится без ошибок 1`] = `
+<a
+  href="https://pelmeni.gov"
+>
+  Рецепт пельменей
+</a>
+`;

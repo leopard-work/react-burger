@@ -17,7 +17,7 @@ type catalogState = {
   activeTab: string;
 };
 
-const initialState: catalogState = {
+export const initialState: catalogState = {
   items: {
     // Меню
     data: [],

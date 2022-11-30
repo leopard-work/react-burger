@@ -10,9 +10,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./app-header.module.css";
 
-// @ts-ignore
-export const Link = ({ title, url }) => <a href={url}>{title}</a>;
-
 const AppHeader = () => {
   return (
     <header className={headerStyles.header}>

@@ -152,6 +152,7 @@ const BurgerConstructor = () => {
   return (
     <section className={styles.section + " mt-25 "}>
       <div
+        id="basket"
         className={`${styles.items} ${active ? styles.active : ""}`}
         ref={drop}
       >

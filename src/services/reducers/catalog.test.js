@@ -24,7 +24,7 @@ const testItems = [testItem, testItem, testItem];
 
 import { initialState, catalogReducer } from "./catalog";
 import renderer from "react-test-renderer";
-import { Link } from "../../components/app-header/app-header";
+
 import React from "react";
 
 describe("Каталог товаров", () => {

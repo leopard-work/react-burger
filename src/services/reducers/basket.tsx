@@ -11,7 +11,7 @@ type basketState = {
   basket: Array<ItemProps>;
 };
 
-const initialState: basketState = {
+export const initialState: basketState = {
   basket: [], // Корзина
 };
 

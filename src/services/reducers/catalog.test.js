@@ -35,7 +35,7 @@ describe("Каталог товаров", () => {
   });
   it("- обработка GET_ITEMS_REQUEST", () => {
     expect(
-      catalogReducer(undefined, {
+      catalogReducer(initialState, {
         type: GET_ITEMS_REQUEST,
       })
     ).toEqual({
@@ -47,7 +47,7 @@ describe("Каталог товаров", () => {
   });
   it("- обработка GET_ITEMS_SUCCESS", () => {
     expect(
-      catalogReducer(undefined, {
+      catalogReducer(initialState, {
         type: GET_ITEMS_SUCCESS,
         items: testItems,
       })
@@ -62,7 +62,7 @@ describe("Каталог товаров", () => {
   });
   it("- обработка GET_ITEMS_FAILED", () => {
     expect(
-      catalogReducer(undefined, {
+      catalogReducer(initialState, {
         type: GET_ITEMS_FAILED,
       })
     ).toEqual({
@@ -75,7 +75,7 @@ describe("Каталог товаров", () => {
   });
   it("- обработка CHANGE_ACTIVE_TAB", () => {
     expect(
-      catalogReducer(undefined, {
+      catalogReducer(initialState, {
         type: CHANGE_ACTIVE_TAB,
         activeTab: "sauce",
       })

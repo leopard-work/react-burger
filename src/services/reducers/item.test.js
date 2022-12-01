@@ -21,7 +21,7 @@ const testItem = {
 
 describe("Открытие окна ингредиента", () => {
   it("- исходное состояние", () => {
-    expect(itemReducer(undefined, {})).toEqual(initialState);
+    expect(itemReducer(initialState, {})).toEqual(initialState);
   });
   it("- обработка VIEW_ITEM", () => {
     expect(
@@ -40,7 +40,7 @@ describe("Открытие окна ингредиента", () => {
   });
   it("- обработка CLOSE_VIEW_ITEM", () => {
     expect(
-      itemReducer(undefined, {
+      itemReducer(initialState, {
         type: CLOSE_VIEW_ITEM,
       })
     ).toEqual({

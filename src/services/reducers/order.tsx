@@ -16,7 +16,7 @@ type orderState = {
   orderFailed: boolean;
 };
 
-const initialState: orderState = {
+export const initialState: orderState = {
   orderInfo: {
     order: {
       ingredients: [],

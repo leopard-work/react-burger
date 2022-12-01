@@ -70,7 +70,8 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         <span />
       )}
       <ConstructorElement
-        // type={props.item.type === "bun" ? props.type : ""}
+        // @ts-ignore
+        type={props.item.type === "bun" ? props.type : ""}
         isLocked={props.item.type === "bun"}
         text={
           props.item.name +
@@ -127,9 +128,6 @@ const BurgerConstructor = () => {
         }
       });
       const body = { ingredients };
-      // dispatch({
-      //     type: BASKET_CLEAR
-      // })
 
       dispatch(checkOutSend(body, user["accessToken"]));
     }

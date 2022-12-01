@@ -160,9 +160,28 @@ const BurgerConstructor = () => {
         className={`${styles.items} ${active ? styles.active : ""}`}
         ref={drop}
       >
-        {bun ? <ConstructorItem item={bun} type="top" /> : ""}
+        {totalPrice === 0 ? (
+          <div className={styles.none + " text text_type_main-default"}>
+            Перетащите выбранный ингредиент в данную область
+          </div>
+        ) : (
+          ""
+        )}
+        {bun ? (
+          <div className="pr-4 mb-4">
+            <ConstructorItem item={bun} type="top" />
+          </div>
+        ) : (
+          ""
+        )}
         <ul className={styles.content + " pr-2"}>{items}</ul>
-        {bun ? <ConstructorItem item={bun} type="bottom" /> : ""}
+        {bun ? (
+          <div className="pr-4 mt-4">
+            <ConstructorItem item={bun} type="bottom" />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div className={styles.info + " mt-10 mr-4"}>
         <p className={styles.price + " mr-10"}>

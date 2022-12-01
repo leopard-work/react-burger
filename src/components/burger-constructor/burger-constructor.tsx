@@ -120,13 +120,19 @@ const BurgerConstructor = () => {
     if (!user["accessToken"]) {
       history.push("/login");
     } else {
-      const ingredients: IngredientsProps = [];
+      let ingredients: IngredientsProps = [];
+      let tempbun = "";
       orderItems.forEach((item) => {
-        for (let i = 0; i < item.count; i++) {
-          ingredients.push(item._id);
-          if (item.type === "bun") ingredients.push(item._id);
-        }
+        if (item.type === "bun") tempbun = item._id;
+        else ingredients.push(item._id);
+        // for (let i = 0; i < item.count; i++) {
+        //   ingredients.push(item._id);
+        //   if (item.type === "bun") ingredients.push(item._id);
+        // }
       });
+      if (tempbun) {
+        ingredients = [tempbun, ...ingredients, tempbun];
+      }
       const body = { ingredients };
 
       dispatch(checkOutSend(body, user["accessToken"]));

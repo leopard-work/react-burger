@@ -36,6 +36,19 @@
 .numbers_block {
     width: calc(50% - 20px);
 }
+.numbers_items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    height: 321px;
+    margin-left: -25px;
+}
+.numbers_item {
+    margin-left: 25px;
+}
 .numbers_blue p {
     color: #00CCCC;
 }

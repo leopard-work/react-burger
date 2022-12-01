@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Лента заказов - исходное состояние 1`] = `"Исходное состояние"`;
+
+exports[`Лента заказов - обработка CLOSE_ORDER_ITEM 1`] = `"закрытие отдельного заказа"`;
+
+exports[`Лента заказов - обработка OPEN_ORDER_ITEM 1`] = `"открытие отдельного заказа"`;
+
+exports[`Лента заказов - обработка ORDERS_CONNECT 1`] = `"Подключение websocket"`;
+
+exports[`Лента заказов - обработка ORDERS_WS_CLOSE 1`] = `"websocket закрытие"`;
+
+exports[`Лента заказов - обработка ORDERS_WS_CONNECTING 1`] = `"websocket подключен"`;
+
+exports[`Лента заказов - обработка ORDERS_WS_ERROR 1`] = `"websocket ошибка"`;
+
+exports[`Лента заказов - обработка ORDERS_WS_MESSAGE 1`] = `"websocket получение сообщения"`;
+
+exports[`Лента заказов - обработка ORDERS_WS_OPEN 1`] = `"websocket открытие"`;

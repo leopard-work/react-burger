@@ -6,6 +6,10 @@ import {
   CLEAR_ORDER,
 } from "../actions/order";
 
+import { initialState, orderReducer } from "./order";
+import renderer from "react-test-renderer";
+import React from "react";
+
 const testOrder = {
   ingredients: [],
   _id: "",
@@ -22,11 +26,6 @@ const testOrder = {
   number: null,
   price: 0,
 };
-
-import { initialState, orderReducer } from "./order";
-import renderer from "react-test-renderer";
-
-import React from "react";
 
 describe("Оформление заказа", () => {
   it("- исходное состояние", () => {

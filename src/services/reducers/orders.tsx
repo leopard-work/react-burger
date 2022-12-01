@@ -26,7 +26,7 @@ type ordersState = {
   viewFullOrderModalOpen: boolean;
 };
 
-const initialState: ordersState = {
+export const initialState: ordersState = {
   ordersData: {
     success: false,
     orders: [],
@@ -76,12 +76,7 @@ export const ordersReducer = (state = initialState, action: ORDERS_ACTIONS) => {
       return {
         ...state,
         status: "message",
-        ordersData: {
-          orders: action.data.orders,
-          success: action.data.success,
-          total: action.data.total,
-          totalToday: action.data.totalToday,
-        },
+        ordersData: action.data,
       };
     }
     case ORDERS_WS_CLOSE: {

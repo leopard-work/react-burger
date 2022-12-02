@@ -1,6 +1,16 @@
+const emailInp = 'input[name="email"]';
+const passwordInp = 'input[name="password"]';
+
+const login = "zobnin.vladislav@yandex.ru";
+
+const item1 = "Краторная булка N-200i";
+const item2 = "Флюоресцентная булка R2-D3";
+const item3 = "Соус Spicy-X";
+const item4 = "Филе Люминесцентного тетраодонтимформа";
+
 describe("перетискивание товаров в корзину, офрмление заказа, закрытие модального окна", function () {
   it("- загрузка сайта", function () {
-    cy.visit("http://localhost:3000");
+    cy.visit("");
   });
 
   it("- открыта главная страница", function () {
@@ -8,60 +18,42 @@ describe("перетискивание товаров в корзину, офр�
   });
 
   it("- перетискивание нескольких товаров в корзину", function () {
-    cy.get("li")
-      .contains("Краторная булка N-200i")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item1).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
       .trigger("drop")
       .trigger("dragend");
 
-    cy.get("li")
-      .contains("Флюоресцентная булка R2-D3")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item2).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
       .trigger("drop")
       .trigger("dragend");
 
-    cy.get("li")
-      .contains("Соус Spicy-X")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item3).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
       .trigger("drop")
       .trigger("dragend");
 
-    cy.get("li")
-      .contains("Соус Spicy-X")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item3).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
       .trigger("drop")
       .trigger("dragend");
 
-    cy.get("li")
-      .contains("Соус Spicy-X")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item3).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
       .trigger("drop")
       .trigger("dragend");
 
-    cy.get("li")
-      .contains("Филе Люминесцентного тетраодонтимформа")
-      .trigger("dragstart")
-      .trigger("dragleave");
+    cy.get("li").contains(item4).trigger("dragstart").trigger("dragleave");
     cy.get("#basket")
       .trigger("dragenter")
       .trigger("dragover")
@@ -82,10 +74,10 @@ describe("перетискивание товаров в корзину, офр�
   });
 
   it("- проходим неверную авторизацию и получаем ошибку", function () {
-    cy.get('input[name="email"]').type("zobnin.vladislav@yandex.ru", {
+    cy.get(emailInp).type(login, {
       timeout: 3000,
     });
-    cy.get('input[name="password"]').type("aaaaaaaa", {
+    cy.get(passwordInp).type("aaaaaaaa", {
       timeout: 3000,
     });
     cy.get("button").contains("Войти").click();
@@ -93,12 +85,12 @@ describe("перетискивание товаров в корзину, офр�
   });
 
   it("- проходим авторизацию и попадаем на главную страницу", function () {
-    cy.get('input[name="email"]').clear();
-    cy.get('input[name="password"]').clear();
-    cy.get('input[name="email"]').type("zobnin.vladislav@yandex.ru", {
+    cy.get(emailInp).clear();
+    cy.get(passwordInp).clear();
+    cy.get(emailInp).type(login, {
       timeout: 3000,
     });
-    cy.get('input[name="password"]').type("abc123abc", {
+    cy.get(passwordInp).type("abc123abc", {
       timeout: 3000,
     });
     cy.get("button").contains("Войти").click();

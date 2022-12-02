@@ -1,6 +1,6 @@
 describe("service is available", function () {
   it("Загрузка сайта", function () {
-    cy.visit("http://localhost:3000");
+    cy.visit("");
   });
   it("Открыта главная страница", function () {
     cy.contains("Соберите бургер");

@@ -6,7 +6,7 @@ type itemState = {
   viewItemElement: ItemProps;
 };
 
-const initialState: itemState = {
+export const initialState: itemState = {
   viewItemModalOpen: false,
   viewItemElement: {
     _id: "",

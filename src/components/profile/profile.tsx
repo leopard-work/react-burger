@@ -25,6 +25,7 @@ import {
 } from "../../services/actions/orders";
 import { OrderItemProps } from "../../utils/types";
 import { loadingContent } from "../loading/loading";
+import Page404 from "../../pages/Page404";
 
 type LoginProps = {
   type: string;
@@ -273,12 +274,14 @@ const Profile: FC<LoginProps> = ({ type, openOrder }) => {
     if (orders.ordersData.success) {
       const items = orders.ordersData.orders;
       const order = items.find((item: OrderItemProps) => item._id === id);
-      return (
+      return order ? (
         <div className="container pl-4 pr-4">
           <div className={styles.orderPage}>
             {<OrderModalItem item={order} />}
           </div>
         </div>
+      ) : (
+        <Page404 />
       );
     } else {
       return loadingContent();

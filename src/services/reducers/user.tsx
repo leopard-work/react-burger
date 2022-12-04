@@ -61,7 +61,7 @@ type userState = {
   resetSuccess: boolean;
 };
 
-const initialState: userState = {
+export const initialState: userState = {
   user: "",
   refreshToken: "",
   accessToken: "",

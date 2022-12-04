@@ -33,7 +33,11 @@ const Modal: FC<ModalProps> = (props) => {
     return createPortal(
       <div className={styles.container}>
         <div className={styles.modal}>
-          <div className={styles.close + " mt-15 mr-10"} onClick={props.close}>
+          <div
+            className={styles.close + " mt-15 mr-10"}
+            id="modal_close"
+            onClick={props.close}
+          >
             <CloseIcon type="primary" />
           </div>
           {props.children}

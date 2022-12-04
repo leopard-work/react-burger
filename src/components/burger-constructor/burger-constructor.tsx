@@ -70,7 +70,8 @@ const ConstructorItem: FC<ConstructorItemProps> = (props) => {
         <span />
       )}
       <ConstructorElement
-        // type={props.item.type === "bun" ? props.type : ""}
+        // @ts-ignore
+        type={props.item.type === "bun" ? props.type : ""}
         isLocked={props.item.type === "bun"}
         text={
           props.item.name +
@@ -119,17 +120,20 @@ const BurgerConstructor = () => {
     if (!user["accessToken"]) {
       history.push("/login");
     } else {
-      const ingredients: IngredientsProps = [];
+      let ingredients: IngredientsProps = [];
+      let tempbun = "";
       orderItems.forEach((item) => {
-        for (let i = 0; i < item.count; i++) {
-          ingredients.push(item._id);
-          if (item.type === "bun") ingredients.push(item._id);
-        }
+        if (item.type === "bun") tempbun = item._id;
+        else ingredients.push(item._id);
+        // for (let i = 0; i < item.count; i++) {
+        //   ingredients.push(item._id);
+        //   if (item.type === "bun") ingredients.push(item._id);
+        // }
       });
+      if (tempbun) {
+        ingredients = [tempbun, ...ingredients, tempbun];
+      }
       const body = { ingredients };
-      // dispatch({
-      //     type: BASKET_CLEAR
-      // })
 
       dispatch(checkOutSend(body, user["accessToken"]));
     }
@@ -152,12 +156,32 @@ const BurgerConstructor = () => {
   return (
     <section className={styles.section + " mt-25 "}>
       <div
+        id="basket"
         className={`${styles.items} ${active ? styles.active : ""}`}
         ref={drop}
       >
-        {bun ? <ConstructorItem item={bun} type="top" /> : ""}
+        {totalPrice === 0 ? (
+          <div className={styles.none + " text text_type_main-default"}>
+            Перетащите выбранный ингредиент в данную область
+          </div>
+        ) : (
+          ""
+        )}
+        {bun ? (
+          <div className="pr-4 mb-4">
+            <ConstructorItem item={bun} type="top" />
+          </div>
+        ) : (
+          ""
+        )}
         <ul className={styles.content + " pr-2"}>{items}</ul>
-        {bun ? <ConstructorItem item={bun} type="bottom" /> : ""}
+        {bun ? (
+          <div className="pr-4 mt-4">
+            <ConstructorItem item={bun} type="bottom" />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div className={styles.info + " mt-10 mr-4"}>
         <p className={styles.price + " mr-10"}>

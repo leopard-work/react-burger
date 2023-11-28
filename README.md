@@ -1,14 +1,54 @@
 # Stellar Burgers
 
-Закусочная на краю света для Яндекс Практикум
+Интернет магазин на React + Redux с личным кабинетом, каталог и корзина реализована с помощью Drag-and-drop, лента заказов обновляется по протоколу WebSocket.
 
-Проект доступен по ссылке [https://react-burger.union-games.ru/](https://react-burger.union-games.ru/)
+## Демонстрация
 
-#### `#React` `#Redux` `#Typescript` `#Jest` `#Cypress`
+[https://react-burger.union-games.ru/](https://react-burger.union-games.ru/)
 
-#
+## Библиотеки
 
-### Установка и запуск
-- Установка `npm i`
-- Запуск приложения `npm run start`
-- Запуск тестов `npm run test` и `npm run cypress:open`
+- React
+- Redux
+- @reduxjs/toolkit
+- React-dnd
+- Redux-thunk
+- Typescript
+- uuid
+- js-cookie
+- Jest
+- Cypress
+
+## Установка
+
+```shell
+# клон репозитория
+$ git clone https://github.com/leopard-work/react-burger
+
+# переход в папку проекта
+$ cd react-burger
+
+# установка зависимостей
+$ npm install
+```
+
+### Запустить сервер разработки
+
+```shell
+$ npm run start
+```
+
+Сервер запуститься по адресу [http://localhost:3000/](http://localhost:3000/)
+
+### Сборка проекта
+
+```shell
+$ npm run build
+```
+
+### Тестирование
+
+```shell
+$ npm run test
+$ npm run cypress:open
+```
